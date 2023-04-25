@@ -754,6 +754,13 @@ const handleClick = () => {
                 <div className="mainMiddleTwo">
                     <div className="width">
                     <img src={getAllInfo.slika} className=" w-full rounded-xl" />
+                    
+                    {
+                        title.map((data, index) => {
+                            return <p className="text-5xl font-semibold mt-10">{data.data.title}</p>
+                        })
+                    }
+                    <p  dangerouslySetInnerHTML={{__html:getAllInfo.title}} className="text-5xl font-semibold mt-10" ></p>
                     <div className="items-end flex justify-between">
                         <div className="flex flex-col">
                             <div className="flex items-center">
@@ -787,14 +794,8 @@ const handleClick = () => {
                            
                         </div>
                         
-                        <div onClick={() => setSold(true)} className={`px-4 py-4 ${sold ? "bg-gray-400" : "bg-[#33626d]"} ${sold ? "hover:bg-gray-400" : "hover:bg-[#28525c]"} rounded-lg w-40 flex justify-center items-center text-white mt-10 hover:cursor-pointer`}>{sold ? "Sold out" : "Collect"}</div>
+                        <div onClick={() => setSold(true)} className={`px-4 py-4 ${sold ? "bg-gray-400" : "bg-[#33626d]"} ${sold ? "hover:bg-gray-400" : "hover:bg-[#28525c]"} rounded-lg w-40 flex justify-center items-center text-white mt-10 mb-3 hover:cursor-pointer`}>{sold ? "Sold out" : "Collect"}</div>
                     </div>
-                    {
-                        title.map((data, index) => {
-                            return <p className="text-3xl font-semibold mt-10">{data.data.title}</p>
-                        })
-                    }
-                    <p  dangerouslySetInnerHTML={{__html:getAllInfo.title}} className="text-3xl font-semibold mt-10" ></p>
                     {
                         writings.map((data, index) => {
                             return <p key={index} dangerouslySetInnerHTML={{__html:data.writings}} className="text-lg text-[#323232] mt-10" style={{borderLeftColor: data.co ? "lightblue" : "white", borderLeftWidth: 2, paddingLeft: data.co ? 10 : 0, paddingBottom: data.co ? 5 : 0}}></p>
@@ -851,11 +852,7 @@ const handleClick = () => {
                         </div>
                         <div className=" rounded-lg w-72 h-72 bg-white justify-center items-center flex relative">
                           <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
-                            {
-                                title.map((data, index) => {
-                                    return <p className="text-center px-12">{data.data.title}</p>
-                                })
-                            }
+                          <p className="text-center px-12">{getAllInfo.title}</p>
                         </div>
                     </div>
                     <div className="h-16 w-full bg-blue-600 bg-gradient-to-b from-gray-100 to-[#3E616C]"></div>

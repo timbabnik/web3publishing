@@ -582,7 +582,6 @@
 }
 
 .accIdea {
-    background-color: white;
     width: 80%;
     margin-top: 20px;
     border-radius: 20px;
@@ -614,17 +613,17 @@
 .mainUp {
     width: 100%;
     background-color: rgb(243, 243, 243);
-    height: 65px;
+    height: 35px;
 }
 
 .posts {
     background-color: rgb(243, 243, 243);
-    height: 70%;
+    height: 55%;
     display: flex;
     width: 100%;
     flex-direction: column;
     align-items: center;
-    padding-top: 50px;
+    padding-top: 0px;
 }   
 
 .postsTwo {
@@ -636,22 +635,79 @@
     overflow: scroll;
 }   
 
+.postsTwoBucket {
+    height: 100%;
+    display: flex;
+    width: 1000px;
+    flex-direction: column;
+    overflow: scroll;
+}   
+
 .bucketAddress {
- height: 30px;
+ height: 5%;
  width: 100%;
- background-image: linear-gradient(to bottom, rgb(243, 243, 243), #3E616C);
+ background-image: linear-gradient(to top, rgb(243, 243, 243), #3E616C);
 }
 
 .bucketAddressTwo {
-    height: 30%;
+    height: 40%;
     width: 100%;
     background-color: #3E616C;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     display: flex;
-    
+    align-items: center;
    }
 
+
+
+.bucketText {
+    text-align: center;
+    width: 280px;
+    color: white;
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: 300;
+}
+
+.inputDiv {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ margin-left: 0px;
+ margin-top: 20px;
+ width: 100%;
+}
+
+.textareaDiv {
+    border-color: #F6E0C2;
+    border-width: 1px;
+    background-color: #3E616C;
+    border-radius: 100px;
+    margin-right: 10px;
+    width: 650px;
+    padding-left: 10px;
+    height: 45px;
+    padding-top: 10px;
+    color: white
+}
+
+.loading-spinner {
+    width: 30px;
+    height: 30px;
+    border: 5px solid #f3f3f3; /* Light grey */
+    border-top: 5px solid #383636; /* Black */
+    border-radius: 50%;
+    animation: spinner 1.5s linear infinite;
+  }
+
+  @keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 
 
 
@@ -670,6 +726,9 @@
         display: flex;
         flex-direction: column;
     }
+
+   
+    
     
 }
 
@@ -721,6 +780,15 @@
         width: 90%;
     }
 
+    .postsTwo {
+        background-color: rgb(243, 243, 243);
+        height: 100%;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        overflow: scroll;
+    }  
+
 
 .most {
     margin-top: 50px;
@@ -742,12 +810,98 @@
     border-radius: 10px;
     margin-top: 70px;
    }
+
+   .bucketAddressTwo {
+    height: 40%;
+    width: 100%;
+    background-color: #3E616C;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+   }
+
+   .bucketText {
+    text-align: center;
+    width: 280px;
+    color: white;
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: 300;
+    visibility: hidden;
+    display: none;
+}
+
+.posts {
+    background-color: rgb(243, 243, 243);
+    height: 60%;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+}   
+.postsTwoBucket {
+    height: 100%;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    overflow: scroll;
+} 
+
+.textareaDiv {
+    border-color: #F6E0C2;
+    border-width: 1px;
+    background-color: #3E616C;
+    border-radius: 100px;
+    margin-right: 10px;
+    width: 100%;
+    padding-left: 10px;
+    height: 45px;
+    padding-top: 10px;
+}
+
+.inputDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0px;
+    margin-top: 50px;
+    width: 80%;
+   }
+
+
+
 }
 
 @media (max-width: 500px) {
     .metamask {
         visibility: hidden;
     }
+
+    .inputDiv {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+        justify-content: center;
+        align-items: center;
+        margin-left: 10px;
+        width: 90%;
+       }
+
+
+.textareaDiv {
+    background-color: #F6E0C2;
+    border-radius: 10px;
+    margin-right: 10px;
+    width: 100%;
+    padding-left: 10px;
+    height: 150px;
+    padding-top: 10px;
+}
+
+
+       
 }
 
 

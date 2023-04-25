@@ -6,6 +6,7 @@ import { ethers } from 'ethers'
 import { db } from '../firebase';
 import imagee from "../public/image.jpg";
 import Link from 'next/link';
+import LoadingSpinner from '../components/Loading';
 
 function Add() {
 
@@ -26,6 +27,13 @@ function Add() {
 
   const [inputTest, setInputTest] = useState("");
   const [title, setTitle] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingTwo, setIsLoadingTwo] = useState(false);
+
+  const [conf, setConf] = useState("Confirm");
+
+  const [home, setHome] = useState(false);
 
   const uploadToIPFS = async (event) => {
     event.preventDefault()
@@ -125,6 +133,8 @@ const addTest = () => {
 }
 
 const handleUploadToIPFS = async () => {
+  setIsLoadingTwo(true);
+  connectMetamask();
   const canvas = canvasRef.current;
   const ctx = canvas.getContext("2d");
   const img = new Image();
@@ -168,10 +178,13 @@ const handleUploadToIPFS = async () => {
     setPublish(true);
   };
   img.src = imagee.src;
+
+  setIsLoadingTwo(false);
 };
 
 async function mainTwo() {
-
+  setIsLoading(true);
+  setConf("DONE ✅");
   const result = await client.add(JSON.stringify({image, price, title}))
   console.log(result);
 
@@ -204,6 +217,9 @@ async function mainTwo() {
     id: docId,
     title: title,
   });
+
+  setIsLoading(false);
+  setHome(true);
 }
 
 async function replacePeriodsWithLineBreaks() {
@@ -266,13 +282,22 @@ const neki = async () => {
       {
         publish ? (
           
-                <div onClick={mainTwo} className="absolute right-3 top-2 bg-[#33626d] p-3 px-10 rounded-xl hover:cursor-pointer hover:bg-[#204249]">
-                  <p className="text-white">Confirm</p>
+                <div onClick={mainTwo} disabled={!isLoading} className="absolute right-3 top-2 bg-[#33626d] p-3 px-10 rounded-xl hover:cursor-pointer hover:bg-[#204249]">
+                  {
+                    home ? (
+                      <Link href="/account"><p className="text-white">Go Home</p></Link>
+                    ) : (
+                      <>{isLoading ? <LoadingSpinner /> : <p className="text-white">{conf}</p>}</>
+                    )
+                  }
+                  
+                  
                 </div>
           
         ) : (
-          <div onClick={handleUploadToIPFS} className="absolute right-3 top-2 bg-[#536fca] p-3 px-10 rounded-xl hover:cursor-pointer hover:bg-[#204249]">
-            <p className="text-white">Publish</p>
+          <div onClick={handleUploadToIPFS} disabled={isLoadingTwo} className="absolute right-3 top-2 bg-[#536fca] p-3 px-10 rounded-xl hover:cursor-pointer hover:bg-[#1d2d63]">
+            
+            {isLoadingTwo ? <LoadingSpinner /> : <p className="text-white">Publish</p>}
           </div>
         )
       }

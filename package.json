@@ -1,6 +1,6 @@
 {
   "private": true,
-  "homepage": "http://alwrite.xyz",
+  "homepage": "http://alwrite.xyz/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
