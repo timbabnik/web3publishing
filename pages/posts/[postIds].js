@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import { ethers, BigNumber } from 'ethers';
 import Lock from "../Lock.json";
 import Gold from "../../components/Gold";
+import Link from 'next/link'
 
 function Own() {
 
@@ -684,6 +685,7 @@ useEffect(() => {
   
         if (docSnap.exists()) {
             setGetAllInfo(docSnap.data());
+            console.log(getAllInfo.writings);
         } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -727,7 +729,7 @@ const handleClick = () => {
         <div className="flex">
             
             <div className="middleTwo">
-                <div className="absolute left-3 top-3 flex">
+                <div className="absolute right-3 top-3 flex">
                     {
                         accounts ? (
                             <>
@@ -743,7 +745,12 @@ const handleClick = () => {
                     }
                     
                 </div>
-                
+                <Link href="/">
+                <div className="absolute left-3 top-3 flex">
+                    <img src="https://i.postimg.cc/KzSwXFDx/Logo-Makr-1xya-Fv.png" className="h-8" />
+                    
+                </div>
+                </Link>
                 <div className="mainMiddleTwo">
                     <div className="width">
                     <img src={getAllInfo.slika} className=" w-full rounded-xl" />
@@ -787,11 +794,13 @@ const handleClick = () => {
                             return <p className="text-3xl font-semibold mt-10">{data.data.title}</p>
                         })
                     }
+                    <p  dangerouslySetInnerHTML={{__html:getAllInfo.title}} className="text-3xl font-semibold mt-10" ></p>
                     {
                         writings.map((data, index) => {
-                            return <p key={index} className="text-lg text-[#323232] mt-10" style={{borderLeftColor: data.co ? "lightblue" : "white", borderLeftWidth: 2, paddingLeft: data.co ? 10 : 0, paddingBottom: data.co ? 5 : 0}}>{data.writings}</p>
+                            return <p key={index} dangerouslySetInnerHTML={{__html:data.writings}} className="text-lg text-[#323232] mt-10" style={{borderLeftColor: data.co ? "lightblue" : "white", borderLeftWidth: 2, paddingLeft: data.co ? 10 : 0, paddingBottom: data.co ? 5 : 0}}></p>
                         })
                     }
+                    <p  dangerouslySetInnerHTML={{__html:getAllInfo.writings}} className="text-lg text-[#323232] mt-10" ></p>
                     {
                         writingsAdd.map((data, index) => {
                             return <div style={{borderLeftColor: data.co ? "lightblue" : "white", borderLeftWidth: 1, paddingLeft: data.co ? 10 : 0, paddingBottom: data.co ? 5 : 0}}>

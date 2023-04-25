@@ -1,8 +1,10 @@
 {
   "private": true,
+  "homepage": "http://alwrite.xyz",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "export": "next build && next export",
     "start": "next start"
   },
   "dependencies": {
@@ -10,6 +12,7 @@
     "@nomiclabs/hardhat-etherscan": "^3.1.5",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.7.3",
+    "antd": "^5.4.4",
     "dayjs": "^1.11.7",
     "ethers": "^5.7.2",
     "firebase": "^9.15.0",

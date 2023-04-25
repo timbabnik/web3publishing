@@ -72,11 +72,12 @@ function Explore({ref}) {
                         <div className="flex flex-col">
                             <div className="flex items-center">
                             <p className="mt-20 text-center rounded-full text-gray-500 p-1 text-md mr-2">Creator:</p>
-                            <a target="_blank"  className="bg-gray-100 mt-20 text-center rounded-full text-gray-500 p-2 text-sm mr-2 hover:bg-gray-200 hover:cursor-pointer">0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496</a>
+                            <a target="_blank"  className="bg-gray-100 mt-20 text-center rounded-full text-gray-500 p-2 text-sm mr-2 hover:bg-gray-200 hover:cursor-pointer">{"0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496".slice(0,4)}...{"0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496".slice("0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496".length - 4, "0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496".length)}</a>
+                            
                             </div>
                             <div className="flex items-center">
                             <p className="mt-10 text-center rounded-full text-gray-500 p-1 text-md mr-2">Co-Creator:</p>
-                            <a target="_blank"  className="bg-gray-100 mt-10 text-center rounded-full text-gray-500 p-2 text-sm mr-2 hover:bg-gray-200 hover:cursor-pointer">0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C</a>
+                            <a target="_blank"  className="bg-gray-100 mt-10 text-center rounded-full text-gray-500 p-2 text-sm mr-2 hover:bg-gray-200 hover:cursor-pointer">{"0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C".slice(0,4)}...{"0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C".slice("0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C".length - 4, "0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C".length)}</a>
                             </div>
                             <div className="flex mt-6">
                                 

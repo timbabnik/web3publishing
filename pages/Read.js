@@ -1,108 +1,190 @@
-import React, { useState } from 'react'
-import CountdownTimer from '../components/CountdownTimer'
-import Message from '../components/Message';
-import Next from '../components/Next';
-import Progress from '../components/Progress';
-import Writing from '../components/Writing'
-import Link from 'next/link';
+import React, { useState, useRef } from "react";
+import ipfsClient from "ipfs-http-client"; 
+import { create } from 'ipfs-http-client';
+import image from "../public/image.jpg"
 
-function Read() {
+const Read = () => {
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [text, setText] = useState("");
+  const canvasRef = useRef(null);
 
-    const [chat, setChat] = useState("General Chat");
-    const [generalChat, setGeneralChat] = useState(true);
+  
 
-    const [message, setMessage] = useState("");
-    const [messageTwo, setMessageTwo] = useState("");
-    const [allMessages, setAllMessages] = useState([]);
-    const [allMessagesTwo, setAllMessagesTwo] = useState([]);
+  const projectId = '2JyR9CgkNwhqTpEUk0SMTqE733d';
+  const projectSecret = '0f85d5460bbafd3f2aa6b79ceb46b03a';
+  const auth =
+  'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
 
-    const [calc, setCalc] = useState("0");
+  const client = create({
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https',
+    headers: {
+    authorization: auth,
+    },
+    });
 
-    const [unlocked, setUnlocked] = useState(false);
+    
 
-    const sendMessage = () => {
-        if (message == "") {
-            return;
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setUploadedImage(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleTextChange = (event) => {
+    setText(event.target.value);
+  };
+
+  const handleDownload = () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.onload = () => {
+      const aspectRatio = img.width / img.height;
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvasWidth / aspectRatio;
+      const canvasPadding = canvasWidth * 0.1; // 10% padding
+      ctx.drawImage(img, canvasPadding, canvasPadding, canvasWidth - 2 * canvasPadding, canvasHeight - 2 * canvasPadding);
+      ctx.font = "20px Arial";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center"; // Set text alignment to center
+      ctx.textBaseline = "middle"; // Set text baseline to middle
+      const textWidth = canvasWidth * 0.8; // Set text width to 80% of canvas width
+      let words = text.split(" ");
+      let line = "";
+      let lines = [];
+      for (let i = 0; i < words.length; i++) {
+        let testLine = line + words[i] + " ";
+        let testWidth = ctx.measureText(testLine).width;
+        if (testWidth > textWidth) {
+          lines.push(line);
+          line = words[i] + " ";
         } else {
-            setAllMessages([...allMessages, message]);
-            setMessage("");
+          line = testLine;
         }
-    }
+      }
+      lines.push(line);
+      const x = canvas.width / 2; // Get horizontal center of canvas
+      const y = canvas.height / 2 - ((lines.length - 1) * 30) / 2; // Get vertical center of canvas, adjusted for number of lines
+      for (let i = 0; i < lines.length; i++) {
+        ctx.fillText(lines[i], x, y + i * 30);
+      }
+      const downloadLink = document.createElement("a");
+      downloadLink.href = canvas.toDataURL();
+      downloadLink.download = "edited_photo.png";
+      downloadLink.click();
+    };
+    img.src = uploadedImage;
+  };
 
-    const sendMessageTwo = () => {
-        if (messageTwo == "") {
-            return;
-        } else if (allMessagesTwo.length < 10) {
-            setAllMessagesTwo([...allMessagesTwo, messageTwo]);
-            setMessageTwo("");
+  const handleUploadToIPFS = async () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.onload = async () => {
+      const aspectRatio = img.width / img.height;
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvasWidth / aspectRatio;
+      const canvasPadding = canvasWidth * 0.1; // 10% padding
+      ctx.drawImage(img, canvasPadding, canvasPadding, canvasWidth - 2 * canvasPadding, canvasHeight - 2 * canvasPadding);
+      ctx.font = "30px Arial";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center"; // Set text alignment to center
+      ctx.textBaseline = "middle"; // Set text baseline to middle
+      const textWidth = canvasWidth * 0.8; // Set text width to 80% of canvas width
+      let words = text.split(" ");
+      let line = "";
+      let lines = [];
+      for (let i = 0; i < words.length; i++) {
+        let testLine = line + words[i] + " ";
+        let testWidth = ctx.measureText(testLine).width;
+        if (testWidth > textWidth) {
+          lines.push(line);
+          line = words[i] + " ";
+        } else {
+          line = testLine;
         }
-    }
+      }
+      lines.push(line);
+      const x = canvas.width / 2; // Get horizontal center of canvas
+      const y = canvas.height / 2 - ((lines.length - 1) * 30) / 2; // Get vertical center of canvas, adjusted for number of lines
+      for (let i = 0; i < lines.length; i++) {
+        ctx.fillText(lines[i], x, y + i * 30);
+      }
+      const imageDataURL = canvas.toDataURL();
+      const buffer = Buffer.from(imageDataURL.replace(/^data:image\/\w+;base64,/, ""), "base64");
+      
+      const result = await client.add(buffer); // Upload image buffer to IPFS
+      console.log("IPFS Hash:", result.cid.toString());
+    };
+    img.src = image.src;
+};
 
- 
-const calculate = () => {
-    const calcc = 3/8*100;
-    setCalc(calcc);
-    
-    
-}
-    
+const handleUploadToIPFSTwo = async () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.crossOrigin = "anonymous"; // Add crossorigin attribute to allow access to image from different origin
+    img.onload = async () => {
+      const canvasWidth = img.width;
+      const canvasHeight = img.height;
+      ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+      ctx.font = "30px Arial";
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center"; // Set text alignment to center
+      ctx.textBaseline = "middle"; // Set text baseline to middle
+      const textWidth = canvasWidth * 0.8; // Set text width to 80% of canvas width
+      let words = text.split(" ");
+      let line = "";
+      let lines = [];
+      for (let i = 0; i < words.length; i++) {
+        let testLine = line + words[i] + " ";
+        let testWidth = ctx.measureText(testLine).width;
+        if (testWidth > textWidth) {
+          lines.push(line);
+          line = words[i] + " ";
+        } else {
+          line = testLine;
+        }
+      }
+      lines.push(line);
+      const x = canvas.width / 2; // Get horizontal center of canvas
+      const y = canvas.height / 2 - ((lines.length - 1) * 30) / 2; // Get vertical center of canvas, adjusted for number of lines
+      for (let i = 0; i < lines.length; i++) {
+        ctx.fillText(lines[i], x, y + i * 30);
+      }
+      const imageDataURL = canvas.toDataURL();
+      const buffer = Buffer.from(imageDataURL.replace(/^data:image\/\w+;base64,/, ""), "base64");
+      
+      const result = await client.add(buffer); // Upload image buffer to IPFS
+      console.log("IPFS Hash:", result.cid.toString());
+    };
+    img.src = image.src;
+  };
+
 
   return (
-    <div className="">
-        
-        <div className="flex">
-            
-            <div className="middleTwo">
-                <div className="absolute left-3 top-3 flex">
-                    <div className="w-9 h-9 rounded-full bg-blue-300"></div>
-                    <div>
-                        <p className="ml-2 text-sm">0x1fb...fa21</p>
-                        <p className="ml-2 text-xs text-gray-400">Timo Babnik</p>
-                    </div>
-                </div>
-                
-                <div className="mainMiddle">
-                <img src="https://i.postimg.cc/YqC6ZDWn/r-HGt-Q0-Mi-Ke-Wl-X9-N9dk0-ZL9uf32vf-E58-Jz1-OD9v-Cvzg74-L46v-TXli-Vqa-DQ8g-K-b-DSf-CMfma-V87-Fmk-Lv-Ch1-G1qf-QVRyx-XFCCq8-Kwq4.png" className="h-96 w-96 rounded-xl" />
-                    <p className="text-3xl font-semibold mt-20">Preface</p>
-                    <p className="text-lg text-[#323232] mt-10">The following essay is a homage to collecting enabled by web3. It is a living document, minted as a collectible Writing NFT. By collecting it, you encourage me to keep refining and elaborating these views, which will be updated here.</p>
-                    <p className="text-lg text-[#323232] mt-10">The technology underpinning web3 enables ownership of digital media – including images, music, and writing. Some have said that this brings property rights to the internet. A common framing is that the web has evolved from read-only (web 1), to read + write (web 2.0), to read + write + own (web3).</p>
-                    <Link href="/Own" className="px-16 py-4 bg-blue-600 rounded-lg w-28 flex justify-center items-center text-white mt-10">
-                        Collect
-                    </Link>
-                </div>
-                
-            </div>
-            <div className="suggest">
-                {
-                    unlocked ? (
-                        <div className="items-center flex flex-col p-10 rounded-xl border-gray-400 border-2">
-                        <img src="https://i.postimg.cc/wx2mgzk4/Logo-Makr-3qjf-Yl.png" className="h-20" />
-                        <p className="mt-6 text-[#808080] text-md">Collect this story and start build on top of it</p>
-                        </div>
-                    ) : (
-                        <>
-                            <p className="p-5 text-2xl mt-20 ml-8">Best writings</p>
-                            <div className="scroll">
-                                <Writing color={"gray"} />
-                                <Writing color={"gray"} />
-                                <Writing color={"gray"} />
-                                <Writing color={"gray"} />
-                             
-                            </div>
-                        </>
-                    )
-                }
-               
-               
-                {/*<div onClick={() => setGeneralChat(false)} className="inputDown">
-                    <input className="h-10 w-80 bg-green-200 rounded-full ml-5" />
-                    <img src="https://i.postimg.cc/cCG1Rp6B/Logo-Makr-8.png" className="h-8" />
-                </div>*/}
-            </div>
+   <div>
+      <h1>Photo Editor</h1>
+      <input type="file" onChange={handleImageUpload} />
+      <br />
+      <textarea value={text} onChange={handleTextChange} />
+      <br />
+      
+        <div>
+          <h2>Preview:</h2>
+          <img src={uploadedImage} alt="Uploaded" />
+          <canvas ref={canvasRef} width="400" height="400" style={{ display: "none" }} />
+          <br />
+          <button onClick={handleUploadToIPFS}>Download</button>
         </div>
-        <div className="w-full h-32 bg-gray-100">fasdf</div>
+      
     </div>
-  )
-}
+  );
+};
 
-export default Read
+export default Read;

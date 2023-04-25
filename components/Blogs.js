@@ -12,7 +12,7 @@ function Blogs({onClick}) {
                     <p className="text-black">Learn more</p>
                 </div>
             </div>
-            <img src="https://i.postimg.cc/XYXkXvbN/Group-20-4-removebg-preview-2.png"  className="h-80 ml-10 rounded-3xl"/>
+            <img src="https://i.postimg.cc/XYXkXvbN/Group-20-4-removebg-preview-2.png"  className="imageMain"/>
         </div>
     </div>
     
