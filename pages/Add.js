@@ -308,33 +308,9 @@ const neki = async () => {
       <div className="flex justify-center mt-20">
         <textarea id="textarea" rows="60" className="inputAdd" placeholder="Paste your writings ..." onChange={(e) => setInputTest(e.target.value)}  />
       </div>
-      <canvas ref={canvasRef} width="400" height="400" style={{ display: "none" }} />
-      <div onClick={replacePeriodsWithLineBreaks} className="bg-blue-200 p-5">Heheh</div>
-      <div className="mt-10 flex flex-col">
-          <div className="flex flex-col items-center">
-            <p className="text-4xl font-medium mt-20">Create New NFT Article</p>
-            <main role="main" className="flex flex-col" style={{ maxWidth: '1000px' }}>
-              <div className="content mx-auto mt-10">
-                  <Row className="g-4 flex flex-col">
-                    <Form.Control
-                      type="file"
-                      required
-                      name="file"
-                      onChange={uploadToIPFS}
-                    />
-                    <Form.Control onChange={(e) => setTokenId(e.target.value)} size="lg" required type="number" placeholder="Token Id" />
-                    <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" required type="number" placeholder="Price in ETH" />
-                    <Form.Control onChange={(e) => setAddress(e.target.value)} size="lg" required placeholder="Address" />
-                    <div className="d-grid px-0 bg-blue-300 w-36 justify-center items-center flex py-2 mb-36 rounded-lg mt-10">
-                      <Button onClick={main} variant="primary" size="lg">
-                        Create & List NFT!
-                      </Button>
-                    </div>
-                  </Row>
-                </div>
-            </main>
-        </div>
-      </div>
+      
+        
+      
     </div>
   )
 }
