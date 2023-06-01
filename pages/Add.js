@@ -4,7 +4,7 @@ import { Row, Form, Button } from "react-bootstrap"
 import { create } from 'ipfs-http-client'
 import { ethers } from 'ethers'
 import { db } from '../firebase';
-import imagee from "../public/image.jpg";
+import imagee from "../public/square.jpg";
 import Link from 'next/link';
 import LoadingSpinner from '../components/Loading';
 
@@ -135,39 +135,55 @@ const addTest = () => {
 const handleUploadToIPFS = async () => {
   setIsLoadingTwo(true);
   connectMetamask();
-  const canvas = canvasRef.current;
-  const ctx = canvas.getContext("2d");
-  const img = new Image();
-  img.onload = async () => {
-    const aspectRatio = img.width / img.height;
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvasWidth / aspectRatio;
-    const canvasPadding = canvasWidth * 0.1; // 10% padding
-    ctx.drawImage(img, canvasPadding, canvasPadding, canvasWidth - 2 * canvasPadding, canvasHeight - 2 * canvasPadding);
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "black";
-    ctx.textAlign = "center"; // Set text alignment to center
-    ctx.textBaseline = "middle"; // Set text baseline to middle
-    const textWidth = canvasWidth * 0.8; // Set text width to 80% of canvas width
-    let words = title.split(" ");
-    let line = "";
-    let lines = [];
-    for (let i = 0; i < words.length; i++) {
-      let testLine = line + words[i] + " ";
-      let testWidth = ctx.measureText(testLine).width;
-      if (testWidth > textWidth) {
-        lines.push(line);
-        line = words[i] + " ";
-      } else {
-        line = testLine;
-      }
+const canvas = canvasRef.current;
+const ctx = canvas.getContext("2d");
+const img = new Image();
+img.onload = async () => {
+  const aspectRatio = img.width / img.height;
+  const canvasWidth = img.width * 2; // Increase canvas width for higher resolution
+  const canvasHeight = canvasWidth / aspectRatio;
+  const canvasPadding = canvasWidth * 0.1; // 10% padding
+  const titleFontSize = canvasWidth / 20; // Adjust title font size proportionally
+
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
+
+  ctx.drawImage(
+    img,
+    canvasPadding,
+    canvasPadding,
+    canvasWidth - 2 * canvasPadding,
+    canvasHeight - 2 * canvasPadding
+  );
+
+  ctx.font = `${titleFontSize}px Arial`;
+  ctx.fillStyle = "black";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  const textWidth = canvasWidth * 0.8;
+  const words = title.split(" ");
+  let line = "";
+  let lines = [];
+  for (let i = 0; i < words.length; i++) {
+    const testLine = line + words[i] + " ";
+    const testWidth = ctx.measureText(testLine).width;
+    if (testWidth > textWidth) {
+      lines.push(line);
+      line = words[i] + " ";
+    } else {
+      line = testLine;
     }
-    lines.push(line);
-    const x = canvas.width / 2; // Get horizontal center of canvas
-    const y = canvas.height / 2 - ((lines.length - 1) * 30) / 2; // Get vertical center of canvas, adjusted for number of lines
-    for (let i = 0; i < lines.length; i++) {
-      ctx.fillText(lines[i], x, y + i * 30);
-    }
+  }
+  lines.push(line);
+
+  const x = canvasWidth / 2;
+  const y = canvasHeight / 2;
+  const lineHeight = titleFontSize * 1.2;
+
+  for (let i = 0; i < lines.length; i++) {
+    ctx.fillText(lines[i], x, y + (i - lines.length / 2 + 0.5) * lineHeight);
+  }
     const imageDataURL = canvas.toDataURL();
     const buffer = Buffer.from(imageDataURL.replace(/^data:image\/\w+;base64,/, ""), "base64");
     
@@ -180,6 +196,8 @@ const handleUploadToIPFS = async () => {
   img.src = imagee.src;
 
   setIsLoadingTwo(false);
+
+  
 };
 
 async function mainTwo() {
@@ -261,6 +279,40 @@ const neki = async () => {
 }
 
 
+async function mainTwoTest() {
+  var textarea = document.getElementById("textarea");
+  
+  // Get the text from the textarea
+  var text = textarea.value;
+  
+  // Replace periods with line breaks
+  text = text.replace(/\n/g, "</br>");
+  
+  // Update the textarea with the new text
+  textarea.value = text;
+  
+  const docRef = await addDoc(collection(db, "blogs"), {
+    address: accounts[0],
+    title: title,
+    id: Math.floor(Math.random() * 10000),
+    price: pricee,
+    writings: text
+  });
+
+  const docId = docRef.id;
+  console.log('Document ID:', docId);  
+
+  addDoc(collection(db, "accounts", accounts[0], "posts"), {
+    id: docId,
+    title: title,
+  });
+}
+
+
+
+
+
+
   return (
     <div className=" h-full flex-col flex">
       <div className="absolute left-3 top-3 flex">
@@ -309,7 +361,7 @@ const neki = async () => {
         <textarea id="textarea" rows="60" className="inputAdd" placeholder="Paste your writings ..." onChange={(e) => setInputTest(e.target.value)}  />
       </div>
       
-        
+      <canvas ref={canvasRef} width="400" height="400" style={{ display: "none" }} />
       
     </div>
   )

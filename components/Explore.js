@@ -117,30 +117,31 @@ function Explore({ref}) {
                         </div>
                         
                     </div>
-                    <div className="bg-gray-100 w-full py-10 mt-10 rounded-t-lg flex justify-around items-center">
+                    <div className="bg-gray-100 w-full py-10 mt-10 rounded-lg flex justify-around items-center">
                         <div className="w-1/2">
                           <div className="bg-gray-200 rounded-lg p-4">
-                            <p className="font-bold text-xl">0.0025 ETH</p>
-                            <p className="text-sm text-gray-500">$5</p>
+                            <p className="font-bold text-xl">0.00 ETH</p>
+                            <p className="text-sm text-gray-500">FREE</p>
                           </div>
                           <div className="bg-gray-200 rounded-lg p-4 mt-5">
-                            <p className="font-bold text-xl">100/100</p>
-                            <p className="text-sm text-gray-500">sold out</p>
+                          <p className="font-bold text-xl">/</p>
+                            <p className="text-sm text-gray-500">collection size</p>
                           </div>
-                          <div onClick={() => setSold(true)}  className={`px-4 py-4 ${sold ? "bg-gray-400" : "bg-[#33626d]"} ${sold ? "hover:bg-gray-400" : "hover:bg-[#28525c]"} rounded-lg w-40 flex justify-center items-center text-white mt-10 hover:cursor-pointer`}>{sold ? "Sold out" : "Collect"}</div>
+                          <div onClick={() => setSold(true)} className={`px-4 py-4 ${sold ? "bg-gray-400" : "bg-[#33626d]"} ${sold ? "hover:bg-gray-400" : "hover:bg-[#28525c]"} rounded-lg w-40 flex justify-center items-center text-white mt-10 hover:cursor-pointer`}>{sold ? "Sold out" : "Collect"}</div>
                         </div>
-                        <div className=" rounded-lg w-72 h-72 bg-white justify-center items-center flex relative">
-                          <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
-                          <p className="text-center px-12">Bringing ideas to life, forging new connections: the web3 way</p>
+                        <div className="container flex justify-center items-center w-72 h-72 rounded-lg">
+                        <img src="https://i.postimg.cc/bY9G05HL/2-VJZq2m-Zkam-Heh-XTDRwd-4-vxtpo.jpg" alt="Your Image" className="w-full rounded-lg" />
+                        <div className="absolute text-white text-md font-bold w-60 text-center">Collect random thoughts, writings, quotes from the author</div>
                         </div>
+                        
                     </div>
-                    <div className="h-16 w-full bg-blue-600 bg-gradient-to-b from-gray-100 to-[#3E616C]"></div>
-                    <div className="w-full h-80 bg-[#3E616C] rounded-b-lg justify-center items-center flex flex-col">
-                        <img src="https://i.postimg.cc/9XbPzy3b/Logo-Makr-47n3jk-2.png" className="h-32" />
-                        <p className="text-center w-64 text-white text-sm mt-2">Collect random thoughts, writings, quotes from the author</p>
-                        <div className="border-[#F6E0C2] border px-10 py-2 mt-5 rounded-lg hover:cursor-not-allowed hover:bg-[#F6E0C2] hover:text-black text-white">
-                            <p className="text-sm">Collect</p>
+                    
+                    <div className="bg-gray-100 w-full mt-4 rounded-lg py-4 flex justify-between items-center">
+                        <div>
+                        <div className="ml-5 font-bold">Collect this post</div>
+                        <div className="ml-5 text-sm text-gray-600"></div>
                         </div>
+                        <div  className="mr-5 bg-gray-200 p-2 px-7 rounded-lg hover:bg-gray-300 text-gray-600 cursor-not-allowed hover:px-8 transition-all">Free</div>
                     </div>
                     </div>
                     

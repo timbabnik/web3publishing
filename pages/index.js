@@ -200,9 +200,18 @@ const handleClick = () => {
   });
 }
 
-const addressTopics = ["0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496", "0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C", "0x1c5783DF9f12df79E1506FEe70e0DE7c2404903f", "0x5b1b02f093259bD4bC9af21C34Ed784962d83E3e"];
+const addressTopics = ["0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496", "0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496", "0x1c5783DF9f12df79E1506FEe70e0DE7c2404903f", "0xf17c0dcf959b6988e6d8f9010ee954e18ad8b97c"];
 
-  
+const [highlightedWord, setHighlightedWord] = useState("");
+
+function handleHighlight(event) {
+  const selection = window.getSelection().toString();
+  if (selection) {
+    setHighlightedWord(selection);
+  }
+}
+
+
 
   return (
     <div className="homepage">
@@ -442,6 +451,12 @@ const addressTopics = ["0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496", "0xF17C0dCf
         <div className="flex justify-center items-center">
           <p className="text-[#33626d] pb-40 text-6xl font-bold text-center w-2/3">"Web3 Publishing - Unleashing Your Content's Potential."</p>
         </div>
+        {/*<div>
+      <p onMouseUp={handleHighlight}>
+        This is a paragraph. Highlight any word to see it in the state.
+      </p>
+      <p>Highlighted word: {highlightedWord}</p>
+        </div>*/}
         <div className="w-full h-8 bg-gray-100"></div>
         {
           createNew ? (

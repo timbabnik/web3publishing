@@ -8,13 +8,13 @@ const hre = require("hardhat");
 
 async function main() {
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy();
+  const Alwrite = await hre.ethers.getContractFactory("Alwrite");
+  const alwrite = await Alwrite.deploy();
 
-  await lock.deployed();
+  await alwrite.deployed();
 
   console.log(
-    `${lock.address}`
+    `${alwrite.address}`
   );
 }
 

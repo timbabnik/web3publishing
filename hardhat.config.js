@@ -1,5 +1,6 @@
 require("@nomiclabs/hardhat-etherscan");
 require("@nomiclabs/hardhat-waffle");
+require("dotenv").config()
 
 
 
@@ -10,13 +11,25 @@ module.exports = {
       url: "http://127.0.0.1:8545/",
       chainId: 31337,
     },
-    goerli: {
-      url: "https://eth-goerli.g.alchemy.com/v2/C3B22DW-WlW_J0xdDCASSMsDnlvLKTVP",
+    sepolia: {
+      url: "https://eth-sepolia.g.alchemy.com/v2/mKlWQflwnRw-lMHtYJWo9UzOVEoSEjPx",
       accounts: ["750340a0434805be897250489e813fa4ada53c2eff8b13f0a9f6888a5c4cfc41"],
     },
+    goerli: {
+      url: "https://eth-goerli.g.alchemy.com/v2/2lsEqXNJ2e7Jldpx6pQVg1F6kKiBL6w1",
+      accounts: [process.env.PRIVKEY],
+    },
+    optimismgoerli: {
+      url: "https://opt-goerli.g.alchemy.com/v2/-v8z2Cq6_SKPERDEcijPiXg3PkCp0mxm",
+      accounts: ["8fec11163af84335c33a78d877c39f652b3641f414cef4360d387cd7de8a104d"],
+    },
+    mainnet: {
+      url: "https://opt-mainnet.g.alchemy.com/v2/9CenLePRunzrXpL9Xl1HxhthE5QMQijE",
+      accounts: [process.env.PRIVKEY]
+    }
   },
   etherscan: { 
-    apiKey: "DHU424T6CSH4ZXP2JH82V36JBTDX1B3KE7"
+    apiKey: "PKK1MWRPNDD9F2FB5AJ56VWC8BFUFQX17Y"
   },
   solidity: "0.8.17",
 };

@@ -9,9 +9,10 @@ import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, orderBy, query, s
 import { db } from '../../firebase';
 import { useRouter } from 'next/router';
 import { ethers, BigNumber } from 'ethers';
-import Lock from "../Lock.json";
+import Alwrite from "../Alwrite.json";
 import Gold from "../../components/Gold";
 import Link from 'next/link'
+import Category from '../../components/Category'
 
 function Own() {
 
@@ -61,6 +62,9 @@ function Own() {
     const [totalSupplyTwo, setTotalSupplyTwo] = useState(0);
 
     const [bucket, setBucket] = useState(false);
+
+    const [allIdeas, setAllIdeas] = useState([]);
+    const [ideaChange, setIdeaChange] = useState(false);
 
     
 
@@ -385,7 +389,7 @@ let neki = "timo";
 const address = "0xB20b2FE19a03F21ffBc31735fBF384DDdBec2fa9";
 
 
-async function handleMint() {
+async function handleMintz() {
     if (window.ethereum) {
             const account = await window.ethereum.request({
                 method: "eth_requestAccounts",
@@ -635,7 +639,7 @@ const testttt = () => {
 
 
 const provider = new ethers.providers.JsonRpcProvider("https://eth-goerli.g.alchemy.com/v2/C3B22DW-WlW_J0xdDCASSMsDnlvLKTVP")
-const contractForNft = new ethers.Contract(address, Lock.abi, provider); 
+const contractForNft = new ethers.Contract(address, Alwrite.abi, provider); 
 
 const unlockGated = async () => {
     const first = await contractForNft.balanceOf(accounts[0], getAllInfo.id);
@@ -646,18 +650,18 @@ const unlockGated = async () => {
     }
 }
 
-useEffect(() => {
+{/*useEffect(() => {
     
     const neki = async () => {
-        const getTotalSupply =  await contractForNft.mintedNfts(totalSupplyTwo);
-        setTotalSupply(ethers.utils.formatEther(getTotalSupply)* (10 ** 18)) 
+        const getTotalSupply =  await contractForNft.posts(50);
+        console.log(ethers.utils.formatEther(getTotalSupply)* (10 ** 18)) 
     }
 
     if (postIds) {
         neki();
       }
 
-}, [postIds, random])
+}, [postIds, random])*/}
 
 
 
@@ -685,7 +689,8 @@ useEffect(() => {
   
         if (docSnap.exists()) {
             setGetAllInfo(docSnap.data());
-            console.log(getAllInfo.writings);
+            console.log(getAllInfo.id, getAllInfo.image, getAllInfo.address, 0);
+            setIdeaChange(!ideaChange);
         } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -721,12 +726,325 @@ const handleClick = () => {
   });
 }
 
+const addresss = "0x67a074B718114fbb3D98776bEA1d4E733f09f49E";
+const realAddress = "0x19A5aC322861fA701F62a9039A1F81902f91b3b9";
 
+async function handleMint() {
+
+    await handleNetworkSwitch("optimism");
+
+    if (window.ethereum) {
+            const account = await window.ethereum.request({
+                method: "eth_requestAccounts",
+            })
+        setAccounts(account);
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+            realAddress,
+            Alwrite.abi,
+            signer
+        );
+        try {
+            const response = contract.mint(getAllInfo.id, getAllInfo.json, getAllInfo.address);
+            console.log(response);
+            setUnlocked(true);
+        } catch (err) {
+            console.log("error: ", err);
+        }
+    }
+}
+
+const ideaMachine = () => {
+    const random = Math.floor(Math.random() * 3);
+
+}
+
+useEffect(() => {
+
+    const fetchData = async () => {
+      
+        onSnapshot(collection(db, "accounts", getAllInfo.address, "title"),
+    
+        (snapshot) => setAllIdeas(snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+        }))))
+      
+    };
+
+    if (ideaChange) {
+      fetchData();
+    }
+  }, [ideaChange]);
+
+  const [isDarkOverlayVisible, setIsDarkOverlayVisible] = useState(false);
+  const [isDarkOverlayVisibleTwo, setIsDarkOverlayVisibleTwo] = useState(false);
+  const [getNumber, setGetNumber] = useState("");
+
+  function handleDarkOverlayClick() {
+    setIsDarkOverlayVisible(!isDarkOverlayVisible);
+    fetchCategories();
+    getMinted();
+    setGetNumber(Math.floor(Math.random() * 3));
+  }
+
+
+  function handleDarkOverlayClickTwo() {
+    setIsDarkOverlayVisibleTwo(!isDarkOverlayVisibleTwo);
+    
+  }
+
+const [getCategories, setGetCategories] = useState([]);
+const [randdd, setRanddd] = useState([]);
+
+const fetchCategories = async () => {
+    const ideasRef = collection(db, 'accounts', getAllInfo.address, "ideas");
+    const snapshot = await getDocs(ideasRef);
+
+    const categoriesSet = new Set();
+
+    snapshot.docs.forEach((doc) => {
+      const category = doc.data().category; // Replace with your actual field name
+      if (category) {
+        categoriesSet.add(category);
+      }
+    });
+
+    const categoriesArray = Array.from(categoriesSet);
+    setGetCategories(categoriesArray);
+  };
+
+  const queryData = async (id) => {
+    // Initialize Firebase app
+
+    await handleNetworkSwitch("optimism");
+    
+
+    if (window.ethereum) {
+        const account = await window.ethereum.request({
+            method: "eth_requestAccounts",
+        })
+    setAccounts(account);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+        realAddress,
+        Alwrite.abi,
+        signer
+    );
+    try {
+        const testRef = collection(db, 'accounts', getAllInfo.address, id);
+        const unsubscribe = onSnapshot(testRef, (snapshot) => {
+        const updatedDataList = snapshot.docs.map((doc) => doc.data());
+        const calc = Math.floor(Math.random() * updatedDataList.length);
+        const response = contract.mint(updatedDataList[calc].id, updatedDataList[calc].image, updatedDataList[calc].address);
+        console.log(response);
+        });
+        
+        setUnlocked(true);
+    } catch (err) {
+        console.log("error: ", err);
+    }
+}
+  
+    // Cleanup function to unsubscribe from the snapshot listener
+    return () => {
+      unsubscribe();
+    };
+  };
+
+  const providerr = new ethers.providers.JsonRpcProvider("https://eth-sepolia.g.alchemy.com/v2/mKlWQflwnRw-lMHtYJWo9UzOVEoSEjPx")
+  const contractForNftt = new ethers.Contract(addresss, Alwrite.abi, providerr); 
+
+  const [testZa, setTestZa] = useState("");
+
+  const getMinted = async () => {
+    const first = await contractForNftt.posts(getAllInfo.id);
+    setTestZa(first.minted ** 10);
+  }
+
+
+  
+  const categoryColors = ["#59B6DF", "#6FCBC1", "#2D60B1"];
+  const [switchToOp, setSwitchToOp] = useState(false);
+
+
+  const networks = {
+    polygon: {
+      chainId: `0x${Number(137).toString(16)}`,
+      chainName: "Polygon Mainnet",
+      nativeCurrency: {
+        name: "MATIC",
+        symbol: "MATIC",
+        decimals: 18
+      },
+      rpcUrls: ["https://polygon-rpc.com/"],
+      blockExplorerUrls: ["https://polygonscan.com/"]
+    },
+    optimism: {
+      chainId: `0x${Number(10).toString(16)}`,
+      chainName: "Optimism Mainnet",
+      nativeCurrency: {
+        name: "Optimism",
+        symbol: "ETH",
+        decimals: 18
+      },
+      rpcUrls: [
+        "https://mainnet.optimism.io",
+        "https://endpoints.omniatech.io/v1/op/mainnet/public",
+        "https://optimism.api.onfinality.io/public",
+        "https://1rpc.io/op",
+        "https://opt-mainnet.g.alchemy.com/v2/demo",
+      ],
+      
+    }
+  };
+  
+  const [errorr, setErrorr] = useState();
+
+  const changeNetwork = async ({ networkName, setErrorr }) => {
+    try {
+      if (!window.ethereum) throw new Error("No crypto wallet found");
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            ...networks[networkName]
+          }
+        ]
+      });
+    } catch (err) {
+      setErrorr(err.message);
+    }
+  };
+  
+  
+  
+  
+    const handleNetworkSwitch = async (networkName) => {
+      setErrorr();
+      await changeNetwork({ networkName, setError });
+      setSwitchToOp(true);
+    };
+  
+
+    
   
 
   return (
     <div className="">
+        <div>
+      {isDarkOverlayVisible && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 9999,
+          }}
+          onClick={handleDarkOverlayClick}>
+              <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "700px",
+              height: "400px",
+              backgroundColor: "#f2f2f2",
+              borderRadius: "10px",
+              boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
+              display: "flex",
+              justifyContent: "center"
+            }}
+        ><div className=" items-center w-full justify-around flex">
+            <div className="flex-col items-center justify-center flex">
+                <p className="mt-0 text-center text-lg">Choose a category</p>
+                <div className="flex mt-10 flex-wrap items-center justify-center w-80">
+                   
+                            <div>
+                            {
+                                getCategories.length == 0 ? (
+                                    <div className="items-center flex flex-col">
+                                        <img src="https://i.postimg.cc/QtFQB8YW/undraw-No-data-re-kwbl-removebg-preview.png" className="h-36" />
+                                        <p className="text-sm mt-2 text-gray-400">No current categories</p>
+                                    </div>
+                                ) : (
+                                    getCategories.map((data, index) => {
+                                        return <Category query={() => queryData(data)} key={index} data={data} color={categoryColors[getNumber]} />
+                                    })
+                                )
+                                
+                            }</div>
+                       
+                    
+                
+                
+                </div>
+            </div>
+            <div className="container flex justify-center items-center w-72 h-72 rounded-lg">
+                        <img src="https://i.postimg.cc/02HwzXqj/bm-Ba6tj3-E7zj-ZKSJoq-F3-2-8fnt1.jpg" alt="Your Image" className="w-full rounded-lg" />
+                        <div className="absolute text-white text-md font-bold w-60 text-center">Collect random thoughts, writings, quotes from the author</div>
+                        </div>
+            </div>
+        </div>
         
+        </div>
+      )}
+
+{isDarkOverlayVisibleTwo && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 9999,
+          }}
+          >
+          
+              <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "500px",
+              height: "460px",
+              backgroundColor: "#f2f2f2",
+              borderRadius: "10px",
+              boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
+              display: "flex",
+              justifyContent: "center"
+            }}
+        ><div className="flex-col items-center justify-center flex">
+              <div className="flex flex-wrap items-center justify-center  flex-col mt-4">
+                <img onClick={handleDarkOverlayClickTwo} src="https://i.postimg.cc/gJSYJMXn/Logo-Makr-2-YVf-U2.png" className="absolute top-4 right-4 h-8 hover:cursor-pointer" />
+                <div className=" rounded-lg w-72 h-72 bg-white justify-center items-center flex relative flex-col">
+                          <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
+                          {/*<p className="text-center px-12">{getAllInfo.title}</p>*/}
+                          <p className="text-center px-12">{getAllInfo.title}</p>
+                          {/*<p className="text-center px-12 text-xs mt-2 text-gray-500">{postIds}</p>*/}
+                        </div>
+                        {
+
+                        }
+                        <div onClick={handleMint} className="mt-8 bg-[#33626d] text-white p-2 justify-center items-center flex px-10 py-3 rounded-xl cursor-pointer hover:bg-[#28555f]">Collect </div>
+                </div>
+                
+                
+                
+            </div>
+        </div>
+        
+        </div>
+      )}
         <div className="flex">
             
             <div className="middleTwo">
@@ -795,7 +1113,7 @@ const handleClick = () => {
                            
                         </div>
                         
-                        <div onClick={() => setSold(true)} className={`px-4 py-4 ${sold ? "bg-gray-400" : "bg-[#33626d]"} ${sold ? "hover:bg-gray-400" : "hover:bg-[#28525c]"} rounded-lg w-40 flex justify-center items-center text-white mt-10 mb-3 hover:cursor-pointer`}>{sold ? "Sold out" : "Collect"}</div>
+                        {/*<div onClick={() => setSold(true)} className={`px-4 py-4 ${sold ? "bg-gray-400" : "bg-[#33626d]"} ${sold ? "hover:bg-gray-400" : "hover:bg-[#28525c]"} rounded-lg w-40 flex justify-center items-center text-white mt-10 mb-3 hover:cursor-pointer`}>{sold ? "Sold out" : "Collect"}</div>*/}
                     </div>
                     {
                         writings.map((data, index) => {
@@ -833,7 +1151,7 @@ const handleClick = () => {
                         </div> : null}*/}
                     </div>
                     {/*<div onClick={handleMint} className="px-16 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg w-40 flex justify-center items-center text-white mt-14 hover:cursor-pointer">Collect</div>*/}
-                    <div className="bg-gray-100 w-full py-10 mt-10 rounded-t-lg flex justify-around items-center">
+                    <div className="bg-gray-100 w-full py-10 mt-10 rounded-lg flex justify-around items-center">
                         <div className="w-1/2">
                           <div className="bg-gray-200 rounded-lg p-4">
                             <p className="font-bold text-xl">0.00 ETH</p>
@@ -842,29 +1160,46 @@ const handleClick = () => {
                           <div className="bg-gray-200 rounded-lg p-4 mt-5">
                             {
                                 accounts ? (
-                                    <p className="font-bold text-xl">100/100</p>
+                                    <p className="font-bold text-xl">/</p>
                                 ) : (
-                                    <p>100/100</p>
+                                    <p>/</p>
                                 )
                             }
-                            <p className="text-sm text-gray-500">sold out</p>
+                            <p className="text-sm text-gray-500">collection size</p>
                           </div>
-                          <div onClick={() => setSold(true)}  className={`px-4 py-4 ${sold ? "bg-gray-400" : "bg-[#33626d]"} ${sold ? "hover:bg-gray-400" : "hover:bg-[#28525c]"} rounded-lg w-40 flex justify-center items-center text-white mt-10 hover:cursor-pointer`}>{sold ? "Sold out" : "Collect"}</div>
+                          <div onClick={handleDarkOverlayClick}  className={`px-4 py-4 ${sold ? "bg-gray-400" : "bg-[#33626d]"} ${sold ? "hover:bg-gray-400" : "hover:bg-[#28525c]"} rounded-lg w-40 flex justify-center items-center text-white mt-10 hover:cursor-pointer`}>{sold ? "Sold out" : "Collect"}</div>
                         </div>
-                        <div className=" rounded-lg w-72 h-72 bg-white justify-center items-center flex relative">
-                          <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
-                          <p className="text-center px-12">{getAllInfo.title}</p>
+                        <div className="container flex justify-center items-center w-72 h-72 rounded-lg">
+                        <img src="https://i.postimg.cc/bY9G05HL/2-VJZq2m-Zkam-Heh-XTDRwd-4-vxtpo.jpg" alt="Your Image" className="w-full rounded-lg" />
+                        <div className="absolute text-white text-md font-bold w-60 text-center">Collect random thoughts, writings, quotes from the author</div>
                         </div>
+                        
                     </div>
-                    <div className="h-16 w-full bg-blue-600 bg-gradient-to-b from-gray-100 to-[#3E616C]"></div>
+                    
+                    <div className="bg-gray-100 w-full mt-4 rounded-lg py-4 flex justify-between items-center">
+                        <div>
+                        <div className="ml-5 font-bold">Collect this post</div>
+                        <div className="ml-5 text-sm text-gray-600">{getAllInfo.title}</div>
+                        </div>
+                        <div onClick={handleDarkOverlayClickTwo} className="mr-5 bg-gray-200 p-2 px-7 rounded-lg hover:bg-gray-300 text-gray-600 cursor-pointer hover:px-8 transition-all">Free</div>
+                    </div>
+                    <div className="text-center mt-20 border-t border-gray-200 pt-10 flex flex-col items-center justify-center">
+                        <p className="text-sm text-gray-500">Bridge ETH to Optimism Network</p>
+                        <a href="https://app.optimism.io/bridge/deposit" target="_blank" className="bg-[#E90101] w-56 items-center justify-center text-center text-white p-0 rounded-lg mt-4 flex">
+                            <img src="https://i.postimg.cc/jqZz8bPx/Optimism-featured.png" className="h-14" />
+                        </a>
+                    </div>
+                   
+                    {/*<div className="h-16 w-full bg-blue-600 bg-gradient-to-b from-gray-100 to-[#3E616C]"></div>
                     <div className="w-full h-80 bg-[#3E616C] rounded-b-lg justify-center items-center flex flex-col">
                         <img src="https://i.postimg.cc/9XbPzy3b/Logo-Makr-47n3jk-2.png" className="h-32" />
                         <p className="text-center w-64 text-white text-sm mt-2">Collect random thoughts, writings, quotes from the author</p>
                         <div onClick={() => setBucket(true)} className="border-[#F6E0C2] border px-10 py-2 mt-5 rounded-lg hover:cursor-pointer hover:bg-[#F6E0C2] hover:text-black text-white">
                             {bucket ? "Sold out" : "Collect"}
                         </div>
-                    </div>
-                    </div>
+                        </div>*/}
+                        </div>
+                    
                     <div className="down">
                         
                         {
@@ -893,10 +1228,13 @@ const handleClick = () => {
                                             }} value={inputComment} onChangeCapture={(e) => setInputComment(e.target.value)} className="w-full h-10 bg-gray-50 border border-gray-200 rounded-full mt-4 pl-4 text-sm" />
                                     </div>
                                     </>) : (
-                                     <div onClick={connectMetamask} className="bg-gray-300 rounded-lg justify-around flex p-2 items-center hover:cursor-pointer hover:bg-gray-200 px-4 w-40">
+                                    <>
+                                     <p>Write something insightful and author of this post can add your comment to the article, making you a co-author.</p>
+                                     <div onClick={connectMetamask} className="border-gray-500 border rounded-lg justify-around flex p-2 items-center hover:cursor-pointer hover:bg-gray-200 px-4 w-36 mt-6">
                                         <img className="w-8" src="https://i.postimg.cc/mrT1hFKC/Meta-Mask-Fox-svg-2.png" />
-                                        <p className="text-sm font-bold ml-1">Comment</p>
+                                        <p className="text-sm font-light ml-1">Comment</p>
                                     </div>
+                                    </>
                                     ) }
                                 </div>
                                  <div className="upper">
@@ -943,7 +1281,7 @@ const handleClick = () => {
             </div>
             
         </div>
-        
+        </div>
     </div>
   )
 }
