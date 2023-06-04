@@ -729,6 +729,8 @@ const handleClick = () => {
 const addresss = "0x67a074B718114fbb3D98776bEA1d4E733f09f49E";
 const realAddress = "0x19A5aC322861fA701F62a9039A1F81902f91b3b9";
 
+const goerliAddress ="0xefb3892159deAf0cbF8E65D34B56788470e73D2d";
+
 async function handleMint() {
 
     await handleNetworkSwitch("optimism");
@@ -741,7 +743,7 @@ async function handleMint() {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(
-            realAddress,
+            goerliAddress,
             Alwrite.abi,
             signer
         );
@@ -829,7 +831,7 @@ const fetchCategories = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
-        realAddress,
+        goerliAddress,
         Alwrite.abi,
         signer
     );
@@ -883,22 +885,20 @@ const fetchCategories = async () => {
       blockExplorerUrls: ["https://polygonscan.com/"]
     },
     optimism: {
-      chainId: `0x${Number(10).toString(16)}`,
-      chainName: "Optimism Mainnet",
+      chainId: `0x${Number(5).toString(16)}`,
+      chainName: "Goerli Test Network",
       nativeCurrency: {
-        name: "Optimism",
+        name: "Goerli",
         symbol: "ETH",
         decimals: 18
       },
       rpcUrls: [
-        "https://mainnet.optimism.io",
-        "https://endpoints.omniatech.io/v1/op/mainnet/public",
-        "https://optimism.api.onfinality.io/public",
-        "https://1rpc.io/op",
-        "https://opt-mainnet.g.alchemy.com/v2/demo",
+        "https://rpc.ankr.com/eth_goerli",
+        "https://ethereum-goerli.publicnode.com",
       ],
       
     }
+    
   };
   
   const [errorr, setErrorr] = useState();

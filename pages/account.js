@@ -689,7 +689,7 @@ const generatePhoto = async () => {
                     
                 </div>
         </div>
-        
+       
         {
             posts.length == 0 ? (
                 <div className="posts">

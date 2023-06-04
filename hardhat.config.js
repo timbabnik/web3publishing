@@ -29,7 +29,7 @@ module.exports = {
     }
   },
   etherscan: { 
-    apiKey: "PKK1MWRPNDD9F2FB5AJ56VWC8BFUFQX17Y"
+    apiKey: "X63ZQVE3XEMJI75W5T977SWEIAICW8FU8I"
   },
-  solidity: "0.8.17",
+  solidity: "0.8.19",
 };
