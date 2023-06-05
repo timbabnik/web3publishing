@@ -689,7 +689,11 @@ const generatePhoto = async () => {
                     
                 </div>
         </div>
-       
+        <Link href="/Add">
+        <div className="absolute right-3 top-3 flex bg-[#12323b] p-3 rounded-xl hover:bg-[#254149]">
+            <p className="text-white text-md px-3 py-1">Write a New Post</p>
+        </div>
+        </Link>
         {
             posts.length == 0 ? (
                 <div className="posts">

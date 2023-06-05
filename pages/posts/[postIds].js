@@ -14,6 +14,8 @@ import Gold from "../../components/Gold";
 import Link from 'next/link'
 import Category from '../../components/Category'
 
+import { ConnectWallet, useAddress, useNetworkMismatch, ChainId, useChain, useChainId, useSwitchChain } from "@thirdweb-dev/react";
+
 function Own() {
 
     const [chat, setChat] = useState("General Chat");
@@ -731,9 +733,11 @@ const realAddress = "0x19A5aC322861fA701F62a9039A1F81902f91b3b9";
 
 const goerliAddress ="0xefb3892159deAf0cbF8E65D34B56788470e73D2d";
 
+const [changeNet, setChangeNet] = useState(false);
+
 async function handleMint() {
 
-    await handleNetworkSwitch("optimism");
+    
 
     if (window.ethereum) {
             const account = await window.ethereum.request({
@@ -794,6 +798,7 @@ useEffect(() => {
 
   function handleDarkOverlayClickTwo() {
     setIsDarkOverlayVisibleTwo(!isDarkOverlayVisibleTwo);
+
     
   }
 
@@ -820,7 +825,7 @@ const fetchCategories = async () => {
   const queryData = async (id) => {
     // Initialize Firebase app
 
-    await handleNetworkSwitch("optimism");
+    
     
 
     if (window.ethereum) {
@@ -893,9 +898,10 @@ const fetchCategories = async () => {
         decimals: 18
       },
       rpcUrls: [
-        "https://rpc.ankr.com/eth_goerli",
         "https://ethereum-goerli.publicnode.com",
+        "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
       ],
+      blockExplorerUrls: ["https://goerli.etherscan.io//"]
       
     }
     
@@ -929,7 +935,20 @@ const fetchCategories = async () => {
     };
   
 
-    
+    const [changeNetNet, setChangeNetNet] = useState(false);
+
+    const addressChain = useAddress();
+    const switchChain = useSwitchChain();
+    const isWrongNetwork = useNetworkMismatch();
+
+
+    useEffect(() => {
+        if (isWrongNetwork && switchChain) {
+            switchChain(ChainId.Goerli)
+        }
+    }, [addressChain, switchChain, isWrongNetwork])
+
+   
   
 
   return (
@@ -946,7 +965,7 @@ const fetchCategories = async () => {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 9999,
           }}
-          onClick={handleDarkOverlayClick}>
+          >
               <div
             style={{
               position: "absolute",
@@ -962,11 +981,13 @@ const fetchCategories = async () => {
               justifyContent: "center"
             }}
         ><div className=" items-center w-full justify-around flex">
+            <img onClick={handleDarkOverlayClick} src="https://i.postimg.cc/gJSYJMXn/Logo-Makr-2-YVf-U2.png" className="absolute top-4 right-4 h-8 hover:cursor-pointer" />
             <div className="flex-col items-center justify-center flex">
                 <p className="mt-0 text-center text-lg">Choose a category</p>
                 <div className="flex mt-10 flex-wrap items-center justify-center w-80">
-                   
-                            <div>
+                   {
+                       addressChain ? (
+<div>
                             {
                                 getCategories.length == 0 ? (
                                     <div className="items-center flex flex-col">
@@ -975,11 +996,20 @@ const fetchCategories = async () => {
                                     </div>
                                 ) : (
                                     getCategories.map((data, index) => {
-                                        return <Category query={() => queryData(data)} key={index} data={data} color={categoryColors[getNumber]} />
+                                        return <Category wrongColor={"gray"} wrong={isWrongNetwork} query={() => queryData(data)} key={index} data={data} color={categoryColors[getNumber]} />
                                     })
                                 )
                                 
                             }</div>
+                       ) : (
+                        <ConnectWallet
+                                    theme="dark"
+                                    btnTitle="Connect to Metamask"
+                                    style={{marginTop: 30, backgroundColor: "gray", color: "white"}}
+                                    />
+                       )
+                   }
+                            
                        
                     
                 
@@ -1032,10 +1062,24 @@ const fetchCategories = async () => {
                           <p className="text-center px-12">{getAllInfo.title}</p>
                           {/*<p className="text-center px-12 text-xs mt-2 text-gray-500">{postIds}</p>*/}
                         </div>
-                        {
+                        
+                            {
+                                addressChain ? (
+<button disabled={isWrongNetwork} onClick={handleMint} style={{backgroundColor: isWrongNetwork ? "gray" : "#33626d"}} className="mt-8 bg-[#33626d] text-white p-2 justify-center items-center flex px-10 py-3 rounded-xl cursor-pointer hover:bg-[#28555f]">{isWrongNetwork ? "Switch to Goerli Network" : "Collect"} </button>
+                                ) : (
+                                    <ConnectWallet
+                                    theme="dark"
+                                    btnTitle="Metamask"
+                                    style={{marginTop: 30, backgroundColor: "gray", color: "white"}}
+                                    />
+                                )
+                            }
 
-                        }
-                        <div onClick={handleMint} className="mt-8 bg-[#33626d] text-white p-2 justify-center items-center flex px-10 py-3 rounded-xl cursor-pointer hover:bg-[#28555f]">Collect </div>
+                            
+                       
+                            
+                        
+                        
                 </div>
                 
                 
@@ -1184,10 +1228,14 @@ const fetchCategories = async () => {
                         <div onClick={handleDarkOverlayClickTwo} className="mr-5 bg-gray-200 p-2 px-7 rounded-lg hover:bg-gray-300 text-gray-600 cursor-pointer hover:px-8 transition-all">Free</div>
                     </div>
                     <div className="text-center mt-20 border-t border-gray-200 pt-10 flex flex-col items-center justify-center">
-                        <p className="text-sm text-gray-500">Bridge ETH to Optimism Network</p>
-                        <a href="https://app.optimism.io/bridge/deposit" target="_blank" className="bg-[#E90101] w-56 items-center justify-center text-center text-white p-0 rounded-lg mt-4 flex">
-                            <img src="https://i.postimg.cc/jqZz8bPx/Optimism-featured.png" className="h-14" />
+                        <p className="text-sm text-gray-500">Don`t have Goerli?</p>
+                        <a href="https://goerlifaucet.com/" target="_blank" className="bg-[#4e4e4e] py-4 w-56 items-center justify-center text-center text-white p-0 mt-4 flex rounded-full">
+                            <p className="text-sm text-white uppercase">Get Goerli for free</p>
                         </a>
+                        <div>
+                        
+                        </div>
+                        
                     </div>
                    
                     {/*<div className="h-16 w-full bg-blue-600 bg-gradient-to-b from-gray-100 to-[#3E616C]"></div>
