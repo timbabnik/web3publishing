@@ -966,23 +966,11 @@ const fetchCategories = async () => {
             zIndex: 9999,
           }}
           >
-              <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "700px",
-              height: "400px",
-              backgroundColor: "#f2f2f2",
-              borderRadius: "10px",
-              boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-              display: "flex",
-              justifyContent: "center"
-            }}
-        ><div className=" items-center w-full justify-around flex">
+              <div className="trying"
+            
+        ><div className="collectRandom">
             <img onClick={handleDarkOverlayClick} src="https://i.postimg.cc/gJSYJMXn/Logo-Makr-2-YVf-U2.png" className="absolute top-4 right-4 h-8 hover:cursor-pointer" />
-            <div className="flex-col items-center justify-center flex">
+            <div className="flex-col items-center justify-center flex w-1/2">
                 <p className="mt-0 text-center text-lg">Choose a category</p>
                 <div className="flex mt-10 flex-wrap items-center justify-center w-80">
                    {
@@ -996,7 +984,7 @@ const fetchCategories = async () => {
                                     </div>
                                 ) : (
                                     getCategories.map((data, index) => {
-                                        return <Category wrongColor={"gray"} wrong={isWrongNetwork} query={() => queryData(data)} key={index} data={data} color={categoryColors[getNumber]} />
+                                        return <Category wrongColor={"gray"} wrong={isWrongNetwork} query={() => queryData(data)} key={index} data={isWrongNetwork ? "Switch to Goerli" : data} color={categoryColors[getNumber]} />
                                     })
                                 )
                                 
@@ -1016,10 +1004,13 @@ const fetchCategories = async () => {
                 
                 </div>
             </div>
+            <div className="authorWritings">
             <div className="container flex justify-center items-center w-72 h-72 rounded-lg">
-                        <img src="https://i.postimg.cc/02HwzXqj/bm-Ba6tj3-E7zj-ZKSJoq-F3-2-8fnt1.jpg" alt="Your Image" className="w-full rounded-lg" />
+                        <img src="https://i.postimg.cc/02HwzXqj/bm-Ba6tj3-E7zj-ZKSJoq-F3-2-8fnt1.jpg" alt="Your Image" className="aiphoto" />
                         <div className="absolute text-white text-md font-bold w-60 text-center">Collect random thoughts, writings, quotes from the author</div>
                         </div>
+                        <p className="text-xs text-gray-500 w-72 text-center mt-2">Collect author's ideas with AI generated background</p>
+            </div>
             </div>
         </div>
         
@@ -1039,24 +1030,12 @@ const fetchCategories = async () => {
           }}
           >
           
-              <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "500px",
-              height: "460px",
-              backgroundColor: "#f2f2f2",
-              borderRadius: "10px",
-              boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
-              display: "flex",
-              justifyContent: "center"
-            }}
+              <div className="tryingTwo"
+            
         ><div className="flex-col items-center justify-center flex">
               <div className="flex flex-wrap items-center justify-center  flex-col mt-4">
                 <img onClick={handleDarkOverlayClickTwo} src="https://i.postimg.cc/gJSYJMXn/Logo-Makr-2-YVf-U2.png" className="absolute top-4 right-4 h-8 hover:cursor-pointer" />
-                <div className=" rounded-lg w-72 h-72 bg-white justify-center items-center flex relative flex-col">
+                <div className="collectTitle">
                           <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
                           {/*<p className="text-center px-12">{getAllInfo.title}</p>*/}
                           <p className="text-center px-12">{getAllInfo.title}</p>
@@ -1092,7 +1071,7 @@ const fetchCategories = async () => {
         <div className="flex">
             
             <div className="middleTwo">
-                <div className="absolute right-3 top-3 flex">
+                {/*<div className="absolute right-3 top-3 flex">
                     {
                         accounts ? (
                             <>
@@ -1107,7 +1086,7 @@ const fetchCategories = async () => {
                             </div>
                     }
                     
-                </div>
+                </div>*/}
                 <Link href="/">
                 <div className="absolute left-3 top-3 flex">
                     <img src="https://i.postimg.cc/KzSwXFDx/Logo-Makr-1xya-Fv.png" className="h-8" />
@@ -1128,7 +1107,7 @@ const fetchCategories = async () => {
                         <div className="flex flex-col">
                             <div className="flex items-center">
                             <p className="mt-20 text-center rounded-full text-gray-500 p-1 text-md mr-2">Creator:</p>
-                            <a target="_blank" href={`http://etherscan.io/address/${getAllInfo.address}`}  className="bg-gray-100 mt-20 text-center rounded-full text-gray-500 p-2 text-sm mr-2 hover:bg-gray-200 hover:cursor-pointer">{getAllInfo.address}</a>
+                            <a target="_blank" href={`http://etherscan.io/address/${getAllInfo.address}`}  className="textCreator">{getAllInfo.address}</a>
                             </div>
                             <div className="flex mt-6">
                                 {
@@ -1195,8 +1174,8 @@ const fetchCategories = async () => {
                         </div> : null}*/}
                     </div>
                     {/*<div onClick={handleMint} className="px-16 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg w-40 flex justify-center items-center text-white mt-14 hover:cursor-pointer">Collect</div>*/}
-                    <div className="bg-gray-100 w-full py-10 mt-10 rounded-lg flex justify-around items-center">
-                        <div className="w-1/2">
+                    <div className="collect">
+                        <div className="collectWidth">
                           <div className="bg-gray-200 rounded-lg p-4">
                             <p className="font-bold text-xl">0.00 ETH</p>
                             <p className="text-sm text-gray-500">FREE</p>
@@ -1214,7 +1193,7 @@ const fetchCategories = async () => {
                           <div onClick={handleDarkOverlayClick}  className={`px-4 py-4 ${sold ? "bg-gray-400" : "bg-[#33626d]"} ${sold ? "hover:bg-gray-400" : "hover:bg-[#28525c]"} rounded-lg w-40 flex justify-center items-center text-white mt-10 hover:cursor-pointer`}>{sold ? "Sold out" : "Collect"}</div>
                         </div>
                         <div className="container flex justify-center items-center w-72 h-72 rounded-lg">
-                        <img src="https://i.postimg.cc/bY9G05HL/2-VJZq2m-Zkam-Heh-XTDRwd-4-vxtpo.jpg" alt="Your Image" className="w-full rounded-lg" />
+                        <img src="https://i.postimg.cc/bY9G05HL/2-VJZq2m-Zkam-Heh-XTDRwd-4-vxtpo.jpg" alt="Your Image" className="imageCollect" />
                         <div className="absolute text-white text-md font-bold w-60 text-center">Collect random thoughts, writings, quotes from the author</div>
                         </div>
                         

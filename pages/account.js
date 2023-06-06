@@ -6,7 +6,7 @@ import Idea from '../components/Idea';
 import { db } from '../firebase';
 import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, serverTimestamp, where } from '@firebase/firestore';
 import { create } from 'ipfs-http-client'
-import imagee from "../public/ai.jpg";
+import imagee from "../public/ai2.jpg";
 
 function account() {
 
