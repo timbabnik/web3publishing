@@ -986,9 +986,9 @@ const fetchCategories = async () => {
 
   return (
     <div className="">
-        <Helmet>
-            <meta property="og:image" content={getAllInfo.slika} />
-        </Helmet>
+        <Head>
+        <meta property="og:image" content={"https://i.postimg.cc/XJ16n9s5/maxresdefault-5.jpg"} />
+      </Head>
         <div>
       {isDarkOverlayVisible && (
         <div
