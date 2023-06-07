@@ -19,6 +19,7 @@ import SunIcon from '../../components/icons/Sunicon'
 import { Switch } from 'antd'
 import MoonIcon from '../../components/icons/Moonicon'
 import {Helmet} from "react-helmet";
+import Head from 'next/head'
 
 function Own() {
 
