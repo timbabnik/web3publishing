@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 
-function Writing({color, comment, desc, onClick, address}) {
+function Writing({color, comment, desc, onClick, address, stylee}) {
 
     const [border, setBorder] = useState(false);
 
   return (
 
-    <div onClick={onClick} className="writingThree" style={{borderWidth: border ? 1 : 1, borderColor: "lightgray"}}>
+    <div onClick={onClick} style={stylee} className="writingThree" style={{borderWidth: border ? 1 : 1, borderColor: "lightgray"}}>
         
             <div className="w-full flex flex-col">
               <div className="flex items-center pl-3  border-b border-gray-100 rounded-t-xl py-2 w-full">

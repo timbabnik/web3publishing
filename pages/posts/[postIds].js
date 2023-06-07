@@ -15,6 +15,9 @@ import Link from 'next/link'
 import Category from '../../components/Category'
 
 import { ConnectWallet, useAddress, useNetworkMismatch, ChainId, useChain, useChainId, useSwitchChain } from "@thirdweb-dev/react";
+import SunIcon from '../../components/icons/Sunicon'
+import { Switch } from 'antd'
+import MoonIcon from '../../components/icons/Moonicon'
 
 function Own() {
 
@@ -948,7 +951,36 @@ const fetchCategories = async () => {
         }
     }, [addressChain, switchChain, isWrongNetwork])
 
-   
+    const [isNightMode, setIsNightMode] = useState(false);
+
+  const toggleNightMode = () => {
+    setIsNightMode(!isNightMode);
+  };
+
+  const appStyle = {
+    backgroundColor: isNightMode ? '#1B1B1B' : '#fff',
+    color: isNightMode ? '#A0A0A0' : '#333',
+  };
+
+  const appStyleTwo = {
+    backgroundColor: isNightMode ? '#262626' : '#F3F3F3',
+    color: isNightMode ? '#757575' : '#666666',
+  };
+
+  const appStyleThree = {
+    backgroundColor: isNightMode ? '#2b2b2b' : '#F3F4F6',
+    color: isNightMode ? '#fff' : '#000000',
+  };
+
+  const appStyleFour = {
+    backgroundColor: isNightMode ? '#383838' : '#E5E7EB',
+    color: isNightMode ? '#fff' : '#000000',
+  };
+
+  const appStyleFive = {
+    backgroundColor: isNightMode ? '#525252' : '#E5E7EB',
+    color: isNightMode ? '#fff' : '#000000',
+  };
   
 
   return (
@@ -1069,8 +1101,8 @@ const fetchCategories = async () => {
         </div>
       )}
         <div className="flex">
-            
-            <div className="middleTwo">
+        
+            <div className="middleTwo" style={appStyle}>
                 {/*<div className="absolute right-3 top-3 flex">
                     {
                         accounts ? (
@@ -1093,6 +1125,14 @@ const fetchCategories = async () => {
                     
                 </div>
                 </Link>
+                <div className="flex items-center right-5 top-5 absolute">
+                <SunIcon />
+      <label className="toggle-switch">
+      <input type="checkbox" checked={isNightMode} onChange={toggleNightMode} />
+      <span className="switch" />
+    </label>
+      <MoonIcon />
+                </div>
                 <div className="mainMiddleTwo">
                     <div className="width">
                     <img src={getAllInfo.slika} className=" w-full rounded-xl" />
@@ -1107,7 +1147,7 @@ const fetchCategories = async () => {
                         <div className="flex flex-col">
                             <div className="flex items-center">
                             <p className="mt-20 text-center rounded-full text-gray-500 p-1 text-md mr-2">Creator:</p>
-                            <a target="_blank" href={`http://etherscan.io/address/${getAllInfo.address}`}  className="textCreator">{getAllInfo.address}</a>
+                            <a target="_blank" href={`http://etherscan.io/address/${getAllInfo.address}`} style={appStyleTwo}  className="textCreator">{getAllInfo.address}</a>
                             </div>
                             <div className="flex mt-6">
                                 {
@@ -1121,7 +1161,7 @@ const fetchCategories = async () => {
                             <div className="flex flex-col">
                             {
                                 owners.map((data, index) => {
-                                    return <a target="_blank" href={`http://etherscan.io/address/${data.data.address}`} key={index} className="bg-gray-100 mb-3 text-center rounded-full text-gray-500 p-2 text-sm mr-2 hover:bg-gray-200 hover:cursor-pointer">{data.data.address}</a>
+                                    return <a style={appStyleTwo} target="_blank" href={`http://etherscan.io/address/${data.data.address}`} key={index} className="bg-gray-100 mb-3 text-center rounded-full text-gray-500 p-2 text-sm mr-2 hover:bg-gray-200 hover:cursor-pointer">{data.data.address}</a>
                                 })
                             }
                             </div>
@@ -1140,10 +1180,10 @@ const fetchCategories = async () => {
                     </div>
                     {
                         writings.map((data, index) => {
-                            return <p key={index} dangerouslySetInnerHTML={{__html:data.writings}} className="text-lg text-[#323232] mt-10" style={{borderLeftColor: data.co ? "lightblue" : "white", borderLeftWidth: 2, paddingLeft: data.co ? 10 : 0, paddingBottom: data.co ? 5 : 0}}></p>
+                            return <p key={index} dangerouslySetInnerHTML={{__html:data.writings}} style={appStyle} className="text-lg text-[#323232] mt-10" ></p>
                         })
                     }
-                    <p  dangerouslySetInnerHTML={{__html:getAllInfo.writings}} className="text-lg text-[#323232] mt-10" ></p>
+                    <p  dangerouslySetInnerHTML={{__html:getAllInfo.writings}} style={appStyle} className="text-lg text-[#323232] mt-10" ></p>
                     {
                         writingsAdd.map((data, index) => {
                             return <div style={{borderLeftColor: data.co ? "lightblue" : "white", borderLeftWidth: 1, paddingLeft: data.co ? 10 : 0, paddingBottom: data.co ? 5 : 0}}>
@@ -1174,13 +1214,13 @@ const fetchCategories = async () => {
                         </div> : null}*/}
                     </div>
                     {/*<div onClick={handleMint} className="px-16 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg w-40 flex justify-center items-center text-white mt-14 hover:cursor-pointer">Collect</div>*/}
-                    <div className="collect">
+                    <div className="collect" style={appStyleThree}>
                         <div className="collectWidth">
-                          <div className="bg-gray-200 rounded-lg p-4">
+                          <div className="bg-gray-200 rounded-lg p-4" style={appStyleFour}>
                             <p className="font-bold text-xl">0.00 ETH</p>
                             <p className="text-sm text-gray-500">FREE</p>
                           </div>
-                          <div className="bg-gray-200 rounded-lg p-4 mt-5">
+                          <div className="bg-gray-200 rounded-lg p-4 mt-5" style={appStyleFour}>
                             {
                                 accounts ? (
                                     <p className="font-bold text-xl">/</p>
@@ -1199,12 +1239,12 @@ const fetchCategories = async () => {
                         
                     </div>
                     
-                    <div className="bg-gray-100 w-full mt-4 rounded-lg py-4 flex justify-between items-center">
+                    <div style={appStyleThree} className="bg-gray-100 w-full mt-4 rounded-lg py-4 flex justify-between items-center">
                         <div>
                         <div className="ml-5 font-bold">Collect this post</div>
                         <div className="ml-5 text-sm text-gray-600">{getAllInfo.title}</div>
                         </div>
-                        <div onClick={handleDarkOverlayClickTwo} className="mr-5 bg-gray-200 p-2 px-7 rounded-lg hover:bg-gray-300 text-gray-600 cursor-pointer hover:px-8 transition-all">Free</div>
+                        <div style={appStyleFive} onClick={handleDarkOverlayClickTwo} className="mr-5 bg-gray-200 p-2 px-7 rounded-lg hover:bg-gray-300 text-gray-600 cursor-pointer hover:px-8 transition-all">Free</div>
                     </div>
                     <div className="text-center mt-20 border-t border-gray-200 pt-10 flex flex-col items-center justify-center">
                         <p className="text-sm text-gray-500">Don`t have Goerli?</p>
@@ -1235,7 +1275,7 @@ const fetchCategories = async () => {
                                 <div className="inputComment">
                                     { accounts ? (
                                     <>
-                                    <p className="text-3xl">Join the discussion</p>
+                                    <p className="text-3xl text-black">Join the discussion</p>
                                     <div className="w-full mt-12">
                                         <div className="flex items-center">
                                             {
