@@ -18,6 +18,7 @@ import { ConnectWallet, useAddress, useNetworkMismatch, ChainId, useChain, useCh
 import SunIcon from '../../components/icons/Sunicon'
 import { Switch } from 'antd'
 import MoonIcon from '../../components/icons/Moonicon'
+import {Helmet} from "react-helmet";
 
 function Own() {
 
@@ -985,6 +986,9 @@ const fetchCategories = async () => {
 
   return (
     <div className="">
+        <Helmet>
+            <meta property="og:image" content={getAllInfo.slika} />
+        </Helmet>
         <div>
       {isDarkOverlayVisible && (
         <div
