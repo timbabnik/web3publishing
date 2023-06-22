@@ -23,7 +23,7 @@ function Blogs({onClick}) {
 
 
 
-        <div className="flex items-center  justify-between mt-32 bg-[#152e41] p-12 rounded-xl" className="widthMain" >
+        <div className="widthMain" >
                 <div className="mint">
                     <img src="https://i.postimg.cc/02HwzXqj/bm-Ba6tj3-E7zj-ZKSJoq-F3-2-8fnt1.jpg" alt="Your Image" className="mintPhoto" />
                     <div className="absolute text-white text-lg font-bold w-60 text-center">Collect random thoughts, writings, quotes from the author</div>
