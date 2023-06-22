@@ -525,6 +525,7 @@
 .topic {
     display: flex;
     margin-top: 80px;
+    width: 100%;
 }
 
 .imageMain {
@@ -840,6 +841,109 @@
   }
 
 
+  .widthMain {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 102px;
+    background-color: #152e41;
+    padding: 50px;
+    border-radius: 10px;
+    width: 100%;
+  }
+
+  .widthMainTwo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 102px;
+    background-color: #06141f;
+    padding: 50px;
+    border-radius: 10px;
+    width: 100%;
+  }
+
+  .upperMain {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .monetize {
+    display: flex;
+    align-items: center;
+    margin-left: 0px;
+  }
+  
+  
+
+  .upperMain {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mainnn {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .textSize {
+    color: white;
+    font-weight: lighter;
+    margin-top: 10px;
+    font-size: 20px;
+    width: 550px;
+  }
+
+
+  .marginleft {
+    height: 40px;
+    width: 40px;
+    background-color: #4E80EE;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .marginleftt {
+    height: 40px;
+    width: 40px;
+    background-color: #FFDFBA;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mintPhoto {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+
+  .mint {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 370px;
+    height: 370px;
+    border-radius: 10px;
+  }
+
+  .sizeTwo {
+    width: 300px;
+    margin-top: 50px;
+}
+
+
+.textBlog {
+ margin-left: 30px;
+ justify-content: end;
+ display: flex;
+}
 
 
 
@@ -872,9 +976,81 @@
         flex-direction: column;
     }
 
+    
    
     
     
+}
+
+
+@media (max-width: 1200px) {
+    .widthMain {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 102px;
+        background-color: #152e41;
+        padding: 50px;
+        border-radius: 10px;
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .widthMainTwo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 102px;
+        background-color: #06141f;
+        padding: 50px;
+        border-radius: 10px;
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .upperMain {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+      }
+
+      .monetize {
+        display: flex;
+        align-items: center;
+        margin-top: 80px;
+      }
+
+      .upperMainn {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .mainnn {
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .textSize {
+        color: white;
+        font-weight: lighter;
+        margin-top: 10px;
+        font-size: 20px;
+        width: 90%;
+      }
+
+      .monetizee {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin-left: 0px;
+      }
+
+      
+
+      
 }
 
 @media (max-width: 1000px) {
@@ -937,7 +1113,7 @@
 
 .most {
     margin-top: 50px;
-    width: 100%;
+    width: 90%;
     padding-top: 20px;
     border-top-width: 0.5px;
     border-color: rgb(214, 214, 214);
@@ -1031,10 +1207,36 @@
 }
 
 
+.marginleft {
+    height: 40px;
+    width: 50px;
+    background-color: #4E80EE;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0px;
+  }
+
+  .textSize {
+    color: white;
+    font-weight: lighter;
+    margin-top: 10px;
+    font-size: 12px;
+    width: 90%;
+  }
 
 
-
-
+  .marginleftt {
+    height: 40px;
+    width: 50px;
+    background-color: #FFDFBA;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0px;
+  }
 
 }
 
@@ -1124,8 +1326,27 @@
         flex-direction: column;
     }
 
-    
+    .mintPhoto {
+        width: 300px;
+        border-radius: 10px;
+      }
 
+    
+      .size {
+          width: 300px;
+      }
+
+      .sizeTwo {
+        width: 300px;
+        margin-top: 0px;
+    }
+
+    .textBlog {
+        margin-top: 30px;
+        margin-left: 0px;
+        justify-content: end;
+        display: flex;
+       }
     
 }
 

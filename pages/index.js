@@ -13,6 +13,7 @@ import Blogs from '../components/Blogs'
 import Writing from '../components/Writing'
 import WritingTwo from '../components/WritingTwo'
 import Link from 'next/link'
+import Gold from "../components/Gold"
 
 
 const projectId = '2JyR9CgkNwhqTpEUk0SMTqE733d';
@@ -215,7 +216,7 @@ function handleHighlight(event) {
 
   return (
     <div className="homepage">
-      <div className="bg-[#12333a] pb-52 w-full">
+      <div className="bg-[#1B3950] pb-52 w-full">
         <div className="w-full h-20 justify-between flex p-6 items-center pt-12">
           <div className="flex items-center">
             <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-14 flex justify-center items-center text-2xl font-light p-3" />
@@ -231,12 +232,7 @@ function handleHighlight(event) {
                             </div>
                             </div>
                             
-                        ) : <Link href="/account">
-                        <div  className="metamask">
-                                
-                                <p className="text-sm font-bold ml-0 text-[#FFDFBA] uppercase border-[#b1ada9] border rounded-lg p-4">Write your first post</p>
-                            </div>
-                        </Link>
+                        ) : <></>
                     }
                     
           </div>
@@ -248,7 +244,7 @@ function handleHighlight(event) {
         <div className="most">
           <Link href="/posts/ikkdc0JAMGimzcAVCbyX">
           <div className="topic">
-            <div className="flex ml-10">
+            <div className="flex ml-0">
               <div className="h-20 w-20"></div>
               <img src="https://i.postimg.cc/1Xjj8dMQ/Group-21-2.png" className="h-20 w-20 rounded-xl" />
               <div className="ml-4">
@@ -256,14 +252,14 @@ function handleHighlight(event) {
                   <p className="text-xs font-light ml-1 mt-3">{addressTopics[0].slice(0,4)}...{addressTopics[0].slice(addressTopics[0].length - 4, addressTopics[0].length)}</p>
               </div>
             </div>
-              <div className="ml-4 justify-end flex">
-                <p className="text-md font-light ml-10 w-full">The Decentralized Autonomous Organization, or DAO, is a relatively new concept that has emerged in the world of blockchain technology. At its core, the DAO is a decentralized entity that operates through a series of smart contracts, allowing for decision-making to be distributed among all members rather than being centralized ...</p>
+              <div className="textBlog">
+                <p className="text-md font-light ml-0 w-full">The Decentralized Autonomous Organization, or DAO, is a relatively new concept that has emerged in the world of blockchain technology. At its core, the DAO is a decentralized entity that operates through a series of smart contracts, allowing for decision-making to be distributed among all members rather than being centralized ...</p>
               </div>
           </div>
           </Link>
           <Link href="/posts/q1dprUJAp1GCt40caHoW">
           <div className="topic">
-            <div className="flex ml-10">
+            <div className="flex ml-0">
               <div className="h-20 w-20 rounded-xl"></div>
               <img src="https://i.postimg.cc/h4XWB82B/Group-22-2.png" className="h-20 w-20 rounded-xl" />
               <div className="ml-4">
@@ -271,15 +267,15 @@ function handleHighlight(event) {
                   <p className="text-xs font-light ml-1 mt-3">{addressTopics[1].slice(0,4)}...{addressTopics[1].slice(addressTopics[1].length - 4, addressTopics[1].length)}</p>
               </div>
             </div>
-              <div className="ml-4 justify-end flex">
-                <p className="text-md font-light ml-10 w-full">The Lindy Effect is a concept that has gained popularity in recent years, particularly in the world of business and investing. It is a theory that suggests that the longer something has been around, the more likely it is to continue to be around in the future. This can apply to a wide range of things, from technology to books to cultural phenomena.</p>
+              <div className="textBlog">
+                <p className="text-md font-light ml-0 w-full">The Lindy Effect is a concept that has gained popularity in recent years, particularly in the world of business and investing. It is a theory that suggests that the longer something has been around, the more likely it is to continue to be around in the future. This can apply to a wide range of things, from technology to books to cultural phenomena.</p>
               </div>
 
           </div>
           </Link>
           <Link href="/posts/mBucjcHUCENOixUZHA2i">
           <div className="topic">
-            <div className="flex ml-10">
+            <div className="flex ml-0">
               <div className="h-20 w-20 rounded-xl"></div>
               <img src="https://i.postimg.cc/zDbMMzfD/Group-23-2.png" className="h-20 w-20 rounded-xl" />
               <div className="ml-4">
@@ -287,15 +283,15 @@ function handleHighlight(event) {
                   <p className="text-xs font-light ml-1 mt-3">{addressTopics[2].slice(0,4)}...{addressTopics[2].slice(addressTopics[2].length - 4, addressTopics[2].length)}</p>
               </div>
             </div>
-              <div className="ml-4 justify-end flex">
-                <p className="text-md font-light ml-10 w-full">Zero-knowledge proofs (Zk-proofs) are a powerful cryptographic tool that allows two parties to interact with each other while preserving privacy. A Zk-proof enables one party to prove to another party that they know a secret value without revealing any information about that value. This technology has numerous applications in fields such as finance, voting systems, and identity management. In this blog post, we will explore some real-world examples of Zk-proofs.</p>
+              <div className="textBlog">
+                <p className="text-md font-light ml-0 w-full">Zero-knowledge proofs (Zk-proofs) are a powerful cryptographic tool that allows two parties to interact with each other while preserving privacy. A Zk-proof enables one party to prove to another party that they know a secret value without revealing any information about that value. This technology has numerous applications in fields such as finance, voting systems, and identity management. In this blog post, we will explore some real-world examples of Zk-proofs.</p>
               </div>
 
           </div>
           </Link>
           <Link href="/posts/q1jUo0rmwZWE48d3S13u">
           <div className="topic">
-            <div className="flex ml-10">
+            <div className="flex ml-0">
               <div className="h-20 w-20 rounded-xl"></div>
               <img src="https://i.postimg.cc/3JLvvTgp/Group-24-2.png" className="h-20 w-20 rounded-xl" />
               <div className="ml-4">
@@ -303,12 +299,81 @@ function handleHighlight(event) {
                   <p className="text-xs font-light ml-1 mt-3">{addressTopics[3].slice(0,4)}...{addressTopics[3].slice(addressTopics[3].length - 4, addressTopics[3].length)}</p>
               </div>
             </div>
-              <div className="ml-4 justify-end flex">
-                <p className="text-md font-light ml-10 w-full">Blockchain technology has been around for over a decade, and it has proven to be a powerful tool for a variety of applications. From supply chain management to digital identity, blockchain has disrupted traditional industries and provided new solutions to long-standing problems. However, there are still many aspects of blockchain that are not well understood, and there are ways in which it can be even more powerful than we currently realize. In this blog post, we will explore some of the reasons why blockchain technology is even more powerful than you might think.</p>
+              <div className="textBlog">
+                <p className="text-md font-light ml-0 w-full">Blockchain technology has been around for over a decade, and it has proven to be a powerful tool for a variety of applications. From supply chain management to digital identity, blockchain has disrupted traditional industries and provided new solutions to long-standing problems. However, there are still many aspects of blockchain that are not well understood, and there are ways in which it can be even more powerful than we currently realize. In this blog post, we will explore some of the reasons why blockchain technology is even more powerful than you might think.</p>
               </div>
 
           </div>
           </Link>
+        </div>
+        {/*<div className=" mt-32 w-full items-center justify-center flex flex-col bg-gradient-to-t from-[#152e41] to-[#20445f]">
+         <div className=" items-center flex flex-col" style={{width: 900}}>
+       <div className="flex items-center  justify-between w-full mt-32 bg-[#152e41] p-5 rounded-xl">
+       <div className="container flex justify-center items-center w-96 h-96 rounded-lg">
+                        <img src="https://i.postimg.cc/02HwzXqj/bm-Ba6tj3-E7zj-ZKSJoq-F3-2-8fnt1.jpg" alt="Your Image" className="w-full rounded-lg" />
+                        <div className="absolute text-white text-lg font-bold w-60 text-center">Collect random thoughts, writings, quotes from the author</div>
+                        </div>
+                        <div>
+                        <div className="flex items-center">
+                          <div className="h-10 w-10 bg-blue-500 rounded-md flex justify-center items-center">
+                            <img src="https://i.postimg.cc/hPZqVcrb/Logo-Makr-3-BE4yz.png" className="w-6" />
+                          </div>
+                        <p style={{width: 300}} className="text-3xl font-bold text-[#FFDFBA] ml-2">Monetize</p>
+                        </div>
+                        <p style={{width: 400}} className="text-md font-light mt-4 text-white">Monetize by selling collectable thoughts/quotes/ideas. Create unique NFTs with your writings on AI generative background.</p>
+                        <div className="flex items-center mt-14">
+                        <div className="h-10 w-10 bg-blue-500 rounded-md flex justify-center items-center">
+                            <img src="https://i.postimg.cc/hPZqVcrb/Logo-Makr-3-BE4yz.png" className="w-6" />
+                          </div>
+                        <p style={{width: 300}} className="text-3xl font-bold text-[#FFDFBA] ml-2">Monetize</p>
+                        </div>
+                        <p style={{width: 400}} className="text-md font-light mt-4 text-white">Monetize by selling collectable thoughts/quotes/ideas. Create unique NFTs with your writings on AI generative background.</p>
+                        </div>  
+                        
+       </div>
+       <div className="flex justify-between w-full mt-32">
+                        <div className="mt-14">
+                        <div className="flex items-center">
+                          <div className="h-10 w-10 bg-green-500 rounded-md flex justify-center items-center">
+                            <img src="https://i.postimg.cc/hPZqVcrb/Logo-Makr-3-BE4yz.png" className="w-6" />
+                          </div>
+                        <p style={{width: 300}} className="text-3xl font-bold text-[#FFDFBA] ml-2">Monetize</p>
+                        </div>
+                        <p style={{width: 400}} className="text-md font-light mt-4 text-white">Monetize by selling collectable thoughts/quotes/ideas. Create unique NFTs with your writings on AI generative background.</p>
+                        <div className="flex items-center mt-14">
+                          <div className="h-10 w-10 bg-green-500 rounded-md flex justify-center items-center">
+                            <img src="https://i.postimg.cc/hPZqVcrb/Logo-Makr-3-BE4yz.png" className="w-6" />
+                          </div>
+                        <p style={{width: 300}} className="text-3xl font-bold text-[#FFDFBA] ml-2">Monetize</p>
+                        </div>
+                        <p style={{width: 400}} className="text-md font-light mt-4 text-white">Monetize by selling collectable thoughts/quotes/ideas. Create unique NFTs with your writings on AI generative background.</p>
+                        </div>
+                        
+                        <div className="downWritingS">
+                        
+                        <div  className="writingThree" style={{borderWidth: 1, borderColor: "lightgray"}} >
+        
+            <div className="w-full flex flex-col" style={{width: 400}}>
+              <div className="flex items-center pl-3  border-b border-gray-100 rounded-t-xl py-2 w-full">
+                <div className="flex items-center">
+                  <div className="h-5 w-5 rounded-full bg-gray-800"></div>
+                  <p className="ml-1 text-xs text-gray-500">{"0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C".slice(0,4)}...{"0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C".slice("0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C".length - 4, "0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C".length)}</p>
+                </div>
+                <div className="px-3 ml-4 text-xs py-1 rounded-full" style={{background: "#FFDFBA", color: "black"}}>Comment</div>
+              </div>
+              <p className="ml-2 text-md text-gray-600 p-2 mr-10 mt-2 mb-5">DAOs should prioritize inclusivity and diversity. Ensuring that various perspectives and voices are represented in the decision-making process is essential to prevent concentration of power and promote fairness. DAOs should actively seek to include underrepresented groups and create mechanisms to ensure their meaningful participation.</p>
+            </div>
+        
+        
+    </div>
+                        <div className="downWritingSS">
+                    
+                        </div>
+                        
+                    </div>
+                        
+       </div>
+       </div>
         </div>
         <div className=" mt-32 w-full items-center justify-center flex flex-col bg-[#fafafa]">
           <img src="https://i.postimg.cc/RFYSTGYn/undraw-Mindfulness-g40v-2-removebg-preview.png" className="h-52 mt-20" />
@@ -318,7 +383,7 @@ function handleHighlight(event) {
             <div className="bg-[#FFDFBA] px-10 py-5 rounded-xl  justify-center items-center flex mx-3 font-bold hover:bg-[#f5cea2] hover:cursor-not-allowed">Let´s write</div>
           </div>
           
-        </div>
+        </div>/*}
         {/*
         <div className="article" style={{marginTop: 100}}>
           <div className="blogs">
@@ -379,85 +444,19 @@ function handleHighlight(event) {
         */}
         </div>
         <div ref={ref}></div>
-        <Explore/>
-        <div className="down">
-                        
-                        {
-                            unlocked ? ( 
-                                <>
-                                <div className="inputComment">
-                                    <p className="text-3xl">Join the discussion</p>
-                                    <div className="w-full mt-12">
-                                        <div className="flex items-center">
-                                            {
-                                                colored.map((data, index) => {
-                                                    return <div key={index} className={`text-xs border-[${data.color}] border rounded-full px-4 py-1 hover:cursor-pointer hover:bg-gray-200 mr-3`} style={{color: data.color}}>{data.type}</div>
-                                                })
-                                            }
-                                            {/*<div className="text-[#05ad5d] text-xs border-[#05ad5d] border rounded-full px-4 py-1 hover:cursor-pointer hover:bg-gray-200">Creative</div>
-                                            <div className="text-[#055fad] text-xs border-[#055fad] border rounded-full px-4 py-1 ml-2 hover:cursor-pointer hover:bg-gray-200">Character</div>
-                                        <div className="text-[#ff5c5c] text-xs border-[#ff5c5c] border rounded-full px-4 py-1 ml-2 hover:cursor-pointer hover:bg-gray-200">Comment</div>*/}
-                                        </div>
-                                        <input value={inputComment} onChangeCapture={(e) => setInputComment(e.target.value)} className="w-full h-10 bg-gray-50 border border-gray-200 rounded-full mt-4 pl-4 text-sm" />
-                                    </div>
-                                </div>
-                                 <div className="downWritin">
-                                    <div className="upper">
-                                      <div className="blogs">
-                                        <WritingTwo color={"#ff5c5c"} desc={"Comment"} comment={"Great blog! I'm really excited about the possibilities of web3 publishing. The ability to mint posts and collaborate with co-authors is a game-changer for content creators. I think one area where web3 publishing could improve is in making it more user-friendly for those who are not yet familiar with blockchain technology. It would be great to see more educational resources and tutorials available to help people get started."} address={"0x1b8163f3f7ae29af06c50df4ae5e0fe9375f8496"} />
-                                        <WritingTwo color={"#055fad"} desc={"Link"} comment={"Thanks for sharing this informative post! I love the idea of a decentralized publishing platform that empowers content creators and fosters collaboration. The mutual aid feature is especially interesting to me. It would be great to see more ways to support and reward content creators within the web3 ecosystem, perhaps through token-based incentives or other forms of community-driven funding"} address={"0x1b8163f3f7ae29af06c50df4ae5e0fe9375f8496"} />
-                                      </div>
-                                      <div className="blogs">
-                                        <WritingTwo color={"#05ad5d"} desc={"Add something"} comment={"I really enjoyed reading about the potential of web3 publishing. The mintable posts and co-authoring features sound like a great way to encourage collaboration and creativity. One suggestion I have for improving web3 publishing is to make it more accessible to a wider range of content creators, especially those from underrepresented communities. This could involve partnering with community organizations or offering grants and other forms of support to help emerging artists and writers get their work out there."} address={"0x1b8163f3f7ae29af06c50df4ae5e0fe9375f8496"} />
-                                        <WritingTwo comment={"This blog post is a fantastic overview of the benefits of web3 publishing! I'm especially excited about the potential for mutual aid and support within the platform. One area where web3 publishing could improve is in providing more opportunities for feedback and critique. While collaboration is great, sometimes it can be helpful to get a fresh perspective from someone outside your immediate circle. It would be great to see more tools and resources for peer review and constructive criticism within the platform."} address={"0x1b8163f3f7ae29af06c50df4ae5e0fe9375f8496"} />
-                                      </div>
-                                    </div>         
-                        
-                        </div>
-                                </>
-                            ) : (
-                                <div className="downWriting">
-                                    <p></p>
-                                    {
-                                        accounts ? (
-                                            <div onClick={() => setUnlocked(true)} className="bg-gray-400 text-white px-10 py-4 rounded-lg hover:cursor-pointer hover:bg-gray-500">Unlock</div>
-                                        ) : (
-                                            <div onClick={connectMetamask} className="bg-gray-300 rounded-lg justify-center flex p-2 items-center hover:cursor-pointer hover:bg-gray-200">
-                                                <img className="w-8" src="https://i.postimg.cc/mrT1hFKC/Meta-Mask-Fox-svg-2.png" />
-                                                <p className="text-sm font-bold ml-1">Unlock gated content</p>
-                                            </div>
-                                        )
-                                    }
-                                    
-                                    <div className="upper">
-                                      <div className="blogs">
-                                        <Writing desc={"Comment"} color={"gray"} comment={"Great Job Great Job Great Job Great Job Great Job Great Job Great Job Great Job"} />
-                                        <Writing desc={"Link"} color={"gray"} comment={"Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"} />
-                                      </div>
-                                      <div className="blogs">
-                                        <Writing desc={"Add something"} color={"gray"} comment={"ojla ojla ojla ojla ojla ojla ojla"} />
-                                        <Writing desc={"Comment"} color={"gray"} comment={"fasdfasdf fasdfasdf fasdfasdf fasdfasdf fasdfasdf fasdfasdf fasdfasdf fasdfasdf fasdfasdf fasdfasdf fasdfasdf"} />
-                                      </div>
-                                    </div>
-                                </div>
-                            )
-                        }
-                       
-                    </div>
-                    <div className="w-full h-28 bg-gradient-to-b from-[#eeeeee] to-white"></div>
+        {/*<Explore/>*/}
         
-        
-        <div className="h-32"></div>
-        <div className="flex justify-center items-center">
-          <p className="text-[#33626d] pb-40 text-6xl font-bold text-center w-2/3">"Web3 Publishing - Unleashing Your Content's Potential."</p>
-        </div>
+                    
         {/*<div>
       <p onMouseUp={handleHighlight}>
         This is a paragraph. Highlight any word to see it in the state.
       </p>
       <p>Highlighted word: {highlightedWord}</p>
         </div>*/}
-        <div className="w-full h-8 bg-gray-100"></div>
+        <div className="w-full bg-gray-300 mt-52 h-44 items-center flex justify-center flex-col">
+          <p className="text-xl text-center w-full">Currently only selected writers can use our platform. If you are a writer contact us here:</p>
+          <p className="text-xl">alwrite.publishing@gmail.com</p>
+        </div>
         {
           createNew ? (
               <div className="mt-10 flex flex-col">
