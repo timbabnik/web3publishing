@@ -222,25 +222,7 @@ function handleHighlight(event) {
             <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-14 flex justify-center items-center text-2xl font-light p-3" />
             <p className="text-4xl font-thin text-[#FFDFBA]">alwrite</p>
           </div>
-          <div className="flex items-center">
-          {
-                        accounts ? (
-                            <div onClick={accounts[0] == "0x1b8163f3f7ae29af06c50df4ae5e0fe9375f8496" ? () => setCreateNew(true) : null} className="flex items-center border-[#FFDFBA] border p-3 rounded-2xl hover:bg-black hover:cursor-pointer">
-                            <div className="w-6 h-6 rounded-full bg-[#FFDFBA]"></div>
-                            <div>
-                                <p className="ml-2 text-sm text-[#FFDFBA]">{accounts[0].slice(0,4)}...{accounts[0].slice(accounts[0].length - 4, accounts[0].length)}</p>
-                            </div>
-                            </div>
-                            
-                        ) : <Link href="/account">
-                        <div  className="metamask">
-                                
-                                <p className="text-sm font-bold ml-0 text-[#FFDFBA] uppercase border-[#b1ada9] border rounded-lg p-4">Write your first post</p>
-                            </div>
-                        </Link>
-                    }
-                    
-          </div>
+          
         </div>
         <Blogs onClick={handleClick} />
         </div>

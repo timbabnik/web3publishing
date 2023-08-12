@@ -137,6 +137,7 @@ const addTest = () => {
 }
 
 const handleUploadToIPFS = async () => {
+  handleDarkOverlayClick();
   setIsLoadingTwo(true);
   connectMetamask();
 const canvas = canvasRef.current;
@@ -253,6 +254,10 @@ async function mainTwo() {
 
   setIsLoading(false);
   setHome(true);
+
+  //alert("Successful");
+  //setIsDarkOverlayVisible(false);
+  //setSignature("");
 }
 
 async function replacePeriodsWithLineBreaks() {
@@ -352,7 +357,13 @@ const firstNFT = () => {
 
 
 
-
+const ifFirst = () => {
+  if (title) {
+    handleUploadToIPFSfirst();
+  } else {
+    alert("You need to have a title of your post");
+  }
+}
 
 
 const handleUploadToIPFSfirst = async () => {
@@ -525,7 +536,7 @@ async function handleMint() {
           signer
       );
       try {
-          const response = await contract.getMessageHash(["0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496", 2, true, "test1", 1, true, 5, true, "test2", 2]);
+          const response = await contract.getMessageHash([accounts[0], Math.floor(Math.random() * 10000), firstCheck, imageTwo, Math.floor(Math.random() * 10000), secondCheck, 5, thirdCheck, imageThree, Math.floor(Math.random() * 10000)]);
           const neki = ethereum.request({method: "personal_sign", params: [accounts[0], response]})
             // 👇️ Example promise
           const p = Promise.resolve(neki);
@@ -574,7 +585,7 @@ p.then(value => {
                                 <p className="ml-2 text-sm">{accounts[0].slice(0,4)}...{accounts[0].slice(accounts[0].length - 4, accounts[0].length)}</p>
                             </div>
                             </>
-                        ) : <div onClick={handleDarkOverlayClick} className="border-gray-500 border text-gray-500 rounded-lg justify-center flex p-2 items-center hover:cursor-pointer hover:bg-gray-200">
+                        ) : <div onClick={connectMetamask} className="border-gray-500 border text-gray-500 rounded-lg justify-center flex p-2 items-center hover:cursor-pointer hover:bg-gray-200">
                                 <img className="w-6" src="https://i.postimg.cc/mrT1hFKC/Meta-Mask-Fox-svg-2.png" />
                                 <p className="text-xs font-bold ml-1">Connect Metamask</p>
                             </div>
@@ -624,7 +635,7 @@ p.then(value => {
           <div className="bg-white p-8 rounded-lg relative pl-10 pr-10">
             <p onClick={() => console.log(signature)} className="border-b border-gray-100 w-full pb-4 text-xl">Award your fans</p>
             <img onClick={handleDarkOverlayClick} src="https://i.postimg.cc/gJSYJMXn/Logo-Makr-2-YVf-U2.png" className="absolute top-4 right-4 h-8 hover:cursor-pointer" />
-            <div onClick={handleUploadToIPFSfirst} className="justify-between flex items-center bg-gray-50 p-5 rounded-lg mt-12 cursor-pointer hover:bg-gray-100">
+            <div onClick={ifFirst} className="justify-between flex items-center bg-gray-50 p-5 rounded-lg mt-12 cursor-pointer hover:bg-gray-100">
               <div className="mt-0">
                 <h1 className="text-xl font-bold mt-0">First person that mints</h1>
                 <p className="mt-2 text-gray-500 w-96 text-sm">Create a One-of-One NFT for the first person that mints your collectable post</p>
