@@ -734,8 +734,19 @@
     font-size: 14px;
 }
 
+.textCreatorCo {
+    background-color: rgb(243, 243, 243);
+    margin-top: 0px;
+    text-align: center;
+    border-radius: 20px;
+    color: rgb(112, 112, 112);
+    padding: 8px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
 .textCreator:hover {
-    background-color: rgb(230, 230, 230);
+    background-color: rgb(163, 163, 163);
     margin-top: 80px;
     text-align: center;
     border-radius: 20px;
@@ -1376,7 +1387,16 @@
         font-size: 10px;
     }
     
-    
+    .textCreatorCo {
+        background-color: rgb(243, 243, 243);
+        margin-top: 0px;
+        text-align: center;
+        border-radius: 20px;
+        color: rgb(112, 112, 112);
+        padding: 8px;
+        font-size: 10px;
+        margin-bottom: 10px;
+    }
 
        
 }

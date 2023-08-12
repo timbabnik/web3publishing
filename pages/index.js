@@ -232,7 +232,12 @@ function handleHighlight(event) {
                             </div>
                             </div>
                             
-                        ) : <></>
+                        ) : <Link href="/account">
+                        <div  className="metamask">
+                                
+                                <p className="text-sm font-bold ml-0 text-[#FFDFBA] uppercase border-[#b1ada9] border rounded-lg p-4">Write your first post</p>
+                            </div>
+                        </Link>
                     }
                     
           </div>

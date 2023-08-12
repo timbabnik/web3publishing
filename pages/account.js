@@ -22,8 +22,8 @@ function account() {
 
     const [defaultSwitch, setDefaultSwitch] = useState(false); 
 
-    const [getCategory, setGetCategory] = useState("all");
-    const [getCategoryy, setGetCategoryy] = useState("random");
+    const [getCategory, setGetCategory] = useState("Random 🤘");
+    const [getCategoryy, setGetCategoryy] = useState("Random 🤘");
 
     const [allCategory, setAllCategory] = useState(true);
     const [image, setImage] = useState("");
@@ -33,6 +33,8 @@ function account() {
     const [price, setPrice] = useState(0);
 
     const [enable, setEnable] = useState("a");
+
+    const [gories, setGories] = useState([]);
 
     const canvasRef = useRef(null);
 
@@ -50,7 +52,7 @@ function account() {
       }
 
 
-    useEffect(() => {
+   {/* useEffect(() => {
 
         const fetchData = async () => {
             const ideasRef = collection(db, "accounts", id[0], "ideas");
@@ -86,7 +88,7 @@ function account() {
           
       
 
-    }, [refresh]);
+    }, [refresh]);*/}
 
     useEffect(() => {
 
@@ -98,6 +100,39 @@ function account() {
         }))))
 
     }, [refresh]);
+
+    useEffect(() => {
+
+     
+        
+          onSnapshot(collection(db, "accounts", id[0], "categories"),
+      
+      (snapshot) => setGories(snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+      }))))
+        
+      
+  
+    
+    }, [refresh]);
+
+
+    useEffect(() => {
+
+     
+        
+      onSnapshot(collection(db, "accounts", id[0], getCategory),
+  
+  (snapshot) => setIdeas(snapshot.docs.map((doc) => ({
+      id: doc.id,
+      data: doc.data(),
+  }))))
+    
+  
+
+
+}, [refresh]);
 
 
     const createDocumentAndGetId = async () => {
@@ -145,12 +180,13 @@ function account() {
 
     const deleteIdea = async(idd) => {
         const docRef = doc(db, 'accounts', id[0], getCategory, idd);
-        try {
-            await deleteDoc(docRef)
-            console.log("Entire Document has been deleted successfully.");
-        } catch(ex) {
-            console.log(ex); 
-        }
+        await deleteDoc(docRef)
+        .then(() => {
+            console.log(idd)
+        })
+        .catch(error => {
+            console.log(error);
+        })
 
         setRefresh(!refresh);
 
@@ -179,14 +215,6 @@ function account() {
         id: 1,
         category: "Random 🤘",
         name: "Random 🤘"
-    }, {
-        id: 2,
-        category: "Thoughts 🧠",
-        name: "thoughts"
-    },{
-        id: 3,
-        category: "Ideas 🔥",
-        name: "ideas"
     }];
 
 
@@ -223,6 +251,7 @@ function account() {
     const categoryChange = (id) => {
         setGetCategory(id)
         setRefresh(!refresh);
+        console.log(getCategory)
     }
 
     const categoryChangee = (id) => {
@@ -230,34 +259,12 @@ function account() {
         setRefresh(!refresh);
     }
 
-    const [gories, setGories] = useState([]);
+    
     const [goriesTwo, setGoriesTwo] = useState([]);
 
-    useEffect(() => {
-        // Initialize Firebase app
 
-    
-        // Retrieve categories from Firebase Firestore
-        const fetchCategories = async () => {
-            const ideasRef = collection(db, 'accounts', id[0], "ideas");
-            const snapshot = await getDocs(ideasRef);
-      
-            const categoriesSet = new Set();
-      
-            snapshot.docs.forEach((doc) => {
-              const category = doc.data().category; // Replace with your actual field name
-              if (category ) {
-                categoriesSet.add(category);
-              }
-            });
-      
-            const categoriesArray = Array.from(categoriesSet);
-            setGories(categoriesArray);
-          };
-      
 
-    fetchCategories();
-  }, [refresh]);
+ 
 
   useEffect(() => {
     // Initialize Firebase app
@@ -722,17 +729,17 @@ const generatePhoto = async () => {
                         <>
                         
                         <div className="flex mt-10 justify-center items-center">
-                        <div onClick={() => categoryChange("all")}  className={`border ${getCategory == "all" ? "border-black" : "border-[#EDEDED]"} bg-white text-[#A0A4AA] px-4 py-2 rounded-xl mx-2 hover:border-gray-400 hover:cursor-pointer`}>All 🔥</div>
+                        <div onClick={() => categoryChange("Random 🤘")}  className={`border ${getCategory == "Random 🤘" ? "border-black" : "border-[#EDEDED]"} bg-white text-[#A0A4AA] px-4 py-2 rounded-xl mx-2 hover:border-gray-400 hover:cursor-pointer`}>Random 🤘</div>
                                 {
                                     gories.map((data, index) => {
-                                        return <div onClick={() => categoryChange(data)} key={index} className={`border ${getCategory == data ? "border-black" : "border-[#EDEDED]"} bg-white text-[#A0A4AA] px-4 py-2 rounded-xl mx-2 hover:border-gray-400 hover:cursor-pointer`}>{data}</div>
+                                        return <div onClick={() => categoryChange(data.data.category)} key={index} className={`border ${getCategory == data ? "border-black" : "border-[#EDEDED]"} bg-white text-[#A0A4AA] px-4 py-2 rounded-xl mx-2 hover:border-gray-400 hover:cursor-pointer`}>{data.data.category}</div>
                                     })
                                 }
                                 
                             </div>
                         {
                             ideas.map((data, index) => {
-                                return <Idea color="white" click={() => setDeleteWarning(!deleteWarning)} deleteIdea={() => deleteIdea(data.id)} title={data.idea} key={index} categ={data.category} time={data.timestamp ? data.timestamp.toDate().toLocaleDateString() : ""                                } />
+                                return <Idea color="white" deleteIdea={() => deleteIdea(data.id)} title={data.data.idea} key={index} />
                             })
                         }
                         </>

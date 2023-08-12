@@ -352,24 +352,44 @@ const addNewMessage = async () => {
 }
 
 const addNewOwner = async () => {
-    if (accounts[0] == getAllInfo.address) {
-        addDoc(collection(db, "blogs", postIds, "owners"), {
-            address: getAddress,
-          });
-        setRandom(!random);
-        setAdd([]);
-     
-        addDoc(collection(db, "blogs", postIds, "more"), {
-            comment: add[0].comment,
-            desc: add[0].desc,
-            color: add[0].color,
-            address: getAddress,
-          });
-    } else {
-        alert("you are not the owner of this blog");
+
+    if (window.ethereum) {
+        const account = await window.ethereum.request({
+            method: "eth_requestAccounts",
+        })
+    setAccounts(account);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+        goerliAddress,
+        Alwrite.abi,
+        signer
+    );
+    try {
+        const response = contract.addAuthor(getAddress[0], getAllInfo.id);
+        console.log(response);
+        setUnlocked(true);
+
+        if (accounts[0] == getAllInfo.address) {
+            addDoc(collection(db, "blogs", postIds, "owners"), {
+                address: getAddress,
+              });
+            setRandom(!random);
+            setAdd([]);
+         
+            addDoc(collection(db, "blogs", postIds, "more"), {
+                comment: add[0].comment,
+                desc: add[0].desc,
+                color: add[0].color,
+                address: getAddress,
+              });
+        } else {
+            alert("you are not the owner of this blog");
+        }
+    } catch (err) {
+        console.log("error: ", err);
     }
-    
-    
+}    
     
 }
 
@@ -1166,7 +1186,7 @@ const fetchCategories = async () => {
                             <div className="flex flex-col">
                             {
                                 owners.map((data, index) => {
-                                    return <a style={appStyleTwo} target="_blank" href={`http://etherscan.io/address/${data.data.address}`} key={index} className="bg-gray-100 mb-3 text-center rounded-full text-gray-500 p-2 text-sm mr-2 hover:bg-gray-200 hover:cursor-pointer">{data.data.address}</a>
+                                    return <a style={appStyleTwo} target="_blank" href={`http://etherscan.io/address/${data.data.address}`} key={index} className="textCreatorCo">{data.data.address}</a>
                                 })
                             }
                             </div>
@@ -1243,7 +1263,38 @@ const fetchCategories = async () => {
                         </div>
                         
                     </div>
-                    
+                    <div className="bg-[#F3F4F6] mt-4 rounded-lg p-6">
+                        <div className="flex items-center justify-between">
+                            <div className="mt-2">
+                                <h1 className="text-xl text-black font-semibold">One of one NFT</h1>
+                                <p className="text-sm text-[#AFAFAF] mt-2">First person gets one of one collectable post</p>
+                            </div>
+                            <div className="flex items-center">
+                                <p className="font-semibold text-2xl mr-7 text-black border-r border-gray-300 pr-7">1/1</p>
+                                <img src="https://i.postimg.cc/VvxQ3L1t/5610944.png" className="w-8" />
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-between mt-8">
+                            <div className="mt-2">
+                                <h1 className="font-semibold text-xl text-black">5% royalties</h1>
+                                <p className="text-sm text-[#AFAFAF] mt-2">First 10 people gets 5% royalties of sales</p>
+                            </div>
+                            <div className="flex items-center">
+                                <p className="font-semibold text-2xl mr-7 text-black border-r border-gray-300 pr-7">4/10</p>
+                                <img src="https://i.postimg.cc/VvxQ3L1t/5610944.png" className="w-8" />
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-between mt-8 mb-4">
+                            <div className="mt-2">
+                                <h1 className="font-semibold text-xl text-black">Quote, thoughts, ideas</h1>
+                                <p className="text-sm text-[#AFAFAF] mt-2">First 100 people gets one of one collectable post</p>
+                            </div>
+                            <div className="flex items-center">
+                                <p className="font-semibold text-2xl mr-7 text-black border-r border-gray-300 pr-7">/</p>
+                                <div className="w-8 h-8 border-[#B3B3B3] border rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
                     <div style={appStyleThree} className="bg-gray-100 w-full mt-4 rounded-lg py-4 flex justify-between items-center">
                         <div>
                         <div className="ml-5 font-bold">Collect this post</div>
