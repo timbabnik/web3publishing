@@ -31,6 +31,7 @@ function Add() {
 
   const [inputTest, setInputTest] = useState("");
   const [title, setTitle] = useState("");
+  const [one, setOne] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingTwo, setIsLoadingTwo] = useState(false);
@@ -209,6 +210,8 @@ async function mainTwo() {
   setIsLoading(true);
   setConf("DONE ✅");
   const result = await client.add(JSON.stringify({image, price, title}))
+  const resultTwo = await client.add(JSON.stringify({imageTwo, price, one}))
+  const resultThree = await client.add(JSON.stringify({imageThree, price, input}))
   console.log(result);
 
   var textarea = document.getElementById("textarea");
@@ -222,7 +225,7 @@ async function mainTwo() {
   // Update the textarea with the new text
   textarea.value = text;
   
-  const docRef = await addDoc(collection(db, "blogs"), {
+  const docRef = await addDoc(collection(db, "zan"), {
     address: accounts[0],
     title: title,
     id: Math.floor(Math.random() * 10000),
@@ -230,12 +233,12 @@ async function mainTwo() {
     price: pricee,
     writings: text,
     oneofone: firstCheck,
-    urlOneofOne: imageTwo,
+    urlOneofOne: `https://timomarket.infura-ipfs.io/ipfs/${resultTwo.path}`,
     idOne: Math.floor(Math.random() * 10000),
     royalty: secondCheck,
     royaltyNumber: 5,
     quote: thirdCheck,
-    urlQuote: imageThree,
+    urlQuote: `https://timomarket.infura-ipfs.io/ipfs/${resultThree.path}`,
     idTwo: Math.floor(Math.random() * 10000),
     signature: signature
   });
@@ -255,9 +258,9 @@ async function mainTwo() {
   setIsLoading(false);
   setHome(true);
 
-  //alert("Successful");
-  //setIsDarkOverlayVisible(false);
-  //setSignature("");
+  alert("Successful");
+  setIsDarkOverlayVisible(false);
+  setSignature("");
 }
 
 async function replacePeriodsWithLineBreaks() {
@@ -595,14 +598,8 @@ p.then(value => {
       {
         publish ? (
           
-                <div onClick={mainTwo} disabled={!isLoading} className="absolute right-3 top-2 bg-[#33626d] p-3 px-10 rounded-xl hover:cursor-pointer hover:bg-[#204249]">
-                  {
-                    home ? (
-                      <Link href="/account"><p className="text-white">Go Home</p></Link>
-                    ) : (
-                      <>{isLoading ? <LoadingSpinner /> : <p className="text-white">{conf}</p>}</>
-                    )
-                  }
+                <div disabled={!isLoading} className="absolute right-3 top-2 bg-[#33626d] p-3 px-10 rounded-xl hover:cursor-pointer hover:bg-[#204249]">
+                  <Link href="/account"><p className="text-white">Go Home</p></Link>
                   
                   
                 </div>
