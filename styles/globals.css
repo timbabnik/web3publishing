@@ -465,7 +465,7 @@
 }
 
 .width {
-    width: 750px;
+    width: 850px;
 }
 
 .undertitle {
@@ -475,6 +475,17 @@
  margin-top: 10px;
  font-weight: 300;
 }
+
+.undertitleTwo {
+    width: 600px;
+    color: #bbe1ff;
+    font-size: 20px;
+    margin-top: 10px;
+    font-weight: 300;
+    font-weight: bold;
+   }
+
+
 
 .blogs {
     display: flex;
@@ -619,12 +630,13 @@
 
 .posts {
     background-color: rgb(243, 243, 243);
-    height: 55%;
+    height: 100%;
     display: flex;
     width: 100%;
     flex-direction: column;
     align-items: center;
     padding-top: 0px;
+    justify-content: center;
 }   
 
 .postsTwo {
@@ -868,7 +880,7 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 102px;
-    background-color: #06141f;
+    background-color: #0a2336;
     padding: 50px;
     border-radius: 10px;
     width: 100%;
@@ -929,6 +941,16 @@
     align-items: center;
   }
 
+  .mmarginleftt {
+    height: 40px;
+    width: 40px;
+    background-color: #67b0eb;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .mintPhoto {
     width: 100%;
     border-radius: 10px;
@@ -956,6 +978,41 @@
  display: flex;
 }
 
+.mintInfo {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.corner {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    background-color: #FFDFBA;
+    border-radius: 100%;
+    padding: 10px;
+    font-size: 40px;
+}
+
+.cornerTwo {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    background-color: #00B2FF;
+    border-radius: 100%;
+    padding: 10px;
+    font-size: 40px;
+}
+
+.cornerThree {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    background-color: #D67216;
+    border-radius: 100%;
+    padding: 10px;
+    font-size: 40px;
+}
 
 
 
@@ -1059,7 +1116,7 @@
         margin-left: 0px;
       }
 
-      
+     
 
       
 }
@@ -1084,6 +1141,18 @@
         text-align: center;
         padding: 20px
        }
+    
+       .undertitleTwo {
+        width: 100%;
+        color: #bbe1ff;
+        font-size: 15px;
+        margin-top: 10px;
+        font-weight: 300;
+        text-align: center;
+        padding: 20px;
+        font-weight: bold;
+       }
+       
 
     .allUp {
         align-items: center;
@@ -1166,7 +1235,7 @@
 
 .posts {
     background-color: rgb(243, 243, 243);
-    height: 60%;
+    height: 100%;
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -1248,6 +1317,13 @@
     align-items: center;
     margin-left: 0px;
   }
+
+  .mintInfo {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+    flex-direction: column;
+}
 
 }
 

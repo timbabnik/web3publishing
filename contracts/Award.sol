@@ -13,8 +13,8 @@ contract Award is ERC1155 {
     mapping(uint256 => string) private uris;
 
     address[] public neki = [0x617F2E2fD72FD9D5503197092aC168c91465E7f2, 0x17F6AD8Ef982297579C203069C1DbfFE4348c372, 0x5c6B0f7Bf3E7ce046039Bd8FABdfD3f9F5021678];
-    mapping(uint256 => uint256) public wallet;
-    uint256 public price = 10 ether;
+    mapping(address => uint256) public wallet;
+    uint256 public price = 0.001 ether;
 
     constructor() ERC1155("") {}
 
@@ -29,7 +29,7 @@ contract Award is ERC1155 {
         bool hundred;
         string uriSecond;
         uint secondId;
-        //bytes signature;
+        bytes signature;
     }
 
     struct VoucherTest {
@@ -56,9 +56,14 @@ contract Award is ERC1155 {
     }
 
     function getMessageHash(
-        Voucher calldata voucher
+        bool _first,
+        string memory _uriFirst,
+        bool _ten,
+        uint256 _percentage,
+        bool _hundred,
+        string memory _uriSecond
     ) public pure returns (bytes32) {
-        return keccak256(abi.encodePacked(voucher.first, voucher.uriFirst, voucher.ten, voucher.percentage, voucher.hundred, voucher.uriSecond));
+        return keccak256(abi.encodePacked(_first, _uriFirst, _ten, _percentage, _hundred, _uriSecond));
     }
 
      function getEthSignedMessageHash(
@@ -74,14 +79,22 @@ contract Award is ERC1155 {
             );
     }
 
-    /*function verify(
-        Voucher calldata voucher
+    function verify(
+        address _owner,
+        bool _first,
+        string memory _uriFirst,
+        bool _ten,
+        uint256 _percentage,
+        bool _hundred,
+        string memory _uriSecond,
+        bytes memory _signature
+
     ) public pure returns (bool) {
-        bytes32 messageHash = keccak256(abi.encodePacked(voucher.first, voucher.uriFirst, voucher.ten, voucher.percentage, voucher.hundred, voucher.uriSecond));
+        bytes32 messageHash = keccak256(abi.encodePacked(_first, _uriFirst, _ten, _percentage, _hundred, _uriSecond));
         bytes32 ethSignedMessageHash = getEthSignedMessageHash(messageHash);
 
-        return recoverSigner(ethSignedMessageHash, voucher.signature) == voucher.owner;
-    }*/
+        return recoverSigner(ethSignedMessageHash, _signature) == _owner;
+    }
 
     function recoverSigner(
         bytes32 _ethSignedMessageHash,
@@ -172,28 +185,75 @@ contract Award is ERC1155 {
         }
 
         if (totalSupplyOf[voucher.voucherId] >= 3) {
-            wallet[voucher.voucherId] += price;
+            wallet[voucher.owner] += price;
         }
         
         totalSupplyOf[voucher.voucherId]++;
     }
+
+
+    function mintTwo (
+        address _owner,
+        uint _id,
+        bool _first,
+        string memory _uriFirst,
+        uint _firstId,
+        bool _ten,
+        uint256 _percentage,
+        bool _hundred,
+        string memory _uriSecond,
+        uint _secondId,
+        bytes memory _signature
+    ) public payable {
+        //require(verify(_owner, _first, _uriFirst, _ten, _percentage, _hundred, _uriSecond, _signature));
+        //require(msg.value >= price, "Wrong price");
+        
+        if (totalSupplyOf[_id] == 0 && _first) {
+            _mint(msg.sender, _firstId, 1, "");
+            setTokenUri(_firstId, _uriFirst);
+        }
+        if (totalSupplyOf[_id] < 3 && _ten) {
+            require(isWhitelisted(_id), "Already minted");
+            newWhitelist[_id].push(msg.sender);
+        }
+         if (totalSupplyOf[_id] < 100 && _hundred) {
+            _mint(msg.sender, _secondId, 1, "");
+            setTokenUri(_secondId, _uriSecond);
+        }
+
+        if (totalSupplyOf[_id] >= 3) {
+            wallet[_owner] += price;
+        }
+        
+        totalSupplyOf[_id]++;
+    }
     
 
-    function withdraw(Voucher calldata voucher) public {
-        //require(verify(voucher));
-        //require(msg.sender == voucher.owner, "You are not the owner!");
+    function withdraw(
+        address _owner,
+        uint _id,
+        bool _first,
+        string memory _uriFirst,
+        bool _ten,
+        uint256 _percentage,
+        bool _hundred,
+        string memory _uriSecond,
+        bytes memory _signature
+    ) public {
+        require(verify(_owner, _first, _uriFirst, _ten, _percentage, _hundred, _uriSecond, _signature));
+        require(msg.sender == _owner, "You are not the owner!");
         
-        for (uint i = 0; i < newWhitelist[voucher.voucherId].length; i++) {
+        for (uint i = 0; i < newWhitelist[_id].length; i++) {
 
-            (bool success, ) = payable(newWhitelist[voucher.voucherId][i]).call{value: wallet[voucher.voucherId] * voucher.percentage / 100}("");
+            (bool success, ) = payable(newWhitelist[_id][i]).call{value: wallet[_owner] * _percentage / 100}("");
             require(success);
         }
 
         (bool su, ) = payable(msg.sender).call{value: address(this).balance}("");
         require(su);
 
-        wallet[voucher.voucherId] = 0;
-    }  
+        wallet[_owner] = 0;
+    } 
 
 
     /*function mintTwo() payable public {

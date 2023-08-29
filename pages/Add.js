@@ -40,19 +40,22 @@ function Add() {
 
   const [home, setHome] = useState(false);
 
-  const uploadToIPFS = async (event) => {
-    event.preventDefault()
-    const file = event.target.files[0]
-    if (typeof file !== 'undefined') {
-      try {
-        const result = await client.add(file)
-        console.log(result)
-        setImage(`https://timomarket.infura-ipfs.io/ipfs/${result.path}`)
-      } catch (error){
-        console.log("ipfs image upload error: ", error)
-      }
-    }
-  }
+  const [completed, setCompleted] = useState(false);
+
+  const [whitelist, setWhitelist] = useState(["0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C", "0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496"]);
+
+  const [isDarkOverlayVisible, setIsDarkOverlayVisible] = useState(false);
+  const [isDarkOverlayVisibleTwo, setIsDarkOverlayVisibleTwo] = useState(false);
+  const [isDarkOverlayVisibleThird, setIsDarkOverlayVisibleThird] = useState(false);
+  const [firstCheck, setFirstCheck] = useState(false);
+  const [secondCheck, setSecondCheck] = useState(false);
+  const [thirdCheck, setThirdCheck] = useState(false);
+  const [load, setLoad] = useState(false);
+  const [input, setInput] = useState("");
+  const [signature, setSignature] = useState("");
+  const [titleNFT, setTitleNFT] = useState("Prvi NFT test");
+
+  
 
   const projectId = '2JyR9CgkNwhqTpEUk0SMTqE733d';
   const projectSecret = '0f85d5460bbafd3f2aa6b79ceb46b03a';
@@ -68,74 +71,32 @@ function Add() {
   },
   });
 
-const SIGNING_DOMAIN_NAME = "Voucher-Domain"
-const SIGNING_DOMAIN_VERSION = "1"
-const chainId = 5
-const contractAddress = "0xB20b2FE19a03F21ffBc31735fBF384DDdBec2fa9" // Put the address here from remix
-const signerr = new ethers.Wallet("750340a0434805be897250489e813fa4ada53c2eff8b13f0a9f6888a5c4cfc41") // private key that I use for address 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
 
-async function handleMint() {
-  console.log("fasdf")
-  if (window.ethereum) {
-          const account = await window.ethereum.request({
-              method: "eth_requestAccounts",
-          })
-     
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      
-      const address = signer.getAddress();
-      
-      
-      console.log(address);
+
+
+
+
+
+
+
+
+// Publish function - Create Free NFT and open other options
+
+const publishPost = () => {
+  if (title) {
+    handleUploadToIPFS();
+  } else {
+    alert("You have to have a title");
   }
 }
 
-const domain = {
-  name: SIGNING_DOMAIN_NAME,
-  version: SIGNING_DOMAIN_VERSION,
-  verifyingContract: contractAddress,
-  chainId
-}
 
-async function main() {
-  const result = await client.add(JSON.stringify({image, pricee, namee, descriptionn}))
-  console.log(result);
-  const voucher = await createVoucher(tokenId, price, `https://timomarket.infura-ipfs.io/ipfs/${result.path}`) // the address is the address which receives the NFT
-  console.log(`[${voucher.tokenId}, ${voucher.price}, "${voucher.uri}", "${voucher.signature}"]`)
-  addDoc(collection(db, "blogs"), {
-    id: voucher.tokenId,
-    price: voucher.price,
-    image: voucher.uri,
-    signature: voucher.signature,
-    slika: image,
-    address: address,
-  });
-}
 
-async function createVoucher(tokenId, price, uri) {
-  const voucher = { tokenId, price, uri }
-  const types = {
-    LazyNFTVoucher: [
-      {name: "tokenId", type: "uint256"},
-      {name: "price", type: "uint256"},
-      {name: "uri", type: "string"},
-     
-    ]
-  }
 
-  const signature = await signerr._signTypedData(domain, types, voucher)
-  return {
-    ...voucher,
-    signature
-  }
-}
 
-const addTest = () => {
-  addDoc(collection(db, "test"), {
-    text: inputTest,
-  })
-}
+
+
+// You use this function in publishPost
 
 const handleUploadToIPFS = async () => {
   handleDarkOverlayClick();
@@ -206,7 +167,15 @@ img.onload = async () => {
   
 };
 
-async function mainTwo() {
+
+
+
+
+
+
+// Complete function - Add all data to firebase (including signature)
+
+async function completePublishing() {
   setIsLoading(true);
   setConf("DONE ✅");
   const result = await client.add(JSON.stringify({image, price, title}))
@@ -225,7 +194,7 @@ async function mainTwo() {
   // Update the textarea with the new text
   textarea.value = text;
   
-  const docRef = await addDoc(collection(db, "zan"), {
+  const docRef = await addDoc(collection(db, "blogs"), {
     address: accounts[0],
     title: title,
     id: Math.floor(Math.random() * 10000),
@@ -244,11 +213,9 @@ async function mainTwo() {
   });
 
   
-
   const docId = docRef.id;
   console.log('Document ID:', docId);
       
-          
 
   addDoc(collection(db, "accounts", accounts[0], "posts"), {
     id: docId,
@@ -261,31 +228,14 @@ async function mainTwo() {
   alert("Successful");
   setIsDarkOverlayVisible(false);
   setSignature("");
+  setCompleted(true);
 }
 
-async function replacePeriodsWithLineBreaks() {
 
-  
-  // Get the textarea element
-  var textarea = document.getElementById("textarea");
-  
-  // Get the text from the textarea
-  var text = textarea.value;
-  
-  // Replace periods with line breaks
-  text = text.replace(/\n/g, "</br>");
-  
-  // Update the textarea with the new text
-  textarea.value = text;
 
-  await handleUploadToIPFS();
 
-  addDoc(collection(db, "accounts", accounts[0], "posts"), {
-    title: title,
-    writings: text,
-  })
 
-}
+// Connect with Metamask
 
 const connectMetamask = async() => {
   if (window.ethereum) {
@@ -296,62 +246,30 @@ const connectMetamask = async() => {
   }
 }
 
-const neki = async () => {
-  await replacePeriodsWithLineBreaks();
-  
-}
 
 
-async function mainTwoTest() {
-  var textarea = document.getElementById("textarea");
-  
-  // Get the text from the textarea
-  var text = textarea.value;
-  
-  // Replace periods with line breaks
-  text = text.replace(/\n/g, "</br>");
-  
-  // Update the textarea with the new text
-  textarea.value = text;
-  
-  const docRef = await addDoc(collection(db, "blogs"), {
-    address: accounts[0],
-    title: title,
-    id: Math.floor(Math.random() * 10000),
-    price: pricee,
-    writings: text
-  });
-
-  const docId = docRef.id;
-  console.log('Document ID:', docId);  
-
-  addDoc(collection(db, "accounts", accounts[0], "posts"), {
-    id: docId,
-    title: title,
-  });
-}
 
 
-const [isDarkOverlayVisible, setIsDarkOverlayVisible] = useState(false);
-const [isDarkOverlayVisibleTwo, setIsDarkOverlayVisibleTwo] = useState(false);
-const [isDarkOverlayVisibleThird, setIsDarkOverlayVisibleThird] = useState(false);
-const [firstCheck, setFirstCheck] = useState(false);
-const [secondCheck, setSecondCheck] = useState(false);
-const [thirdCheck, setThirdCheck] = useState(false);
-const [load, setLoad] = useState(false);
-const [input, setInput] = useState("");
-const [signature, setSignature] = useState("");
-const [titleNFT, setTitleNFT] = useState("Prvi NFT test");
+// Award your fans overlay - Used inside handleUploadToIPFS and once to close the overlay
 
 function handleDarkOverlayClick() {
   setIsDarkOverlayVisible(!isDarkOverlayVisible);
   connectMetamask();
 }
 
+
+
+
+// Use this AI generative photo with your text on top of it
+
 const hundredNFT = () => {
   setThirdCheck(true);
   setIsDarkOverlayVisibleTwo(false);
 }
+
+
+
+// Check for One of One NFT
 
 const firstNFT = () => {
   setFirstCheck(true);
@@ -360,16 +278,21 @@ const firstNFT = () => {
 
 
 
+// Create One of One NFT for the first Minter
+
 const ifFirst = () => {
   if (title) {
-    handleUploadToIPFSfirst();
+    oneOfOneIPFS();
   } else {
     alert("You need to have a title of your post");
   }
 }
 
 
-const handleUploadToIPFSfirst = async () => {
+
+// Create One of One NFT used in ifFirst function
+
+const oneOfOneIPFS = async () => {
   setIsDarkOverlayVisibleThird(!isDarkOverlayVisibleThird)
   setIsLoadingTwo(true);
   connectMetamask();
@@ -395,7 +318,7 @@ img.onload = async () => {
   );
 
   ctx.font = `${titleFontSize}px Arial`;
-  ctx.fillStyle = "gold";
+  ctx.fillStyle = "#EBB40A";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
@@ -439,7 +362,10 @@ img.onload = async () => {
 };
 
 
-const handleUploadToIPFSsecond = async () => {
+
+// Create Quote, thoughts, ideas NFT with an AI generative background
+
+const ideasIPFS = async () => {
   setLoad(true);
 const canvas = canvasRef.current;
 const ctx = canvas.getContext("2d");
@@ -507,6 +433,10 @@ img.onload = async () => {
 };
 
 
+
+
+// Go back creating one more Quote, thoughts, ideas NFT
+
 const anotherAI = () => {
   setImageThree("");
   setThirdCheck(false);
@@ -515,14 +445,33 @@ const anotherAI = () => {
 
 
 
+// Smart contract address
 
 const addresss = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+
+
+
+// Provider for smart contract
 const providerr = "http://127.0.0.1:8545/";
 
-//const contractForNftt = new ethers.Contract(addresss, Award.abi, providerr); 
 
 
-async function handleMint() {
+
+// Check if the person that is creating new post is on the whitelist
+
+const whitelistChecker = () => {
+  for (let i = 0; i < whitelist.length ; i++) {
+    if (whitelist[i].toUpperCase() === accounts[0].toUpperCase()) {
+      mint();
+    }
+  }
+}
+
+
+
+// Create a signature
+
+async function mint() {
 
     
 
@@ -539,7 +488,7 @@ async function handleMint() {
           signer
       );
       try {
-          const response = await contract.getMessageHash([accounts[0], Math.floor(Math.random() * 10000), firstCheck, imageTwo, Math.floor(Math.random() * 10000), secondCheck, 5, thirdCheck, imageThree, Math.floor(Math.random() * 10000)]);
+          const response = await contract.getMessageHash(firstCheck, imageTwo, secondCheck, 5, thirdCheck, imageThree);
           const neki = ethereum.request({method: "personal_sign", params: [accounts[0], response]})
             // 👇️ Example promise
           const p = Promise.resolve(neki);
@@ -557,24 +506,6 @@ async function handleMint() {
   }
 }
 
-const consoleAll = () => {
-  console.log(accounts[0], Math.floor(Math.random() * 10000000), firstCheck, imageTwo, Math.floor(Math.random() * 10000000), secondCheck, 5, thirdCheck, imageThree, Math.floor(Math.random() * 10000000));
-}
-
-const signSig = () => {
-  const add = "0x1c5783DF9f12df79E1506FEe70e0DE7c2404903f";
-  const hash = "0xfdb44a80b5ecf556f15735b2a4403cb9cdf7461783cee2f293a9c21094ae5cee";
-  const neki = ethereum.request({method: "personal_sign", params: [accounts[0], hash]})
-  // 👇️ Example promise
-const p = Promise.resolve(neki);
-
-p.then(value => {
-  console.log(value); // 👉️ "bobbyhadz.com"
-}).catch(err => {
-  console.log(err);
-});
-
-}
 
 
   return (
@@ -596,7 +527,7 @@ p.then(value => {
                     
                 </div>
       {
-        publish ? (
+        completed ? (
           
                 <div disabled={!isLoading} className="absolute right-3 top-2 bg-[#33626d] p-3 px-10 rounded-xl hover:cursor-pointer hover:bg-[#204249]">
                   <Link href="/account"><p className="text-white">Go Home</p></Link>
@@ -605,7 +536,7 @@ p.then(value => {
                 </div>
           
         ) : (
-          <div onClick={handleUploadToIPFS} disabled={isLoadingTwo} className="absolute right-3 top-2 bg-[#536fca] p-3 px-10 rounded-xl hover:cursor-pointer hover:bg-[#1d2d63]">
+          <div onClick={publishPost} disabled={isLoadingTwo} className="absolute right-3 top-2 bg-[#536fca] p-3 px-10 rounded-xl hover:cursor-pointer hover:bg-[#1d2d63]">
             
             {isLoadingTwo ? <LoadingSpinner /> : <p className="text-white">Publish</p>}
           </div>
@@ -626,16 +557,16 @@ p.then(value => {
             signature ? (
               <div className="bg-white p-8 rounded-lg relative pl-10 pr-10">
                 <img src="https://i.postimg.cc/mDg9Z0X4/5610944.png" className="h-36 w-36 mt-20 ml-20 mr-20" />
-              <p onClick={mainTwo} className="text-center mt-10 text-xl mb-20 border-green-400 border-2 p-3 rounded-2xl text-green-400 hover:text-white hover:bg-green-400 cursor-pointer">Complete</p>
+              <p onClick={completePublishing} className="text-center mt-10 text-xl mb-20 border-green-400 border-2 p-3 rounded-2xl text-green-400 hover:text-white hover:bg-green-400 cursor-pointer">Complete</p>
               </div>
             ) : (
           <div className="bg-white p-8 rounded-lg relative pl-10 pr-10">
-            <p onClick={() => console.log(signature)} className="border-b border-gray-100 w-full pb-4 text-xl">Award your fans</p>
+            <p onClick={() => console.log(signature)} className="border-b border-gray-100 w-full pb-4 text-xl">How do you want to reward your fans?</p>
             <img onClick={handleDarkOverlayClick} src="https://i.postimg.cc/gJSYJMXn/Logo-Makr-2-YVf-U2.png" className="absolute top-4 right-4 h-8 hover:cursor-pointer" />
             <div onClick={ifFirst} className="justify-between flex items-center bg-gray-50 p-5 rounded-lg mt-12 cursor-pointer hover:bg-gray-100">
               <div className="mt-0">
-                <h1 className="text-xl font-bold mt-0">First person that mints</h1>
-                <p className="mt-2 text-gray-500 w-96 text-sm">Create a One-of-One NFT for the first person that mints your collectable post</p>
+                <h1 className="text-xl font-bold mt-0">One-of-One collectible post</h1>
+                <p className="mt-2 text-gray-500 w-96 text-sm">Create a One-of-One NFT for one of your fans that mints your collectible post.</p>
               </div>
               {
                 firstCheck ? (
@@ -648,8 +579,8 @@ p.then(value => {
             </div>
             <div onClick={() => setSecondCheck(!secondCheck)} className="justify-between flex items-center bg-gray-50 p-5 rounded-lg mt-8 cursor-pointer hover:bg-gray-100">
               <div className="mt-0">
-                <h1 className="text-xl font-bold mt-0">First ten people that mints </h1>
-                <p className="mt-2 text-gray-500 w-96 text-sm">Give 5% royalty (above 100 mints) to each of the first 10 people who mints your collectable post. </p>
+                <h1 className="text-xl font-bold mt-0">5% Royalties</h1>
+                <p className="mt-2 text-gray-500 w-96 text-sm">Ten people that mints collectible post also share 5% royalties of all the sales.</p>
               </div>
               {
                 secondCheck ? (
@@ -662,8 +593,8 @@ p.then(value => {
             </div>
             <div onClick={() => setIsDarkOverlayVisibleTwo(!isDarkOverlayVisibleTwo)} className="justify-between flex items-center bg-gray-50 p-5 rounded-lg mt-8 cursor-pointer hover:bg-gray-100 mb-10">
               <div className="mt-0">
-                <h1 className="text-xl font-bold mt-0">First hundred people that mints</h1>
-                <p className="mt-2 text-gray-500 w-96 text-sm">Create unique NFTs (collectable thoughts/quotes/ideas) with your writings on AI generative background.</p>
+                <h1 className="text-xl font-bold mt-0">Quote/thoughts/ideas NFT</h1>
+                <p className="mt-2 text-gray-500 w-96 text-sm">Create unique NFTs (collectable thoughts/quotes/ideas) with your writings on AI generated background.</p>
               </div>
               {
                 thirdCheck ? (
@@ -675,7 +606,7 @@ p.then(value => {
              
             </div>
             <div className="justify-end flex">
-            <div onClick={handleMint} className="bg-blue-500 text-white p-3 rounded-lg w-28 justify-center items-center flex hover:bg-blue-600 cursor-pointer">Done</div>
+            <div onClick={whitelistChecker} className="bg-blue-500 text-white p-3 rounded-lg w-28 justify-center items-center flex hover:bg-blue-600 cursor-pointer">Done</div>
             </div>
             
            
@@ -706,7 +637,14 @@ p.then(value => {
                 ) : (
                   <>
                     <textarea onChange={(e) => setInput(e.target.value)} className="textareaDiv" style={{width: 500}} placeholder="Write your thoughts ..."></textarea>
-                    <div onClick={handleUploadToIPFSsecond} className="bg-blue-400 text-white p-3 cursor-pointer pl-5 pr-5 rounded-full ml-3">Create</div>
+                    {
+                      load ? (
+                        <LoadingSpinner />
+                      ) : (
+                        <div onClick={ideasIPFS} className="bg-blue-400 text-white p-3 cursor-pointer pl-5 pr-5 rounded-full ml-3">Create</div>
+                      )
+                    }
+                   
                   </>
                 )
               }

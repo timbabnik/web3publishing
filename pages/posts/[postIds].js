@@ -20,6 +20,7 @@ import { Switch } from 'antd'
 import MoonIcon from '../../components/icons/Moonicon'
 import {Helmet} from "react-helmet";
 import Head from 'next/head'
+import Award from "../Award.json";
 
 function Own() {
 
@@ -73,175 +74,48 @@ function Own() {
     const [allIdeas, setAllIdeas] = useState([]);
     const [ideaChange, setIdeaChange] = useState(false);
 
+    const [mintNumber, setMintNumber] = useState(0);
+    const [firstCheck, setFirstCheck] = useState(false);
+    const [secondCheck, setSecondCheck] = useState(false);
+    const [thirdCheck, setThirdCheck] = useState(false);
+    const [royaltySilver, setRoyaltySilver] = useState(true);
+    const [royaltySilverTwo, setRoyaltySilverTwo] = useState(true);
+
+    const [firstMint, setFirstMint] = useState(true);
+    const [secondMint, setSecondMint] = useState(false);
+    const [thirdMint, setThirdMint] = useState(true);
+
+    const [youStartFirst, setYouStartFirst] = useState(true);
+
+    const [getInfo, setGetInfo] = useState([]);
+
+    const [getMintNumber, setGetMintNumber] = useState(0);
+
+    const [isDarkOverlayVisible, setIsDarkOverlayVisible] = useState(false);
+    const [isDarkOverlayVisibleTwo, setIsDarkOverlayVisibleTwo] = useState(false);
+    const [getNumber, setGetNumber] = useState("");
+
+    const [getCategories, setGetCategories] = useState([]);
+    const [randdd, setRanddd] = useState([]);
+
+    const [testZa, setTestZa] = useState("");
+    const [switchToOp, setSwitchToOp] = useState(false);
+    const [errorr, setErrorr] = useState();
+
+    const [changeNetNet, setChangeNetNet] = useState(false);
+    const [isNightMode, setIsNightMode] = useState(false);
+
+   
+
+  
+
     
-
-    const [all, setAll] = useState(
-        [{
-            id: 1,
-            address: "0xvasdfgsdf",
-            desc: "Creative",
-            color: "#05ad5d",
-            comment: "Great Job",
-        }, {
-            id: 2,
-            address: "fgsdfgsdfgsdfg",
-            desc: "Character",
-            color: "#055fad",
-            comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-        }, {
-            id: 3,
-            address: "hgjhkliuo76",
-            desc: "Creative",
-            color: "#05ad5d",
-            comment: "Great Job",
-        }, {
-            id: 4,
-            desc: "Character",
-            color: "#055fad",
-            comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-        }, {
-            id: 5,
-            desc: "Creative",
-            color: "#05ad5d",
-            comment: "Great Job",
-        }, {
-            id: 6,
-            desc: "Character",
-            color: "#055fad",
-            comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-        }, {
-            id: 7,
-            desc: "Creative",
-            color: "#05ad5d",
-            comment: "Great Job",
-        }, {
-            id: 8,
-            desc: "Character",
-            color: "#055fad",
-            comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-        }, {
-            id: 9,
-            desc: "Creative",
-            color: "#05ad5d",
-            comment: "Great Job",
-        }, {
-            id: 10,
-            desc: "Character",
-            color: "#055fad",
-            comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-        }, {
-            id: 11,
-            desc: "Creative",
-            color: "#05ad5d",
-            comment: "Great Job",
-        }, {
-            id: 12,
-            desc: "Character",
-            color: "#055fad",
-            comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-        } , {
-            id: 13,
-            desc: "Comment",
-            color: "#055fad",
-            comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-        }]);
-
-    const sendMessage = () => {
-        if (message == "") {
-            return;
-        } else {
-            setAllMessages([...allMessages, message]);
-            setMessage("");
-        }
-    }
-
-    const sendMessageTwo = () => {
-        if (messageTwo == "") {
-            return;
-        } else if (allMessagesTwo.length < 10) {
-            setAllMessagesTwo([...allMessagesTwo, messageTwo]);
-            setMessageTwo("");
-        }
-    }
 
  
-const calculate = () => {
-    const calcc = 3/8*100;
-    setCalc(calcc);
-    
-    
-}
 
 
-const comments = [{
-    id: 1,
-    address: "0xvasdfgsdf",
-    desc: "Creative",
-    color: "#05ad5d",
-    comment: "Great Job",
-}, {
-    id: 2,
-    address: "fgsdfgsdfgsdfg",
-    desc: "Character",
-    color: "#055fad",
-    comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-}, {
-    id: 3,
-    address: "hgjhkliuo76",
-    desc: "Creative",
-    color: "#05ad5d",
-    comment: "Great Job",
-}, {
-    id: 4,
-    desc: "Character",
-    color: "#055fad",
-    comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-}, {
-    id: 5,
-    desc: "Creative",
-    color: "#05ad5d",
-    comment: "Great Job",
-}, {
-    id: 6,
-    desc: "Character",
-    color: "#055fad",
-    comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-}, {
-    id: 7,
-    desc: "Creative",
-    color: "#05ad5d",
-    comment: "Great Job",
-}, {
-    id: 8,
-    desc: "Character",
-    color: "#055fad",
-    comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-}, {
-    id: 9,
-    desc: "Creative",
-    color: "#05ad5d",
-    comment: "Great Job",
-}, {
-    id: 10,
-    desc: "Character",
-    color: "#055fad",
-    comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-}, {
-    id: 11,
-    desc: "Creative",
-    color: "#05ad5d",
-    comment: "Great Job",
-}, {
-    id: 12,
-    desc: "Character",
-    color: "#055fad",
-    comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-} , {
-    id: 13,
-    desc: "Comment",
-    color: "#055fad",
-    comment: "Comment fasdf  asfasd fadfasdf adfasd fasdf asdfas dfas dfsdfsafasdfa sdf asfas fasdf asfasfdfasfsdffasdfasdf safasfsadfasdfasfasfad fasdfasdfasdfadfasdfasfsd fasdf   f"
-}]
+
+// Add co-author function - Not used currently
 
 const addTo = (e) => {
     if (add < 1 && accounts[0] == getAllInfo.address) {
@@ -257,18 +131,18 @@ const addTo = (e) => {
     
 }
 
+
+// Remove from adding a co-author function - Not used currently
+
 const removeFrom = (e) => {
     add.splice(e, 1);
     addresses.splice(e, 1);
     setRandom(!random);
 }
 
-const addToBlog = () => {
-    addresses.push(getAddress);
-    console.log(add[0].comment)
-    setRandom(!random);
-}
 
+
+// Colors of different comments categoris - Add something, Link, Comment
 
 const colored = [{
     id: 1,
@@ -284,22 +158,19 @@ const colored = [{
     type: "Comment",
 }, ]
 
-const addCommentNew = () => {
-    setAll([...all, {
-        comment: inputComment,
-        desc: selected,
-        color: getColor,
-        address: accounts,
-    }])
-    console.log(comments)
-    setRandom(!random);
-    setInputComment("");
-}
+
+
+
+// Get data for colored comments
 
 const getData = (e, i) => {
     setSelected(e);
     setGetColor(i);
 }
+
+
+
+// Connect with Metamask
 
 const connectMetamask = async() => {
     if (window.ethereum) {
@@ -307,38 +178,14 @@ const connectMetamask = async() => {
             method: "eth_requestAccounts",
         })
         setAccounts(account);
-        fetchData();
+        
     }
 }
 
-const fetchData = async () => {
-      
-    const docRef = doc(db, "blogs", postIds);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-    setTotalSupplyTwo(docSnap.data().id);
-    console.log(totalSupply);
-    } else {
-    // doc.data() will be undefined in this case
-    setSmartContract("No such document!");
-    }
-    
-    setRandom(!random);
-};
 
 
 
-const unlockContent = async() => {
-    if (window.ethereum) {
-        const account = await window.ethereum.request({
-            method: "eth_requestAccounts",
-        })
-        setAccounts(account);
-        setUnlocked(true);
-    }
-    
-}
+// Comment function
 
 const addNewMessage = async () => {
     addDoc(collection(db, "blogs", postIds, "comments"), {
@@ -350,6 +197,10 @@ const addNewMessage = async () => {
     setRandom(!random);
     setInputComment("");
 }
+
+
+
+// Add new co-author - Not used currently
 
 const addNewOwner = async () => {
 
@@ -393,127 +244,32 @@ const addNewOwner = async () => {
     
 }
 
-const addMore = async () => {
-    addDoc(collection(db, "blogs", idd, "more"), {
-        comment: inputComment,
-        desc: selected,
-        color: getColor,
-        address: accounts,
-      });
-    setRandom(!random);
-}
 
 
 
 
 
 
-let neki = "timo";
-
-
-
+// smart contract address
 
 const address = "0xB20b2FE19a03F21ffBc31735fBF384DDdBec2fa9";
 
 
-async function handleMintz() {
-    if (window.ethereum) {
-            const account = await window.ethereum.request({
-                method: "eth_requestAccounts",
-            })
-        setAccounts(account);
-        fetchData();
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(
-            address,
-            Lock.abi,
-            signer
-        );
-        try {
-            const response = await contract.mint([getAllInfo.id, getAllInfo.price, getAllInfo.image, getAllInfo.signature]);
-            console.log("response: ", response);
-            setUnlocked(true);
-        } catch (err) {
-            console.log("error: ", err);
-        }
-    }
-}
 
-async function handleMintMain() {
-    if (window.ethereum) {
-            const account = await window.ethereum.request({
-                method: "eth_requestAccounts",
-            })
-        setAccounts(account);
-        fetchData();
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(
-            address,
-            Lock.abi,
-            signer
-        );
-        try {
-            const response = await contract.mint(getAllInfo.id, getAllInfo.image, getAllInfo.address);
-            console.log("response: ", response);
-            setUnlocked(true);
-        } catch (err) {
-            console.log("error: ", err);
-        }
-    }
-}
 
-async function handleOwners() {
-    if (window.ethereum) {
-            const account = await window.ethereum.request({
-                method: "eth_requestAccounts",
-            })
-        setAccounts(account);
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(
-            address,
-            Lock.abi,
-            signer
-        );
-        try {
-            const response = await contract.addCoOwner(accounts[0]);
-            console.log("response: ", response);
-        } catch (err) {
-            console.log("error: ", err);
-        }
-    }
 
-    addNewOwner();
-}
 
 const router = useRouter();
 const { postIds } = router.query;
 
-  // useEffect will run on each render only if the `slug` changes,
-  // so on initial render once `useRouter` has the query then it'll run the effect
-  useEffect(() => {
-
-    const fetchData = async () => {
-      
-        onSnapshot(collection(db, "blogs", postIds, "title"),
-    
-        (snapshot) => setTitle(snapshot.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-        }))))
-      
-    };
-
-    if (postIds) {
-      fetchData();
-    }
-  }, [postIds]);
 
 
 
-  
+
+
+
+
+  // Get all the comments of this post
 
   useEffect(() => {
 
@@ -533,6 +289,11 @@ const { postIds } = router.query;
     }
   }, [postIds]);
 
+
+
+
+  // Get all the owners/authors of the post - Currentyl only one
+
   useEffect(() => {
 
     const fetchData = async () => {
@@ -550,6 +311,10 @@ const { postIds } = router.query;
       fetchData();
     }
   }, [postIds]);
+
+
+
+  // Comment added to the original post making the person who commented a co-author of the post - Not used currently
 
   useEffect(() => {
 
@@ -569,48 +334,13 @@ const { postIds } = router.query;
     }
   }, [postIds]);
 
-  useEffect(() => {
-
-    const fetchData = async () => {
-      
-        onSnapshot(collection(db, "blogs", postIds, "creator"),
-    
-    (snapshot) => setCreator(snapshot.docs.map((doc) => ({
-        id: doc.id,
-        data: doc.data(),
-    }))))
-      
-    };
-
-    if (postIds) {
-      fetchData();
-    }
-  }, [postIds]);
 
 
 
-  {/*useEffect(() => {
 
-    const fetchData = async () => {
-      
-        const docRef = doc(db, "blogs", postIds);
-        const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-        setTotalSupply(docSnap.data().id);
-        console.log("8");
-        } else {
-        // doc.data() will be undefined in this case
-        setSmartContract("No such document!");
-        }
-      
-    };
 
-    if (postIds) {
-      fetchData();
-    }
-  }, [postIds]);*/}
-
+  // Get writings for posts on homepage
 
   useEffect(() => {
 
@@ -635,6 +365,8 @@ const { postIds } = router.query;
 
 
 
+  // Get writings for all the posts except the posts on homepage
+
   useEffect(() => {
 
     const fetchData = async () => {
@@ -657,16 +389,19 @@ const { postIds } = router.query;
 
 
 
-const testttt = () => {
-    setQuerey(router.query.postIds);
-    console.log(querey);
-    setRandom(!random);
-}
 
 
+
+// Interact with smart contract info
 
 const provider = new ethers.providers.JsonRpcProvider("https://eth-goerli.g.alchemy.com/v2/C3B22DW-WlW_J0xdDCASSMsDnlvLKTVP")
 const contractForNft = new ethers.Contract(address, Alwrite.abi, provider); 
+
+
+
+
+
+// Unlock gated content - Not used currently
 
 const unlockGated = async () => {
     const first = await contractForNft.balanceOf(accounts[0], getAllInfo.id);
@@ -677,35 +412,11 @@ const unlockGated = async () => {
     }
 }
 
-{/*useEffect(() => {
-    
-    const neki = async () => {
-        const getTotalSupply =  await contractForNft.posts(50);
-        console.log(ethers.utils.formatEther(getTotalSupply)* (10 ** 18)) 
-    }
-
-    if (postIds) {
-        neki();
-      }
-
-}, [postIds, random])*/}
 
 
 
-const test = async() => {
 
-    const docRef = doc(db, "blogs", postIds);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-    setSmartContract(docSnap.data().contract);
-    } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
-    }
-
-}
-
+// Get all the data of a post
 
 useEffect(() => {
 
@@ -733,18 +444,15 @@ useEffect(() => {
   }, [postIds]);
 
 
-const addCoauthor = async () => {
-    addDoc(collection(db, "blogs", postIds, "add"), {
-        writings: add[0].comment,
-        timestamp: serverTimestamp(),
-        co: true,
-      });
-    setRandom(!random);
-    setAdd([]);
-}
+
+
+
 
 
 const ref = useRef(null);
+
+
+// Scroll to this
 
 const handleClick = () => {
   ref.current?.scrollIntoView({
@@ -753,6 +461,11 @@ const handleClick = () => {
   });
 }
 
+
+
+
+// Smart contract addresses
+
 const addresss = "0x67a074B718114fbb3D98776bEA1d4E733f09f49E";
 const realAddress = "0x19A5aC322861fA701F62a9039A1F81902f91b3b9";
 
@@ -760,10 +473,14 @@ const goerliAddress ="0xefb3892159deAf0cbF8E65D34B56788470e73D2d";
 
 const [changeNet, setChangeNet] = useState(false);
 
+
+
+
+
+
+// Mint free NFT
+
 async function handleMint() {
-
-    
-
     if (window.ethereum) {
             const account = await window.ethereum.request({
                 method: "eth_requestAccounts",
@@ -786,32 +503,14 @@ async function handleMint() {
     }
 }
 
-const ideaMachine = () => {
-    const random = Math.floor(Math.random() * 3);
 
-}
 
-useEffect(() => {
 
-    const fetchData = async () => {
-      
-        onSnapshot(collection(db, "accounts", getAllInfo.address, "title"),
-    
-        (snapshot) => setAllIdeas(snapshot.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-        }))))
-      
-    };
 
-    if (ideaChange) {
-      fetchData();
-    }
-  }, [ideaChange]);
 
-  const [isDarkOverlayVisible, setIsDarkOverlayVisible] = useState(false);
-  const [isDarkOverlayVisibleTwo, setIsDarkOverlayVisibleTwo] = useState(false);
-  const [getNumber, setGetNumber] = useState("");
+
+
+ // Overlay for random ideas NFT to choose from different categoris - Not used currently
 
   function handleDarkOverlayClick() {
     setIsDarkOverlayVisible(!isDarkOverlayVisible);
@@ -821,14 +520,18 @@ useEffect(() => {
   }
 
 
+
+
+// Overlay for Free NFT
+
   function handleDarkOverlayClickTwo() {
     setIsDarkOverlayVisibleTwo(!isDarkOverlayVisibleTwo);
-
-    
   }
 
-const [getCategories, setGetCategories] = useState([]);
-const [randdd, setRanddd] = useState([]);
+
+
+
+  // Get all categories for random NFTs - Not used currentyl
 
 const fetchCategories = async () => {
     const ideasRef = collection(db, 'accounts', getAllInfo.address, "ideas");
@@ -847,12 +550,13 @@ const fetchCategories = async () => {
     setGetCategories(categoriesArray);
   };
 
+
+
+
+  // Mint quote, thought, idea NFT 
+
   const queryData = async (id) => {
     // Initialize Firebase app
-
-    
-    
-
     if (window.ethereum) {
         const account = await window.ethereum.request({
             method: "eth_requestAccounts",
@@ -886,10 +590,19 @@ const fetchCategories = async () => {
     };
   };
 
+
+
+
+
+  // Interact with smart contract info
+
   const providerr = new ethers.providers.JsonRpcProvider("https://eth-sepolia.g.alchemy.com/v2/mKlWQflwnRw-lMHtYJWo9UzOVEoSEjPx")
   const contractForNftt = new ethers.Contract(addresss, Alwrite.abi, providerr); 
 
-  const [testZa, setTestZa] = useState("");
+
+
+
+  // Get post from Alwrite.sol smart contract
 
   const getMinted = async () => {
     const first = await contractForNftt.posts(getAllInfo.id);
@@ -898,9 +611,15 @@ const fetchCategories = async () => {
 
 
   
-  const categoryColors = ["#59B6DF", "#6FCBC1", "#2D60B1"];
-  const [switchToOp, setSwitchToOp] = useState(false);
+  // Different colors for category buttons
 
+  const categoryColors = ["#59B6DF", "#6FCBC1", "#2D60B1"];
+  
+
+
+
+
+  // Networks informations
 
   const networks = {
     polygon: {
@@ -932,7 +651,11 @@ const fetchCategories = async () => {
     
   };
   
-  const [errorr, setErrorr] = useState();
+  
+
+
+
+  // Change network function
 
   const changeNetwork = async ({ networkName, setErrorr }) => {
     try {
@@ -953,19 +676,19 @@ const fetchCategories = async () => {
   
   
   
-    const handleNetworkSwitch = async (networkName) => {
-      setErrorr();
-      await changeNetwork({ networkName, setError });
-      setSwitchToOp(true);
-    };
   
 
-    const [changeNetNet, setChangeNetNet] = useState(false);
+    // Chain info
 
     const addressChain = useAddress();
     const switchChain = useSwitchChain();
     const isWrongNetwork = useNetworkMismatch();
 
+
+
+
+
+  // Change network
 
     useEffect(() => {
         if (isWrongNetwork && switchChain) {
@@ -973,11 +696,20 @@ const fetchCategories = async () => {
         }
     }, [addressChain, switchChain, isWrongNetwork])
 
-    const [isNightMode, setIsNightMode] = useState(false);
+
+
+
+
+    // Switch to Dark mode
 
   const toggleNightMode = () => {
     setIsNightMode(!isNightMode);
   };
+
+
+
+
+  // Dark mode vs Light mode
 
   const appStyle = {
     backgroundColor: isNightMode ? '#1B1B1B' : '#fff',
@@ -1003,7 +735,157 @@ const fetchCategories = async () => {
     backgroundColor: isNightMode ? '#525252' : '#E5E7EB',
     color: isNightMode ? '#fff' : '#000000',
   };
+
+  const appStyleSix = {
+      borderColor: isNightMode ? '#262626' : '#F3F3F3', 
+  }
+
+  const appStyleSeven = {
+    height: 522,
+    backgroundColor: isNightMode ? "#111111" : "#F3F4F6"
+}
+
+
+
+
+
+  // Photo changes of what you get when you mint
+
+  const mintPhotoCHange = () => {
+    setMintNumber(mintNumber + 1)
+      if (getMintNumber == 0) {
+          setFirstCheck(true);
+          setRoyaltySilver(false);
+      }
+      if (getMintNumber == 9 && getAllInfo.royalty) {
+        setSecondCheck(true);
+        setRoyaltySilver(true);
+        setRoyaltySilverTwo(false);
+      }
+      if (getMintNumber == 19) {
+          setThirdCheck(true);
+          setRoyaltySilverTwo(true);
+      }
+      if (getMintNumber == 19 && !getAllInfo.royalty) {
+        setRoyaltySilver(true);
+        setRoyaltySilverTwo(false);
+      }
+
+  }
+
+
+
+
+
   
+  // Interact with smart contract
+
+  const addressss = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const providerrr = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545/");
+
+  const contractAward = new ethers.Contract(addressss, Award.abi, providerrr); 
+
+
+
+  
+
+
+// Collect function
+
+async function collect() {
+  if (window.ethereum) {
+          const account = await window.ethereum.request({
+              method: "eth_requestAccounts",
+          })
+      setAccounts(account);
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(
+        addressss,
+        Award.abi,
+          signer
+      );
+      try {
+          console.log(getAllInfo.address, getAllInfo.id, getAllInfo.oneofone, getAllInfo.urlOneofOne, getAllInfo.idOne, getAllInfo.royalty, getAllInfo.royaltyNumber, getAllInfo.quote, getAllInfo.urlQuote, getAllInfo.idTwo, getAllInfo.signature);
+          const response = await contract.mintTwo("0x1b8163f3f7ae29af06c50df4ae5e0fe9375f8496", 9595, true, "https://timomarket.infura-ipfs.io/ipfs/QmSNrrge9Ut6M5U19tAkZUYgLMYv3bmqyNPHY1FciVPK9e", 7088, true, 5, true, "https://timomarket.infura-ipfs.io/ipfs/Qmbo9piTPyx4B9VWxdED2e5mawmNk6kHdgqcyzJGUm29gC", 8457, "0x388323e2011e601363ec071a8e5ff5f3bfa89b93466a25ba5cf34e29185c435e3efebb52020d5e181d9cfafa90729928c9feb03f6ab6420f43852f0322dbcf8c1c");
+          const responseTwo = await contract.totalSupplyOf(9595);
+          console.log(response);
+          console.log(responseTwo);
+          
+      } catch (err) {
+          console.log("error: ", err);
+      }
+  }
+
+  mintPhotoCHange();
+}
+
+
+
+
+
+
+
+// Get Mint Number
+
+useEffect(() => {
+
+    const fetchData = async () => {
+      const haha = await contractAward.totalSupplyOf(BigNumber.from(9595));
+      setGetMintNumber(ethers.utils.formatEther(haha) * 10);
+      console.log(ethers.utils.formatEther(haha) * 10);
+    };
+
+    if (postIds) {
+      fetchData();
+    }
+  }, [postIds]);
+
+
+
+
+
+  const mintOptions = [{
+        id: 1,  
+        title: "One of one NFT",
+        desc: "One person gets a One-of-One collectible post.",
+        show: getAllInfo.oneofone,
+        sold: getMintNumber > 10 ? true : false || getAllInfo.sold,
+  }, {
+      id: 2,
+      title: "5% royalties",
+      desc: "Ten people share 5% royalties of sales.",
+      show: getAllInfo.royalty,
+      sold: false || getAllInfo.sold
+  }, {
+      id: 3,
+      title: "Quotes, thoughts, ideas",
+      desc: "Mint a unique NFT.",
+      show: getAllInfo.quote,
+      sold: false || getAllInfo.sold
+  } , {
+    id: 4,
+    title: "Basic collectible",
+    desc: "Mint collectible post of this article.",
+    show: getAllInfo.quote,
+    sold: false || getAllInfo.sold,
+    basic: true,
+}]
+
+
+  const [selectedOption, setSelectedOption] = useState(4);
+
+
+  
+
+
+  const checkforsold = (prodano, data) => {
+      if (!prodano) {
+          setSelectedOption(data)
+      }
+  }
+ 
+
 
   return (
     <div className="">
@@ -1162,11 +1044,7 @@ const fetchCategories = async () => {
                     <div className="width">
                     <img src={getAllInfo.slika} className=" w-full rounded-xl" />
                     
-                    {
-                        title.map((data, index) => {
-                            return <p className="text-5xl font-semibold mt-10">{data.data.title}</p>
-                        })
-                    }
+                    
                     <p  dangerouslySetInnerHTML={{__html:getAllInfo.title}} className="text-5xl font-semibold mt-10" ></p>
                     <div className="items-end flex justify-between">
                         <div className="flex flex-col">
@@ -1219,7 +1097,7 @@ const fetchCategories = async () => {
                     }
                     
                     <div ref={ref}></div>
-                    <div className="downWritingS">
+                    <div className="downWritingS" style={appStyleSix}>
                        {
                            addComment.map((data, index) => {
                             return <Gold key={index} desc={data.data.desc} color={"#FFDFBA"} comment={data.data.comment} address={data.data.address[0]} />
@@ -1239,7 +1117,7 @@ const fetchCategories = async () => {
                         </div> : null}*/}
                     </div>
                     {/*<div onClick={handleMint} className="px-16 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg w-40 flex justify-center items-center text-white mt-14 hover:cursor-pointer">Collect</div>*/}
-                    <div className="collect" style={appStyleThree}>
+                    {/*<div className="collect" style={appStyleThree}>
                         <div className="collectWidth">
                           <div className="bg-gray-200 rounded-lg p-4" style={appStyleFour}>
                             <p className="font-bold text-xl">0.00 ETH</p>
@@ -1294,15 +1172,270 @@ const fetchCategories = async () => {
                                 <div className="w-8 h-8 border-[#B3B3B3] border rounded-full"></div>
                             </div>
                         </div>
+                        </div>*/}
+                    <div className="mintInfo">
+                        <div className="bg-[#F3F4F6] mt-4 rounded-lg p-6 w-full mr-2 justify-center flex flex-col items-center" style={{height: 520}}>
+                        <div className="container flex justify-center items-center w-72 h-72 rounded-lg">
+                        
+                        {/*{
+                            getMintNumber * 100000000000000000 == 0 && getAllInfo.oneofone ? (
+                                <div className="collectTitle">
+                          <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
+                   
+                          <p className="text-center px-12 text-yellow-500">{getAllInfo.title}</p>
+                      
+                        </div>
+                            ) : getMintNumber * 100000000000000000 < 2 && getAllInfo.royalty ? (
+                                <div className="flex flex-col items-center">
+                                <div className="items-center flex justify-center">
+                                    <img src="https://i.postimg.cc/bY9G05HL/2-VJZq2m-Zkam-Heh-XTDRwd-4-vxtpo.jpg" alt="Your Image" className="imageCollect" style={{width: 200}} />
+                                    <div className="absolute text-white text-xs font-bold w-48 text-center">Collect random thoughts, writings, quotes from the author</div>
+                                </div>
+                                <p className="mt-2 text-2xl">+</p>
+                                <p className="mt-2 text-lg text-center text-gray-700">5% royalties (100 mints above)</p>
+                                </div>
+                            ) : getMintNumber * 100000000000000000 >= 3 || (getMintNumber * 100000000000000000 >= 1 && !getAllInfo.quote && !getAllInfo.royalty) || (secondCheck && !getAllInfo.oneofone && !getAllInfo.quote) ? (
+                                <p className="text-gray-400 text-xl ">Sold out</p>
+                            ) : (
+<>
+                                <img src="https://i.postimg.cc/bY9G05HL/2-VJZq2m-Zkam-Heh-XTDRwd-4-vxtpo.jpg" alt="Your Image" className="imageCollect" />
+                        <div className="absolute text-white text-md font-bold w-60 text-center">Collect random thoughts, writings, quotes from the author</div>
+                                </>
+                            )
+                        }
+                       */}
+
+{
+                            selectedOption == 1 ? (
+                                <div className="collectTitle">
+                          <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
+                   
+                          <p className="text-center px-12 text-yellow-500">{getAllInfo.title}</p>
+                      
+                        </div>
+                            ) : selectedOption == 2 ? (
+                                <div className="flex flex-col items-center">
+                                <div className="collectTitle" style={{height: 200, width: 200}}>
+                          <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
+                          {/*<p className="text-center px-12">{getAllInfo.title}</p>*/}
+                          <p className="text-center px-12">{getAllInfo.title}</p>
+                          {/*<p className="text-center px-12 text-xs mt-2 text-gray-500">{postIds}</p>*/}
+                        </div>
+                                
+                                <p className="mt-2 text-2xl font-bold">+</p>
+                                <p className="mt-2 text-lg text-center text-gray-700 font-bold">5% royalties</p>
+                                </div>
+                            ) : getMintNumber > 111 || getAllInfo.sold ? (
+                                <p className="text-gray-400 text-xl ">Sold out</p>
+                            ) : selectedOption == 4 ? (
+                                <div className="collectTitle" style={{height: 300, width: 300}}>
+                          <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
+                          {/*<p className="text-center px-12">{getAllInfo.title}</p>*/}
+                          <p className="text-center px-12">{getAllInfo.title}</p>
+                          {/*<p className="text-center px-12 text-xs mt-2 text-gray-500">{postIds}</p>*/}
+                        </div>
+                            ) : (
+<>
+                                <img src="https://i.postimg.cc/bY9G05HL/2-VJZq2m-Zkam-Heh-XTDRwd-4-vxtpo.jpg" alt="Your Image" className="imageCollect" />
+                        <div className="absolute text-white text-md font-bold w-60 text-center">Collect random thoughts, writings, quotes from the author</div>
+                                </>
+                            )
+                        }
+
+                        </div>
+                        <div className="border-t border-gray-300 w-full mt-10"></div>
+                        <button onClick={collect} disabled={getAllInfo.sold}  className={`px-4 py-4 ${getAllInfo.sold ? "bg-gray-400" : "bg-[#589ead]"} ${getAllInfo.sold ? "hover:bg-gray-400" : "hover:bg-[#28525c]"} rounded-lg w-40 flex justify-center items-center text-white mt-4 hover:cursor-pointer`}>{sold ? "Sold out" : "Collect"}{" "}</button>
+                        <p className="mt-3 text-xs text-gray-500">Number of collectibles sold: {getMintNumber * 100000000000000000}</p>
+                        </div>
+                        <div className="bg-[#F3F4F6]  mt-4 rounded-lg p-0 w-full ml-2 justify-center items-center flex" style={{height: 520}} >
+                      
+                       
+                            
+                            <div>
+                        
+                              {
+                                  mintOptions.map((data, index) => {
+                                      return <div onClick={() => checkforsold(data.sold, data.id)} key={index} className={`${data.show ? "flex" : "hidden"} items-center justify-between mb-4 mt-4 ${data.sold ? null : "hover:bg-gray-200"}  p-4  ${data.sold ? "cursor-no-drop" : "cursor-pointer"} ${data.basic ? "border-t" : null} border-gray-300`}>
+                                                <div>
+                                                    <h1 className={`font-semibold text-lg  ${data.sold ? "text-gray-400" : "text-black"}`}>{data.title}</h1>
+                                                    <p className={`text-sm  mt-2 w-2/3 ${data.sold ? "text-[#c7c7c7]" : "text-[#919191]"}  `}>{data.desc}</p>
+                                                </div>
+                                                {
+                                                    data.sold ? (
+                                                        null
+                                                    ) : (
+                                                        <div>
+                                                        {
+                                                            selectedOption == data.id ? (
+                                                                <img src="https://i.postimg.cc/VvxQ3L1t/5610944.png" className="w-8" /> 
+                                                            ) : ( 
+                                                                <div className="w-8 h-8 border-[#B3B3B3] border rounded-full"></div>
+                                                            )
+                                                        }
+                                                       
+                                                    </div>
+                                                    )
+                                                }
+                                               
+                                            </div>
+                                  })
+                              }
+                              </div>
+                        
+                            {/*<div className="bg-[rgb(243,244,246)] mt-0 rounded-lg p-6">
+                        {
+                            getAllInfo.oneofone ? (
+                        <div className={`flex items-center justify-between  mb-10 mt-10`}>
+                            <div className="mt-0">
+                                <h1 className={`text-lg ${getMintNumber >= 1 ? "text-gray-400" : "text-black"} font-semibold`}>One of one NFT</h1>
+                                <p className={`text-sm mt-2 w-2/3 ${getMintNumber >= 1 ? "text-[#c7c7c7]" : "text-[#919191]"}`}>First person gets one of one collectable post</p>
+                            </div>
+                            <div className="flex items-center">
+                                {
+                                    getMintNumber * 100000000000000000 >= 1 ? (
+<img src="https://i.postimg.cc/VvxQ3L1t/5610944.png" className="w-8" />
+                                    ) : (
+                                        <div className="w-8 h-8 border-[#B3B3B3] border rounded-full"></div>
+                                    )
+                                } 
+                                
+                            </div>
+                        </div> ) : (
+                            null
+                        )
+                        }
+                        <div className={`${getAllInfo.royalty ? "flex" : "hidden"} items-center justify-between mb-10 mt-10`}>
+                            {
+                                getAllInfo.oneofone == false ? (
+                            <div className="mt-0">      
+                                <h1 className={`font-semibold text-lg ${royaltySilverTwo && getMintNumber < 10 ? "text-black" : "text-gray-400"}`}>5% royalties</h1>
+                                <p className={`text-sm text-[#c7c7c7] mt-2 w-2/3 ${royaltySilverTwo && getMintNumber < 10 ? "text-[#919191]" : "text-[#c7c7c7]"}`}>First 10 people gets 5% royalties of sales</p>
+                            </div>
+                                ) : (
+                            <div className="mt-0">
+                                <h1 className={`font-semibold text-lg text-gray-400 ${getMintNumber * 100000000000000000 >= 1 ? "text-black" : "text-gray-400"} `}>5% royalties</h1>
+                                <p className={`text-sm text-[#c7c7c7] mt-2 w-2/3 ${getMintNumber * 100000000000000000 >= 1 ? "text-[#919191]" : "text-[#c7c7c7]"}`}>First 10 people gets 5% royalties of sales</p>
+                            </div>
+                                )
+                            }
+                            
+                            <div className="flex items-center">
+
+
+                            {
+                                getAllInfo.oneofone == false ? (
+                            <div>
+                           
+                            {
+                                    getMintNumber * 100000000000000000 >= 2 ? (
+<img src="https://i.postimg.cc/VvxQ3L1t/5610944.png" className="w-8" />
+                                    ) : (
+                                        <div>
+                                        <div className="w-8 h-8 border-[#B3B3B3] border rounded-full"></div>
+                                        </div>
+                                    )
+                                } 
+                            </div>) : (
+                                <div>
+                           
+                                {
+                                        getMintNumber * 100000000000000000 >= 2 ? (
+    <img src="https://i.postimg.cc/VvxQ3L1t/5610944.png" className="w-8" />
+                                        ) : (
+                                            <div>
+                                            {
+                                                getMintNumber * 100000000000000000 >= 1 ? (
+                                                    <div className="w-8 h-8 border-[#B3B3B3] border rounded-full"></div>
+                                                ) : (
+                                                    <div></div>
+                                                )
+                                            }
+                                            </div>
+                                        )
+                                    } 
+                                </div>
+                            )}
+                            </div>
+                        </div>
+                        <div className={`${getAllInfo.quote ? "flex" : "hidden"} items-center justify-between mb-10 mt-10`}>
+                            {
+                                getAllInfo.royalty == false && getAllInfo.oneofone == false ? (
+                                    <div className="mt-0">
+                                    <>
+                                                <h1 className={`font-semibold text-lg  ${getMintNumber >= 20 ? "text-gray-400" : "text-black"}`}>Quote, thoughts, ideas</h1>
+                                                <p className={`text-sm  mt-2 w-2/3 ${getMintNumber >= 20 ? "text-[#c7c7c7]" : "text-[#919191]"}`}>First 100 people gets one of one collectable post</p>
+                                            </>
+                                    
+                                </div>
+                                ) : (
+                                    <div className="mt-0">
+                                    {
+                                        !getAllInfo.royalty ? (
+                                            <>
+                                                <h1 className={`font-semibold text-lg  ${royaltySilver ? "text-gray-400" : "text-black"}`}>Quote, thoughts, ideas</h1>
+                                                <p className={`text-sm  mt-2 w-2/3 ${royaltySilver ? "text-[#c7c7c7]" : "text-[#919191]"}`}>First 100 people gets one of one collectable post</p>
+                                            </>
+                                        ) : (
+    <>
+                                                <h1 className={`font-semibold text-lg  ${getMintNumber * 100000000000000000 >= 2 ? "text-black" : "text-gray-400"}`}>Quote, thoughts, ideas</h1>
+                                                <p className={`text-sm  mt-2 w-2/3 ${getMintNumber * 100000000000000000 >= 2 ? "text-[#919191]" : "text-[#c7c7c7]"}`}>First 100 people gets one of one collectable post</p>
+                                            </>
+                                        )
+    
+                                        
+                                    }
+                                    
+                                </div>
+                                )
+                            }
+                           
+                            <div className="flex items-center">
+                                {
+                                    !getAllInfo.royalty && getMintNumber * 100000000000000000 >= 1 || (getAllInfo.royalty == false && getAllInfo.oneofone == false) ? (
+                            <div>
+                              
+                            {
+                                    thirdCheck ? (
+<img src="https://i.postimg.cc/VvxQ3L1t/5610944.png" className="w-8" />
+                                    ) : (
+                                        <div>
+                                        <div className="w-8 h-8 border-[#B3B3B3] border rounded-full"></div>
+                                        </div>
+                                    )
+                                } 
+                                </div> ) : (
+                                    <div>
+                              
+                                    {
+                                            getMintNumber * 100000000000000000 >= 3 ? (
+        <img src="https://i.postimg.cc/VvxQ3L1t/5610944.png" className="w-8" />
+                                            ) : (
+                                                <div>
+                                                {
+                                                    getMintNumber * 100000000000000000 >= 2 ? (
+                                                        <div className="w-8 h-8 border-[#B3B3B3] border rounded-full"></div>
+                                                    ) : (
+                                                        <div></div>
+                                                    )
+                                                }
+                                                </div>
+                                            )
+                                        } 
+                                        </div>
+                                )}
+                            </div>
+                            
+                        </div>
+                                    </div>*/}</div>
                     </div>
-                    <div style={appStyleThree} className="bg-gray-100 w-full mt-4 rounded-lg py-4 flex justify-between items-center">
+                    <div style={appStyleThree} className="bg-gray-100 w-full mt-4 rounded-lg py-4 flex justify-between items-center hidden">
                         <div>
                         <div className="ml-5 font-bold">Collect this post</div>
                         <div className="ml-5 text-sm text-gray-600">{getAllInfo.title}</div>
                         </div>
                         <div style={appStyleFive} onClick={handleDarkOverlayClickTwo} className="mr-5 bg-gray-200 p-2 px-7 rounded-lg hover:bg-gray-300 text-gray-600 cursor-pointer hover:px-8 transition-all">Free</div>
                     </div>
-                    <div className="text-center mt-20 border-t border-gray-200 pt-10 flex flex-col items-center justify-center">
+                   {/* <div className="text-center mt-20 border-t border-gray-200 pt-10 flex flex-col items-center justify-center">
                         <p className="text-sm text-gray-500">Don`t have Goerli?</p>
                         <a href="https://goerlifaucet.com/" target="_blank" className="bg-[#4e4e4e] py-4 w-56 items-center justify-center text-center text-white p-0 mt-4 flex rounded-full">
                             <p className="text-sm text-white uppercase">Get Goerli for free</p>
@@ -1311,7 +1444,7 @@ const fetchCategories = async () => {
                         
                         </div>
                         
-                    </div>
+                                </div>*/}
                    
                     {/*<div className="h-16 w-full bg-blue-600 bg-gradient-to-b from-gray-100 to-[#3E616C]"></div>
                     <div className="w-full h-80 bg-[#3E616C] rounded-b-lg justify-center items-center flex flex-col">
@@ -1352,7 +1485,8 @@ const fetchCategories = async () => {
                                     </div>
                                     </>) : (
                                     <>
-                                     <p>Write something insightful and author of this post can add your comment to the article, making you a co-author.</p>
+                                     {/*<p>Write something insightful and author of this post can add your comment to the article, making you a co-author.</p>*/}
+                                     <p>Write something insightful 🙂</p>
                                      <div onClick={connectMetamask} className="border-gray-500 border rounded-lg justify-around flex p-2 items-center hover:cursor-pointer hover:bg-gray-200 px-4 w-36 mt-6">
                                         <img className="w-8" src="https://i.postimg.cc/mrT1hFKC/Meta-Mask-Fox-svg-2.png" />
                                         <p className="text-sm font-light ml-1">Comment</p>

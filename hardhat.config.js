@@ -32,4 +32,6 @@ module.exports = {
     apiKey: "X63ZQVE3XEMJI75W5T977SWEIAICW8FU8I"
   },
   solidity: "0.8.19",
+  gas: 2100000,
+   gasPrice: 8000000000,
 };
