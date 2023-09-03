@@ -745,6 +745,21 @@ const fetchCategories = async () => {
     backgroundColor: isNightMode ? "#111111" : "#F3F4F6"
 }
 
+  const appStyleEight = {
+    backgroundColor: isNightMode ? "#171616" : "rgb(238, 238, 238)"
+}
+
+  const appStyleNine = {
+    color: isNightMode ? '#A0A0A0' : '#333',
+}
+
+const appStyleTen = {
+    color: isNightMode ? '#A0A0A0' : '#333',
+    backgroundColor: isNightMode ? "#131212" : "#fff",
+    borderColor: isNightMode ? "#171616" : "lightgray"
+}
+
+
 
 
 
@@ -1222,7 +1237,7 @@ useEffect(() => {
                           {/*<p className="text-center px-12 text-xs mt-2 text-gray-500">{postIds}</p>*/}
                         </div>
                                 
-                                <p className="mt-2 text-2xl font-bold">+</p>
+                                <p className="mt-2 text-2xl text-gray-700 font-bold">+</p>
                                 <p className="mt-2 text-lg text-center text-gray-700 font-bold">5% royalties</p>
                                 </div>
                             ) : getMintNumber > 111 || getAllInfo.sold ? (
@@ -1456,7 +1471,7 @@ useEffect(() => {
                         </div>*/}
                         </div>
                     
-                    <div className="down">
+                    <div className="down" style={appStyleEight}>
                         
                         {
                             unlocked ? ( 
@@ -1464,7 +1479,7 @@ useEffect(() => {
                                 <div className="inputComment">
                                     { accounts ? (
                                     <>
-                                    <p className="text-3xl text-black">Join the discussion</p>
+                                    <p className="text-3xl text-black" style={appStyleNine}>Join the discussion</p>
                                     <div className="w-full mt-12">
                                         <div className="flex items-center">
                                             {
@@ -1481,7 +1496,7 @@ useEffect(() => {
                                                     addNewMessage()
                                                     
                                                 }
-                                            }} value={inputComment} onChangeCapture={(e) => setInputComment(e.target.value)} className="w-full h-10 bg-gray-50 border border-gray-200 rounded-full mt-4 pl-4 text-sm" />
+                                            }} value={inputComment} onChangeCapture={(e) => setInputComment(e.target.value)} className="w-full h-10 bg-gray-50 border border-gray-200 rounded-full mt-4 pl-4 text-sm" style={appStyleTen} />
                                     </div>
                                     </>) : (
                                     <>
