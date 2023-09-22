@@ -335,7 +335,7 @@
 .writingTwo:hover {
     padding: 0px;
     width: 300px;
-    background-color: rgb(240, 240, 240);
+    
     margin-top: 0px;
     border-radius: 10px;
     display: flex;
@@ -343,8 +343,8 @@
     flex-wrap: wrap;
     margin-top: 50px;
     padding-bottom: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    
+    
 }
 
 .down {
@@ -866,23 +866,44 @@
 
   .widthMain {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    margin-top: 102px;
+    margin-top: 20px;
     background-color: #152e41;
     padding: 50px;
     border-radius: 10px;
     width: 100%;
   }
 
+  .widthMainTest {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0px;
+    
+    padding: 50px;
+    width: 100%;
+  }
+
   .widthMainTwo {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     margin-top: 102px;
     background-color: #0a2336;
     padding: 50px;
     border-radius: 10px;
+    width: 100%;
+  }
+
+  .widthMainTwoTest {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    padding: 50px;
     width: 100%;
   }
 
@@ -994,10 +1015,20 @@
     font-size: 40px;
 }
 
+.cornerr {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    background-color: #00B2FF;
+    border-radius: 100%;
+    padding: 10px;
+    font-size: 40px;
+}
+
 .cornerTwo {
     position: absolute;
-    top: -20px;
-    left: -20px;
+    top: -30px;
+    left: -30px;
     background-color: #00B2FF;
     border-radius: 100%;
     padding: 10px;

@@ -13,6 +13,7 @@ import Alwrite from "../Alwrite.json";
 import Gold from "../../components/Gold";
 import Link from 'next/link'
 import Category from '../../components/Category'
+import { Goerli, Optimism } from "@thirdweb-dev/chains";
 
 import { ConnectWallet, useAddress, useNetworkMismatch, ChainId, useChain, useChainId, useSwitchChain } from "@thirdweb-dev/react";
 import SunIcon from '../../components/icons/Sunicon'
@@ -21,6 +22,7 @@ import MoonIcon from '../../components/icons/Moonicon'
 import {Helmet} from "react-helmet";
 import Head from 'next/head'
 import Award from "../Award.json";
+import AlwriteGoerli from "../AlwriteGoerli.json";
 
 function Own() {
 
@@ -90,6 +92,9 @@ function Own() {
     const [getInfo, setGetInfo] = useState([]);
 
     const [getMintNumber, setGetMintNumber] = useState(0);
+    const [getMintNumberBasic, setGetMintNumberBasic] = useState(0);
+    const [getMintNumberQuote, setGetMintNumberQuote] = useState(0);
+    const [getMintNumberOne, setGetMintNumberOne] = useState(0);
 
     const [isDarkOverlayVisible, setIsDarkOverlayVisible] = useState(false);
     const [isDarkOverlayVisibleTwo, setIsDarkOverlayVisibleTwo] = useState(false);
@@ -104,6 +109,7 @@ function Own() {
 
     const [changeNetNet, setChangeNetNet] = useState(false);
     const [isNightMode, setIsNightMode] = useState(false);
+    const [writeComment, setWriteComment] = useState(false);
 
    
 
@@ -118,7 +124,7 @@ function Own() {
 // Add co-author function - Not used currently
 
 const addTo = (e) => {
-    if (add < 1 && accounts[0] == getAllInfo.address) {
+    if (add < 1 && accounts[0].toUpperCase() == getAllInfo.address.toUpperCase()) {
         add.push(e);
         setGetAddress(e.address);
     } else {
@@ -213,36 +219,96 @@ const addNewOwner = async () => {
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
         goerliAddress,
-        Alwrite.abi,
+        AlwriteGoerli.abi,
         signer
     );
     try {
-        const response = contract.addAuthor(getAddress[0], getAllInfo.id);
+        const response = contract.addCoOwner(getAllInfo.idPost, getAddress[0]);
         console.log(response);
         setUnlocked(true);
 
-        if (accounts[0] == getAllInfo.address) {
-            addDoc(collection(db, "blogs", postIds, "owners"), {
-                address: getAddress,
-              });
-            setRandom(!random);
-            setAdd([]);
-         
-            addDoc(collection(db, "blogs", postIds, "more"), {
-                comment: add[0].comment,
-                desc: add[0].desc,
-                color: add[0].color,
-                address: getAddress,
-              });
+        
+
+        if (response) {
+            if (accounts[0].toUpperCase() == getAllInfo.address.toUpperCase()) {
+                addDoc(collection(db, "blogs", postIds, "owners"), {
+                    address: getAddress,
+                  });
+                setRandom(!random);
+                setAdd([]);
+             
+                addDoc(collection(db, "blogs", postIds, "more"), {
+                    comment: add[0].comment,
+                    desc: add[0].desc,
+                    color: add[0].color,
+                    address: getAddress,
+                  });
+            } else {
+                alert("you are not the owner of this blog");
+            }
         } else {
-            alert("you are not the owner of this blog");
+            alert("Something went wrong");
         }
+
+        
     } catch (err) {
         console.log("error: ", err);
     }
 }    
     
 }
+
+
+
+
+const addNewOwnerGPT = async () => {
+    if (window.ethereum) {
+        const account = await window.ethereum.request({
+            method: "eth_requestAccounts",
+        });
+        setAccounts(account);
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+            addressss,
+            AlwriteGoerli.abi,
+            signer
+        );
+        try {
+            const transaction = await contract.addCoOwner(getAllInfo.idPost, getAddress[0]);
+            const receipt = await transaction.wait(); // Wait for the transaction to be mined
+
+            console.log("Transaction confirmed:", receipt.confirmations);
+
+            setUnlocked(true);
+
+            if (receipt.confirmations > 0) {
+                if (accounts[0].toUpperCase() === getAllInfo.address.toUpperCase()) {
+                    addDoc(collection(db, "blogs", postIds, "owners"), {
+                        address: getAddress[0],
+                    });
+                    setRandom(!random);
+                    setAdd([]);
+
+                    addDoc(collection(db, "blogs", postIds, "more"), {
+                        comment: add[0].comment,
+                        desc: add[0].desc,
+                        color: add[0].color,
+                        address: getAddress,
+                    });
+                } else {
+                    alert("You are not the owner of this blog");
+                }
+            } else {
+                alert("Transaction confirmation failed");
+            }
+        } catch (err) {
+            console.log("error:", err);
+            alert("Something went wrong");
+        }
+    }
+};
+
 
 
 
@@ -683,7 +749,7 @@ const fetchCategories = async () => {
     const addressChain = useAddress();
     const switchChain = useSwitchChain();
     const isWrongNetwork = useNetworkMismatch();
-
+    const chainId = useChainId();
 
 
 
@@ -692,7 +758,7 @@ const fetchCategories = async () => {
 
     useEffect(() => {
         if (isWrongNetwork && switchChain) {
-            switchChain(ChainId.Goerli)
+            switchChain(Goerli.chainId)
         }
     }, [addressChain, switchChain, isWrongNetwork])
 
@@ -795,10 +861,10 @@ const appStyleTen = {
   
   // Interact with smart contract
 
-  const addressss = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-  const providerrr = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545/");
+  const addressss = "0x084a0c1ebBc90e5Df56B321c89e1c7714f137ec7";
+  const providerrr = new ethers.providers.JsonRpcProvider("https://eth-goerli.g.alchemy.com/v2/fwDOOE-C4SMyfxA4ahsTrdRks24LlUKd");
 
-  const contractAward = new ethers.Contract(addressss, Award.abi, providerrr); 
+  const contractAward = new ethers.Contract(addressss, AlwriteGoerli.abi, providerrr); 
 
 
 
@@ -817,15 +883,42 @@ async function collect() {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
         addressss,
-        Award.abi,
+        AlwriteGoerli.abi,
           signer
       );
       try {
-          console.log(getAllInfo.address, getAllInfo.id, getAllInfo.oneofone, getAllInfo.urlOneofOne, getAllInfo.idOne, getAllInfo.royalty, getAllInfo.royaltyNumber, getAllInfo.quote, getAllInfo.urlQuote, getAllInfo.idTwo, getAllInfo.signature);
-          const response = await contract.mintTwo("0x1b8163f3f7ae29af06c50df4ae5e0fe9375f8496", 9595, true, "https://timomarket.infura-ipfs.io/ipfs/QmSNrrge9Ut6M5U19tAkZUYgLMYv3bmqyNPHY1FciVPK9e", 7088, true, 5, true, "https://timomarket.infura-ipfs.io/ipfs/Qmbo9piTPyx4B9VWxdED2e5mawmNk6kHdgqcyzJGUm29gC", 8457, "0x388323e2011e601363ec071a8e5ff5f3bfa89b93466a25ba5cf34e29185c435e3efebb52020d5e181d9cfafa90729928c9feb03f6ab6420f43852f0322dbcf8c1c");
-          const responseTwo = await contract.totalSupplyOf(9595);
-          console.log(response);
-          console.log(responseTwo);
+          if (selectedOption == 4) {
+            const responseOne = await contract.basic(
+                getAllInfo.address,
+                getAllInfo.idPost,
+                getAllInfo.urlOneofOne,
+                getAllInfo.json,
+                getAllInfo.urlQuote,
+                getAllInfo.idBasic,
+                {
+                    value: ethers.utils.parseEther((0.001).toString()),
+                }
+              );
+            console.log(responseOne)
+          } else if (selectedOption == 1) {
+            const responseTwo = await contract.oneOfOneMint(getAllInfo.address, getAllInfo.idPost, getAllInfo.urlOneofOne, getAllInfo.json, getAllInfo.urlQuote, getAllInfo.idOne,
+                {
+                    value: ethers.utils.parseEther((0.001).toString()),
+                });
+            console.log(responseTwo)
+          } else if (selectedOption == 3) {
+            const responseThree = await contract.quoteMint(getAllInfo.address, getAllInfo.idPost, getAllInfo.urlOneofOne, getAllInfo.json, getAllInfo.urlQuote, getAllInfo.idQuote,
+                {
+                    value: ethers.utils.parseEther((0.001).toString()),
+                });
+            console.log(responseThree)
+          }
+          //console.log(getAllInfo.address, getAllInfo.id, getAllInfo.oneofone, getAllInfo.urlOneofOne, getAllInfo.idOne, getAllInfo.royalty, getAllInfo.royaltyNumber, getAllInfo.quote, getAllInfo.urlQuote, getAllInfo.idTwo, getAllInfo.signature);
+          //console.log(getAllInfo.address, getAllInfo.id, getAllInfo.urlOneofOne, getAllInfo.json, getAllInfo.urlQuote, getAllInfo.idTwo)
+          //const response = await contract.mintTwo("0x1b8163f3f7ae29af06c50df4ae5e0fe9375f8496", 9595, true, "https://timomarket.infura-ipfs.io/ipfs/QmSNrrge9Ut6M5U19tAkZUYgLMYv3bmqyNPHY1FciVPK9e", 7088, true, 5, true, "https://timomarket.infura-ipfs.io/ipfs/Qmbo9piTPyx4B9VWxdED2e5mawmNk6kHdgqcyzJGUm29gC", 8457, "0x388323e2011e601363ec071a8e5ff5f3bfa89b93466a25ba5cf34e29185c435e3efebb52020d5e181d9cfafa90729928c9feb03f6ab6420f43852f0322dbcf8c1c");
+          //const responseTwo = await contract.totalSupplyOf(9595);
+          //console.log(response);
+          //console.log(responseTwo);
           
       } catch (err) {
           console.log("error: ", err);
@@ -845,18 +938,57 @@ async function collect() {
 
 useEffect(() => {
 
+    const idPostt = getAllInfo.idPost || 0;
+
     const fetchData = async () => {
-      const haha = await contractAward.totalSupplyOf(BigNumber.from(9595));
-      setGetMintNumber(ethers.utils.formatEther(haha) * 10);
-      console.log(ethers.utils.formatEther(haha) * 10);
+      
+
+      const hahah = await contractAward.posts(BigNumber.from(idPostt));
+      setGetMintNumber(ethers.utils.formatEther(hahah.minted) * (10 ** 18));
+      setGetMintNumberOne(ethers.utils.formatEther(hahah.oneofoneMinted) * (10 ** 18));
+      setGetMintNumberBasic(ethers.utils.formatEther(hahah.basicMinted) * (10 ** 18));
+      setGetMintNumberQuote(ethers.utils.formatEther(hahah.quoteMinted) * (10 ** 18));
+      console.log(getMintNumber)
+      console.log(idPostt)
     };
 
-    if (postIds) {
+    if (getAllInfo) {
       fetchData();
     }
-  }, [postIds]);
+  }, [getAllInfo]);
 
 
+
+
+const getBalanceOf = async () => {
+    if (window.ethereum) {
+        const account = await window.ethereum.request({
+            method: "eth_requestAccounts",
+        })
+        setAccounts(account);
+        const getBasic = await contractAward.balanceOf(accounts[0], getAllInfo.idBasic); 
+        const getOne = await contractAward.balanceOf(accounts[0], getAllInfo.idOne); 
+        const getQuote = await contractAward.balanceOf(accounts[0], getAllInfo.idQuote); 
+        
+        if (ethers.utils.formatEther(getBasic) * 10  > 0) {
+            console.log("Unlocked");
+            setWriteComment(true);
+        } else if (ethers.utils.formatEther(getOne) * 10  > 0) {
+            console.log("Unlocked");
+            setWriteComment(true);
+        } else if (ethers.utils.formatEther(getQuote) * 10  > 0) {
+            console.log("Unlocked");
+            setWriteComment(true);
+        } else if (accounts[0].toUpperCase() == getAllInfo.address.toUpperCase()) {
+            setWriteComment(true);
+        } else {
+            alert("You do not own an NFT");
+        }
+
+
+        
+    }
+}
 
 
 
@@ -865,26 +997,26 @@ useEffect(() => {
         title: "One of one NFT",
         desc: "One person gets a One-of-One collectible post.",
         show: getAllInfo.oneofone,
-        sold: getMintNumber > 10 ? true : false || getAllInfo.sold,
+        sold: getMintNumberOne > 0 ? true : false || getAllInfo.sold,
   }, {
       id: 2,
       title: "5% royalties",
       desc: "Ten people share 5% royalties of sales.",
-      show: getAllInfo.royalty,
+      show: false,
       sold: false || getAllInfo.sold
   }, {
       id: 3,
       title: "Quotes, thoughts, ideas",
       desc: "Mint a unique NFT.",
       show: getAllInfo.quote,
-      sold: false || getAllInfo.sold
+      sold: getMintNumberQuote > 99 ? true : false || getAllInfo.sold
   } , {
     id: 4,
     title: "Basic collectible",
     desc: "Mint collectible post of this article.",
-    show: getAllInfo.quote,
-    sold: false || getAllInfo.sold,
-    basic: true,
+    show: true,
+    sold: getMintNumberBasic > 99 ? true : false || getAllInfo.sold,
+    basic: false,
 }]
 
 
@@ -897,8 +1029,11 @@ useEffect(() => {
   const checkforsold = (prodano, data) => {
       if (!prodano) {
           setSelectedOption(data)
+          console.log(selectedOption);
       }
   }
+
+  
  
 
 
@@ -1048,12 +1183,12 @@ useEffect(() => {
                 </div>
                 </Link>
                 <div className="flex items-center right-5 top-5 absolute">
-                <SunIcon />
+                {/*<SunIcon />
       <label className="toggle-switch">
       <input type="checkbox" checked={isNightMode} onChange={toggleNightMode} />
       <span className="switch" />
     </label>
-      <MoonIcon />
+                <MoonIcon />*/}
                 </div>
                 <div className="mainMiddleTwo">
                     <div className="width">
@@ -1121,7 +1256,7 @@ useEffect(() => {
                         <div className="downWritingSS">
                     {
                             add.map((data, index) => {
-                                return <WritingD closed={() => removeFrom(index)} coAuthor={addNewOwner} onClick={() => removeFrom(index)} key={index} desc={data.desc} color={data.color} comment={data.comment} address={data.address[0]} />
+                                return <WritingD closed={() => removeFrom(index)} coAuthor={addNewOwnerGPT} key={index} desc={data.desc} color={data.color} comment={data.comment} address={data.address[0]} />
                             })
                         }
                         </div>
@@ -1189,7 +1324,7 @@ useEffect(() => {
                         </div>
                         </div>*/}
                     <div className="mintInfo">
-                        <div className="bg-[#F3F4F6] mt-4 rounded-lg p-6 w-full mr-2 justify-center flex flex-col items-center" style={{height: 520}}>
+                        <div className="bg-[#F3F4F6] mt-4 rounded-lg p-6 w-full mr-2 justify-center flex flex-col items-center" style={{height: 480}}>
                         <div className="container flex justify-center items-center w-72 h-72 rounded-lg">
                         
                         {/*{
@@ -1225,7 +1360,7 @@ useEffect(() => {
                                 <div className="collectTitle">
                           <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
                    
-                          <p className="text-center px-12 text-yellow-500">{getAllInfo.title}</p>
+                          <p className="text-center px-12 text-[#f0c390] font-medium">{getAllInfo.title}</p>
                       
                         </div>
                             ) : selectedOption == 2 ? (
@@ -1244,7 +1379,7 @@ useEffect(() => {
                                 <p className="text-gray-400 text-xl ">Sold out</p>
                             ) : selectedOption == 4 ? (
                                 <div className="collectTitle" style={{height: 300, width: 300}}>
-                          <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
+                          <img src="https://i.postimg.cc/BQZHZJwk/3-Gv-Yci-Logo-Makr.png" className="h-10 m-2 absolute top-0 left-0" />
                           {/*<p className="text-center px-12">{getAllInfo.title}</p>*/}
                           <p className="text-center px-12">{getAllInfo.title}</p>
                           {/*<p className="text-center px-12 text-xs mt-2 text-gray-500">{postIds}</p>*/}
@@ -1259,10 +1394,21 @@ useEffect(() => {
 
                         </div>
                         <div className="border-t border-gray-300 w-full mt-10"></div>
-                        <button onClick={collect} disabled={getAllInfo.sold}  className={`px-4 py-4 ${getAllInfo.sold ? "bg-gray-400" : "bg-[#589ead]"} ${getAllInfo.sold ? "hover:bg-gray-400" : "hover:bg-[#28525c]"} rounded-lg w-40 flex justify-center items-center text-white mt-4 hover:cursor-pointer`}>{sold ? "Sold out" : "Collect"}{" "}</button>
-                        <p className="mt-3 text-xs text-gray-500">Number of collectibles sold: {getMintNumber * 100000000000000000}</p>
+                        {
+                                addressChain ? (
+<button disabled={isWrongNetwork} onClick={collect} style={{backgroundColor: isWrongNetwork ? "gray" : "#33626d"}} className="mt-8 bg-[#33626d] text-white p-2 justify-center items-center flex px-10 py-3 rounded-xl cursor-pointer hover:bg-[#28555f]">{isWrongNetwork ? "Switch to Goerli Network" : "Collect"} </button>
+                                ) : (
+                                    <ConnectWallet
+                                    theme="dark"
+                                    btnTitle="Metamask"
+                                    style={{marginTop: 30, backgroundColor: "gray", color: "white"}}
+                                    />
+                                )
+                            }
+                        {/*<button onClick={collect} disabled={getAllInfo.sold}  className={`px-4 py-4 ${getAllInfo.sold ? "bg-gray-400" : "bg-[#589ead]"} ${getAllInfo.sold ? "hover:bg-gray-400" : "hover:bg-[#28525c]"} rounded-lg w-40 flex justify-center items-center text-white mt-4 hover:cursor-pointer`}>{sold ? "Sold out" : "Collect"}{" "}</button>*/}
+                        <p className="mt-3 text-xs text-gray-500">Number of collectibles sold: {getMintNumber}</p>
                         </div>
-                        <div className="bg-[#F3F4F6]  mt-4 rounded-lg p-0 w-full ml-2 justify-center items-center flex" style={{height: 520}} >
+                        <div className="bg-[#F3F4F6]  mt-4 rounded-lg p-0 w-full ml-2 justify-center items-center flex" style={{height: 480}} >
                       
                        
                             
@@ -1270,8 +1416,8 @@ useEffect(() => {
                         
                               {
                                   mintOptions.map((data, index) => {
-                                      return <div onClick={() => checkforsold(data.sold, data.id)} key={index} className={`${data.show ? "flex" : "hidden"} items-center justify-between mb-4 mt-4 ${data.sold ? null : "hover:bg-gray-200"}  p-4  ${data.sold ? "cursor-no-drop" : "cursor-pointer"} ${data.basic ? "border-t" : null} border-gray-300`}>
-                                                <div>
+                                      return <div onClick={() => checkforsold(data.sold, data.id)} key={index} className={`${data.show ? "flex" : "hidden"} items-center justify-between mb-6 mt-6 rounded-lg ${data.sold ? null : "hover:bg-gray-200"}  p-4  ${data.sold ? "cursor-no-drop" : "cursor-pointer"} ${data.basic ? "border-t" : null} border-gray-300`}>
+                                                <div className="pt-2 pb-2">
                                                     <h1 className={`font-semibold text-lg  ${data.sold ? "text-gray-400" : "text-black"}`}>{data.title}</h1>
                                                     <p className={`text-sm  mt-2 w-2/3 ${data.sold ? "text-[#c7c7c7]" : "text-[#919191]"}  `}>{data.desc}</p>
                                                 </div>
@@ -1477,14 +1623,14 @@ useEffect(() => {
                             unlocked ? ( 
                                 <>
                                 <div className="inputComment">
-                                    { accounts ? (
+                                    { writeComment ? (
                                     <>
                                     <p className="text-3xl text-black" style={appStyleNine}>Join the discussion</p>
                                     <div className="w-full mt-12">
                                         <div className="flex items-center">
                                             {
                                                 colored.map((data, index) => {
-                                                    return <div onClick={() => getData(data.type, data.color)} className={`text-xs border-[${data.color}] border rounded-full px-4 py-1 hover:cursor-pointer hover:bg-gray-200 mr-3`} style={{color: selected == data.type ? "white" : data.color, backgroundColor: selected == data.type ? data.color : null}}>{data.type}</div>
+                                                    return <div key={index} onClick={() => getData(data.type, data.color)} className={`text-xs border-[${data.color}] border rounded-full px-4 py-1 hover:cursor-pointer hover:bg-gray-200 mr-3`} style={{color: selected == data.type ? "white" : data.color, backgroundColor: selected == data.type ? data.color : null}}>{data.type}</div>
                                                 })
                                             }
                                             {/*<div className="text-[#05ad5d] text-xs border-[#05ad5d] border rounded-full px-4 py-1 hover:cursor-pointer hover:bg-gray-200">Creative</div>
@@ -1498,24 +1644,37 @@ useEffect(() => {
                                                 }
                                             }} value={inputComment} onChangeCapture={(e) => setInputComment(e.target.value)} className="w-full h-10 bg-gray-50 border border-gray-200 rounded-full mt-4 pl-4 text-sm" style={appStyleTen} />
                                     </div>
+                                    <div className="upper">
+                                   
+                        {
+                            getComments.map((data, index) => {
+                                return <WritingTwo onClick={() => addTo(data.data)} author={accounts[0].toUpperCase() == getAllInfo.address.toUpperCase() ? true : false} key={index} color={data.data.color} desc={data.data.desc} comment={data.data.comment} address={data.data.address[0]} />
+                            })
+                        }
+                        </div>
                                     </>) : (
                                     <>
                                      {/*<p>Write something insightful and author of this post can add your comment to the article, making you a co-author.</p>*/}
-                                     <p>Write something insightful 🙂</p>
-                                     <div onClick={connectMetamask} className="border-gray-500 border rounded-lg justify-around flex p-2 items-center hover:cursor-pointer hover:bg-gray-200 px-4 w-36 mt-6">
-                                        <img className="w-8" src="https://i.postimg.cc/mrT1hFKC/Meta-Mask-Fox-svg-2.png" />
-                                        <p className="text-sm font-light ml-1">Comment</p>
-                                    </div>
+                                     <p className="text-2xl">Write a comment to get a chance to become a co-author and share earnings with the author 😊</p>
+                                     {
+                                         accounts ? (
+                                            <div onClick={getBalanceOf} className="border-gray-500 border rounded-lg justify-around flex p-2 items-center hover:cursor-pointer hover:bg-gray-200 px-4 w-36 mt-6">
+                                                <p className="text-sm font-light ml-1">Unlock</p>
+                                            </div>
+                                         ) : (
+                                            <div onClick={connectMetamask} className="border-gray-500 border rounded-lg justify-around flex p-2 items-center hover:cursor-pointer hover:bg-gray-200 px-4 w-36 mt-6">
+                                                <img className="w-8" src="https://i.postimg.cc/mrT1hFKC/Meta-Mask-Fox-svg-2.png" />
+                                                <p className="text-sm font-light ml-1">Comment</p>
+                                            </div>
+                                         )
+                                     }
+                                     
                                     </>
                                     ) }
                                 </div>
                                  <div className="upper">
                                    
-                        {
-                            getComments.map((data, index) => {
-                                return <WritingTwo onClick={() => addTo(data.data)} key={index} color={data.data.color} desc={data.data.desc} comment={data.data.comment} address={data.data.address[0]} />
-                            })
-                        }
+                        
                         </div>
                                 </>
                             ) : (

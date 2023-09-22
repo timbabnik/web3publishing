@@ -45,12 +45,7 @@ const handleClick = () => {
             <p className="text-4xl font-thin text-[#FFDFBA]">alwrite</p>
           </div>
           <div className="flex items-center">
-                      <Link href="/account">
-                        <div  className="metamask">
-                                
-                               
-                            </div>
-                        </Link>          
+                             
           </div>
         </div>
         <Homepage onClick={handleClick} />

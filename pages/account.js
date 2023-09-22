@@ -130,7 +130,7 @@ function account() {
 
 
   return (
-    <div class="acc">
+    <div className="acc">
         
       {balanceOverlay && (
         <div
@@ -175,7 +175,14 @@ function account() {
                     {
                         accounts ? (
                             <>
-                            <div onClick={balanceAndWithdraw} className="flex items-center hover:bg-gray-200 p-2 rounded-xl cursor-pointer">
+                            <div className="w-11 h-11 rounded-full bg-blue-300"></div>
+                            <div>
+                                <p className="ml-2 text-sm text-gray-500">{accounts[0].slice(0,4)}...{accounts[0].slice(accounts[0].length - 4, accounts[0].length)}</p>
+                                <div className="ml-2 text-md text-black">
+                                
+                            </div>
+                            </div>
+                            {/*<div onClick={balanceAndWithdraw} className="flex items-center hover:bg-gray-200 p-2 rounded-xl cursor-pointer">
                             <div className="w-11 h-11 rounded-full bg-blue-300"></div>
                             <div>
                                 <p className="ml-2 text-sm text-gray-500">{accounts[0].slice(0,4)}...{accounts[0].slice(accounts[0].length - 4, accounts[0].length)}</p>
@@ -184,7 +191,7 @@ function account() {
                             </div>
                             </div>
                             
-                            </div>
+                        </div>*/}
                             
                             </>
                         ) : <div onClick={connectMetamask} className="border-gray-500 border rounded-lg justify-center flex p-2 items-center hover:cursor-pointer hover:bg-gray-200 text-gray-500 hover:text-black">
@@ -214,7 +221,7 @@ function account() {
             <div className="postsTwo">
             {
                             posts.map((data, index) => {
-                                return <Link href={`/posts/${data.data.id}`}><Blog title={data.data.title} key={index} /></Link>
+                                return <Link key={index} href={`/posts/${data.data.id}`}><Blog title={data.data.title} key={index} /></Link>
                             })
                         }
                 

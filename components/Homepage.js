@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Collectables from "./Collectables";
 
 function Homepage({onClick}) {
   return (
@@ -9,9 +10,9 @@ function Homepage({onClick}) {
         
         <div className="upper">
             <div className="allUp">
-                <p className="text-white font-bold text-4xl md:text-7xl text-center lg:text-left">MONETIZE YOUR<br/> WRITINGS<br/>THE WAY <br/>YOU WANT IT</p>
+                <p className="text-white font-bold text-4xl md:text-7xl text-center lg:text-left">MONETIZE <br/>YOUR WRITINGS<br/>IN A WEB3 WAY<br/></p>
                 {/*<p className="undertitle">Create mintable writings. Let your readers comment. Add their insights to your blog so they can become co-authors verified by the blockchain.</p>*/}
-                <p className="undertitle">With only one click choose what you want your readers to get - One-of-One collectible post for one of your fans, shared royalties, unique NFTs with your quotes/ideas on an AI generated background, …</p>
+                <p className="undertitle">With only one click create "Keys" for your readers (One-of-One collectible post, unique quote NFTs with an AI generated background, …) that will unlock their chances to co-write and co-earn with you.</p>
                 <p className="undertitleTwo">Write great articles, get paid and reward your readers.</p>
                 <div onClick={onClick} className="mt-5 bg-[#FFDFBA] w-32 justify-center items-center flex p-3 rounded-lg hover:bg-[rgb(255,191,119)] hover:cursor-pointer">
                     <p className="text-black">Learn more</p>
@@ -24,17 +25,17 @@ function Homepage({onClick}) {
 
         
 
-       
+       <Collectables />
 
-        <div className="widthMain" style={{backgroundColor: "#06141f", position: "relative"}} >
+       {/* <div className="widthMain" style={{backgroundColor: "#06141f", position: "relative"}} >
           <div className="corner">
             <img src="https://i.postimg.cc/nzfH7QCr/Group-4-23.png" className="w-12" />
           </div>
         <div className="collectTitle">
                           <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
-                          {/*<p className="text-center px-12">{getAllInfo.title}</p>*/}
+                          <p className="text-center px-12">{getAllInfo.title}</p>
                           <p className="text-center px-12 text-yellow-500">The name of your post</p>
-                          {/*<p className="text-center px-12 text-xs mt-2 text-gray-500">{postIds}</p>*/}
+                          <p className="text-center px-12 text-xs mt-2 text-gray-500">{postIds}</p>
                         </div>
                 <div className="monetizee">
                   <div className="size">
@@ -135,7 +136,7 @@ function Homepage({onClick}) {
                     </div>
                 </div>  
                         
-        </div>
+  </div>*/}
 
 
 

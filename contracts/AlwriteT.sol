@@ -4,7 +4,7 @@ pragma solidity ^0.8.12;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
-contract Award is ERC1155 {
+contract AlwriteT is ERC1155 {
 
 
     mapping(uint256 => address[]) public newWhitelist;

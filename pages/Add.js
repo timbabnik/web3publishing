@@ -1,14 +1,23 @@
-import { addDoc, collection } from '@firebase/firestore';
-import React, { useRef, useState } from 'react'
+import { addDoc, collection, doc, onSnapshot } from '@firebase/firestore';
+import React, { useEffect, useRef, useState } from 'react'
 import { Row, Form, Button } from "react-bootstrap"
 import { create } from 'ipfs-http-client'
 import { ethers } from 'ethers'
 import { db } from '../firebase';
 import imagee from "../public/square.jpg";
+import basic from "../public/basic.png";
+import basic2 from "../public/basicTwo.png";
+import imageee from "../public/image.jpg";
+import oneofoneimage from "../public/oneofone.png";
 import Link from 'next/link';
 import LoadingSpinner from '../components/Loading';
 import ai from "../public/ai2.jpg";
+import ai2 from "../public/ai.jpg";
+import ai3 from "../public/ai3.jpg";
+import ai4 from "../public/ai4.jpg";
+import ai5 from "../public/ai5.jpg";
 import Award from "./Award.json";
+import check from "../public/check.png";
 
 function Add() {
 
@@ -42,7 +51,7 @@ function Add() {
 
   const [completed, setCompleted] = useState(false);
 
-  const [whitelist, setWhitelist] = useState(["0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C", "0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496"]);
+  const [whitelist, setWhitelist] = useState(["0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C", "0x1B8163f3f7Ae29AF06c50dF4AE5E0Fe9375f8496", "0xFABB0ac9d68B0B445fB7357272Ff202C5651694a"]);
 
   const [isDarkOverlayVisible, setIsDarkOverlayVisible] = useState(false);
   const [isDarkOverlayVisibleTwo, setIsDarkOverlayVisibleTwo] = useState(false);
@@ -54,6 +63,8 @@ function Add() {
   const [input, setInput] = useState("");
   const [signature, setSignature] = useState("");
   const [titleNFT, setTitleNFT] = useState("Prvi NFT test");
+
+  const [count, setCount] = useState(0);
 
   
 
@@ -160,7 +171,7 @@ img.onload = async () => {
 
     setPublish(true);
   };
-  img.src = imagee.src;
+  img.src = basic2.src;
 
   setIsLoadingTwo(false);
 
@@ -170,7 +181,23 @@ img.onload = async () => {
 
 
 
+const imageObject = {
+  image: image,
+  price: 0,
+  title: title,
+};
 
+const imageObjectTwo = {
+  image: imageTwo,
+  price: 0,
+  title: title,
+};
+
+const imageObjectThree = {
+  image: imageThree,
+  price: 0,
+  title: input,
+};
 
 
 // Complete function - Add all data to firebase (including signature)
@@ -178,9 +205,9 @@ img.onload = async () => {
 async function completePublishing() {
   setIsLoading(true);
   setConf("DONE ✅");
-  const result = await client.add(JSON.stringify({image, price, title}))
-  const resultTwo = await client.add(JSON.stringify({imageTwo, price, one}))
-  const resultThree = await client.add(JSON.stringify({imageThree, price, input}))
+  const result = await client.add(JSON.stringify(imageObject));
+  const resultTwo = await client.add(JSON.stringify(imageObjectTwo));
+  const resultThree = await client.add(JSON.stringify(imageObjectThree));
   console.log(result);
 
   var textarea = document.getElementById("textarea");
@@ -197,8 +224,9 @@ async function completePublishing() {
   const docRef = await addDoc(collection(db, "blogs"), {
     address: accounts[0],
     title: title,
-    id: Math.floor(Math.random() * 10000),
+    idPost: Math.floor(Math.random() * 10000),
     json: `https://timomarket.infura-ipfs.io/ipfs/${result.path}`,
+    idBasic: Math.floor(Math.random() * 10000),
     price: pricee,
     writings: text,
     oneofone: firstCheck,
@@ -208,7 +236,7 @@ async function completePublishing() {
     royaltyNumber: 5,
     quote: thirdCheck,
     urlQuote: `https://timomarket.infura-ipfs.io/ipfs/${resultThree.path}`,
-    idTwo: Math.floor(Math.random() * 10000),
+    idQuote: Math.floor(Math.random() * 10000),
     signature: signature
   });
 
@@ -231,6 +259,68 @@ async function completePublishing() {
   setCompleted(true);
 }
 
+
+
+
+
+
+async function completePublishingTest() {
+  setIsLoading(true);
+  setConf("DONE ✅");
+  const result = await client.add(JSON.stringify(imageObject));
+  const resultTwo = await client.add(JSON.stringify(imageObjectTwo));
+  const resultThree = await client.add(JSON.stringify(imageObjectThree));
+  
+  console.log(result);
+
+  var textarea = document.getElementById("textarea");
+  
+  // Get the text from the textarea
+  var text = textarea.value;
+  
+  // Replace periods with line breaks
+  text = text.replace(/\n/g, "</br>");
+  
+  // Update the textarea with the new text
+  textarea.value = text;
+  
+  const docRef = await addDoc(collection(db, "timo"), {
+    address: accounts[0],
+    title: title,
+    idPost: Math.floor(Math.random() * 10000),
+    json: `https://timomarket.infura-ipfs.io/ipfs/${result.path}`,
+    idBasic: Math.floor(Math.random() * 10000),
+    price: pricee,
+    writings: text,
+    oneofone: firstCheck,
+    urlOneofOne: `https://timomarket.infura-ipfs.io/ipfs/${resultTwo.path}`,
+    idOne: Math.floor(Math.random() * 10000),
+    royalty: secondCheck,
+    royaltyNumber: 5,
+    quote: thirdCheck,
+    urlQuote: `https://timomarket.infura-ipfs.io/ipfs/${resultThree.path}`,
+    idQuote: Math.floor(Math.random() * 10000),
+    signature: signature
+  });
+
+  
+  const docId = docRef.id;
+  console.log('Document ID:', docId);
+      
+
+  addDoc(collection(db, "accounts", accounts[0], "posts"), {
+    id: docId,
+    title: title,
+  });
+
+  setIsLoading(false);
+  setHome(true);
+
+  alert("Successful");
+  setIsDarkOverlayVisible(false);
+  setSignature("");
+  setCompleted(true);
+}
 
 
 
@@ -265,6 +355,7 @@ function handleDarkOverlayClick() {
 const hundredNFT = () => {
   setThirdCheck(true);
   setIsDarkOverlayVisibleTwo(false);
+  setCount(count + 1);
 }
 
 
@@ -274,6 +365,7 @@ const hundredNFT = () => {
 const firstNFT = () => {
   setFirstCheck(true);
   setIsDarkOverlayVisibleThird(false);
+  setCount(count + 1);
 }
 
 
@@ -281,10 +373,17 @@ const firstNFT = () => {
 // Create One of One NFT for the first Minter
 
 const ifFirst = () => {
-  if (title) {
-    oneOfOneIPFS();
-  } else {
-    alert("You need to have a title of your post");
+  if (count < 2 && !firstCheck) {
+    if (title) {
+      oneOfOneIPFS();
+    } else {
+      alert("You need to have a title of your post");
+    }
+  }
+
+  if (firstCheck) {
+    setFirstCheck(false);
+    setCount(count - 1);
   }
 }
 
@@ -318,7 +417,7 @@ img.onload = async () => {
   );
 
   ctx.font = `${titleFontSize}px Arial`;
-  ctx.fillStyle = "#EBB40A";
+  ctx.fillStyle = "#f0c390";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
@@ -354,7 +453,7 @@ img.onload = async () => {
 
     setPublish(true);
   };
-  img.src = imagee.src;
+  img.src = oneofoneimage.src;
 
   setIsLoadingTwo(false);
 
@@ -363,7 +462,104 @@ img.onload = async () => {
 
 
 
+
+// Test
+
+
+
+
+
+ 
+
+
+
+const oneOfOneIPFSF = async () => {
+  setIsDarkOverlayVisibleThird(!isDarkOverlayVisibleThird);
+  setIsLoadingTwo(true);
+  connectMetamask();
+  const canvas = canvasRef.current;
+  const ctx = canvas.getContext("2d");
+  const img = new Image();
+  const smallImage = new Image(); // Create a new Image for the small image
+
+  // Set the source of the small image
+  smallImage.src = "data:image/png;base64,aHR0cHM6Ly9pLnBvc3RpbWcuY2MvQlFaSFpKd2svMy1Hdi1ZY2ktTG9nby1NYWtyLnBuZw=="; // Replace 'path_to_small_image.png' with the path to your small image
+
+  img.onload = async () => {
+    const aspectRatio = img.width / img.height;
+    const canvasWidth = img.width * 2; // Increase canvas width for higher resolution
+    const canvasHeight = canvasWidth / aspectRatio;
+    const canvasPadding = canvasWidth * 0.1; // 10% padding
+    const titleFontSize = canvasWidth / 20; // Adjust title font size proportionally
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    // Draw the small image in the top-left corner
+    ctx.drawImage(smallImage, 0, 0, 50, 50); // Adjust size and position as needed
+
+    ctx.drawImage(
+      img,
+      canvasPadding,
+      canvasPadding,
+      canvasWidth - 2 * canvasPadding,
+      canvasHeight - 2 * canvasPadding
+    );
+
+    ctx.font = `${titleFontSize}px Arial`;
+    ctx.fillStyle = "#EBB40A";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    const textWidth = canvasWidth * 0.8;
+    const words = title.split(" ");
+    let line = "";
+    let lines = [];
+    for (let i = 0; i < words.length; i++) {
+      const testLine = line + words[i] + " ";
+      const testWidth = ctx.measureText(testLine).width;
+      if (testWidth > textWidth) {
+        lines.push(line);
+        line = words[i] + " ";
+      } else {
+        line = testLine;
+      }
+    }
+    lines.push(line);
+
+    const x = canvasWidth / 2;
+    const y = canvasHeight / 2;
+    const lineHeight = titleFontSize * 1.2;
+
+    for (let i = 0; i < lines.length; i++) {
+      ctx.fillText(lines[i], x, y + (i - lines.length / 2 + 0.5) * lineHeight);
+    }
+    const imageDataURL = canvas.toDataURL();
+    const buffer = Buffer.from(imageDataURL.replace(/^data:image\/\w+;base64,/, ""), "base64");
+
+    const result = await client.add(buffer); // Upload image buffer to IPFS
+    setImageTwo(`https://timomarket.infura-ipfs.io/ipfs/${result.cid.toString()}`);
+    console.log(result);
+
+    setPublish(true);
+  };
+  img.src = imagee.src;
+
+  setIsLoadingTwo(false);
+};
+
+
+
+
+
+
+
 // Create Quote, thoughts, ideas NFT with an AI generative background
+
+
+const [randomPhoto, setRandomPhoto] = useState([ai4, ai5, ai3]);
+
+const testPhoto = randomPhoto[Math.floor(Math.random() * randomPhoto.length)];
 
 const ideasIPFS = async () => {
   setLoad(true);
@@ -425,7 +621,7 @@ img.onload = async () => {
 
     setPublish(true);
   };
-  img.src = ai.src;
+  img.src = testPhoto.src;
 
   setLoad(false);
 
@@ -459,10 +655,22 @@ const providerr = "http://127.0.0.1:8545/";
 
 // Check if the person that is creating new post is on the whitelist
 
-const whitelistChecker = () => {
+const whitelistCheckerr = () => {
   for (let i = 0; i < whitelist.length ; i++) {
     if (whitelist[i].toUpperCase() === accounts[0].toUpperCase()) {
       mint();
+    }
+  }
+}
+
+
+
+const whitelistChecker = () => {
+  for (let i = 0; i < allwhitelist.length ; i++) {
+    if (allwhitelist[i].data.address.toUpperCase() === accounts[0].toUpperCase()) {
+      completePublishing();
+    } else {
+      alert("You are not on the whitelist");
     }
   }
 }
@@ -505,6 +713,54 @@ async function mint() {
       }
   }
 }
+
+
+
+
+
+
+const roylaties = () => {
+  if (count < 2) {  
+    if (!secondCheck) {
+      setSecondCheck(true);
+      setCount(count + 1);
+    }
+  }
+
+  if (secondCheck) {
+    setSecondCheck(false);
+    setCount(count - 1);
+  }
+}
+
+
+const quotethoutgs = () => {
+  if (count < 2 && !thirdCheck) {
+    setIsDarkOverlayVisibleTwo(!isDarkOverlayVisibleTwo)
+  }
+
+  if(thirdCheck) {
+    setCount(count - 1);
+    setThirdCheck(false);
+  }
+}
+
+
+
+const [allwhitelist, setAllwhitelist] = useState([]);
+
+  useEffect(
+    () => 
+    onSnapshot(collection(db, "whitelist"),
+    
+    (snapshot) => setAllwhitelist(snapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+    }))))
+
+, [])
+
+
 
 
 
@@ -561,7 +817,7 @@ async function mint() {
               </div>
             ) : (
           <div className="bg-white p-8 rounded-lg relative pl-10 pr-10">
-            <p onClick={() => console.log(signature)} className="border-b border-gray-100 w-full pb-4 text-xl">How do you want to reward your fans?</p>
+            <p onClick={() => console.log(signature)} className="border-b border-gray-100 w-full pb-4 text-xl">How do you want to reward your fans? ({count}/2)</p>
             <img onClick={handleDarkOverlayClick} src="https://i.postimg.cc/gJSYJMXn/Logo-Makr-2-YVf-U2.png" className="absolute top-4 right-4 h-8 hover:cursor-pointer" />
             <div onClick={ifFirst} className="justify-between flex items-center bg-gray-50 p-5 rounded-lg mt-12 cursor-pointer hover:bg-gray-100">
               <div className="mt-0">
@@ -577,7 +833,7 @@ async function mint() {
               }
               
             </div>
-            <div onClick={() => setSecondCheck(!secondCheck)} className="justify-between flex items-center bg-gray-50 p-5 rounded-lg mt-8 cursor-pointer hover:bg-gray-100">
+            {/*<div onClick={roylaties} className="justify-between flex items-center bg-gray-50 p-5 rounded-lg mt-8 cursor-pointer hover:bg-gray-100">
               <div className="mt-0">
                 <h1 className="text-xl font-bold mt-0">5% Royalties</h1>
                 <p className="mt-2 text-gray-500 w-96 text-sm">Ten people that mints collectible post also share 5% royalties of all the sales.</p>
@@ -590,8 +846,8 @@ async function mint() {
                 )
               }
 
-            </div>
-            <div onClick={() => setIsDarkOverlayVisibleTwo(!isDarkOverlayVisibleTwo)} className="justify-between flex items-center bg-gray-50 p-5 rounded-lg mt-8 cursor-pointer hover:bg-gray-100 mb-10">
+            </div>*/}
+            <div onClick={quotethoutgs} className="justify-between flex items-center bg-gray-50 p-5 rounded-lg mt-8 cursor-pointer hover:bg-gray-100 mb-10">
               <div className="mt-0">
                 <h1 className="text-xl font-bold mt-0">Quote/thoughts/ideas NFT</h1>
                 <p className="mt-2 text-gray-500 w-96 text-sm">Create unique NFTs (collectable thoughts/quotes/ideas) with your writings on AI generated background.</p>
