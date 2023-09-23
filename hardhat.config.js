@@ -24,14 +24,14 @@ module.exports = {
       accounts: ["8fec11163af84335c33a78d877c39f652b3641f414cef4360d387cd7de8a104d"],
     },
     mainnet: {
-      url: "https://opt-mainnet.g.alchemy.com/v2/9CenLePRunzrXpL9Xl1HxhthE5QMQijE",
+      url: "https://opt-mainnet.g.alchemy.com/v2/bUbciamyFoaNmUlZh5Ubm8t4e-6xVl4H",
       accounts: [process.env.PRIVKEY]
     }
   },
   etherscan: { 
-    apiKey: "X63ZQVE3XEMJI75W5T977SWEIAICW8FU8I"
+    apiKey: "ZCWUBFIE118AHY1Z43NVN4YGDGBGJ8UJPK"
   },
-  solidity: "0.8.19",
+  solidity: "0.8.12",
   gas: 2100000,
    gasPrice: 8000000000,
 };

@@ -183,19 +183,19 @@ img.onload = async () => {
 
 const imageObject = {
   image: image,
-  price: 0,
+  price: 0.001,
   title: title,
 };
 
 const imageObjectTwo = {
   image: imageTwo,
-  price: 0,
+  price: 0.001,
   title: title,
 };
 
 const imageObjectThree = {
   image: imageThree,
-  price: 0,
+  price: 0.001,
   title: input,
 };
 

@@ -23,6 +23,7 @@ import {Helmet} from "react-helmet";
 import Head from 'next/head'
 import Award from "../Award.json";
 import AlwriteGoerli from "../AlwriteGoerli.json";
+import AlwriteContract from "../AlwriteContract.json"
 
 function Own() {
 
@@ -271,7 +272,7 @@ const addNewOwnerGPT = async () => {
         const signer = provider.getSigner();
         const contract = new ethers.Contract(
             addressss,
-            AlwriteGoerli.abi,
+            AlwriteContract.abi,
             signer
         );
         try {
@@ -758,7 +759,7 @@ const fetchCategories = async () => {
 
     useEffect(() => {
         if (isWrongNetwork && switchChain) {
-            switchChain(Goerli.chainId)
+            switchChain(Optimism.chainId)
         }
     }, [addressChain, switchChain, isWrongNetwork])
 
@@ -861,10 +862,10 @@ const appStyleTen = {
   
   // Interact with smart contract
 
-  const addressss = "0x084a0c1ebBc90e5Df56B321c89e1c7714f137ec7";
-  const providerrr = new ethers.providers.JsonRpcProvider("https://eth-goerli.g.alchemy.com/v2/fwDOOE-C4SMyfxA4ahsTrdRks24LlUKd");
+  const addressss = "0x3009CA11F3365AAE441e44A9c9D10e894843b041";
+  const providerrr = new ethers.providers.JsonRpcProvider("https://opt-mainnet.g.alchemy.com/v2/bUbciamyFoaNmUlZh5Ubm8t4e-6xVl4H");
 
-  const contractAward = new ethers.Contract(addressss, AlwriteGoerli.abi, providerrr); 
+  const contractAward = new ethers.Contract(addressss, AlwriteContract.abi, providerrr); 
 
 
 
@@ -883,7 +884,7 @@ async function collect() {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
         addressss,
-        AlwriteGoerli.abi,
+        AlwriteContract.abi,
           signer
       );
       try {
@@ -1073,7 +1074,7 @@ const getBalanceOf = async () => {
                                     </div>
                                 ) : (
                                     getCategories.map((data, index) => {
-                                        return <Category wrongColor={"gray"} wrong={isWrongNetwork} query={() => queryData(data)} key={index} data={isWrongNetwork ? "Switch to Goerli" : data} color={categoryColors[getNumber]} />
+                                        return <Category wrongColor={"gray"} wrong={isWrongNetwork} query={() => queryData(data)} key={index} data={isWrongNetwork ? "Switch to Optimism" : data} color={categoryColors[getNumber]} />
                                     })
                                 )
                                 
@@ -1396,7 +1397,7 @@ const getBalanceOf = async () => {
                         <div className="border-t border-gray-300 w-full mt-10"></div>
                         {
                                 addressChain ? (
-<button disabled={isWrongNetwork} onClick={collect} style={{backgroundColor: isWrongNetwork ? "gray" : "#33626d"}} className="mt-8 bg-[#33626d] text-white p-2 justify-center items-center flex px-10 py-3 rounded-xl cursor-pointer hover:bg-[#28555f]">{isWrongNetwork ? "Switch to Goerli Network" : "Collect"} </button>
+<button disabled={isWrongNetwork} onClick={collect} style={{backgroundColor: isWrongNetwork ? "gray" : "#33626d"}} className="mt-8 bg-[#33626d] text-white p-2 justify-center items-center flex px-10 py-3 rounded-xl cursor-pointer hover:bg-[#28555f]">{isWrongNetwork ? "Switch to Optimism Network" : "Collect"} </button>
                                 ) : (
                                     <ConnectWallet
                                     theme="dark"

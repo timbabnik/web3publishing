@@ -9,34 +9,28 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 error EmptySpace();
 
 
-contract AlwriteGoerli is ERC1155, Ownable {
+
+contract AlwriteContract is ERC1155, Ownable {
 
 
-    // mapping(uint256 => address[]) public newWhitelist;
-    // mapping(uint256 => mapping(address => bool)) public whitelistTest;
-    // mapping(uint256 => uint256) public totalSupplyOf;
+  
     mapping(uint256 => string) private uris;
-    mapping(uint256 => Post) public posts;
     mapping(uint256 => bool) public idAvailability;
-
-    // mapping(address => uint256) public wallet;
-    // mapping(address => uint256) public coWallet;
+    mapping(uint256 => Post) public posts;
+    mapping(uint256 => WalletBalance) public walletInfo;
     mapping(address => uint256) public bonus;
-    uint256 public price = 0.001 ether;
 
-    uint public starttime;
-    uint public LENGTH = 20 seconds;
-    uint public LENGTH_DEPLOYMENT = 30 days;
+    uint256 public price = 0.001 ether;
+    uint256 public LENGTH = 10 days;
+    uint256 public LENGTH_DEPLOYMENT = 30 days;
+    uint256 public postsAllowed = 5;
+    uint256 public starttime;
     uint256 public postsNumber;
+    uint256 public walletSmartContract;
 
     bool public permissionless;
 
-    uint public postsAllowed = 5;
-    uint public walletSmartContract;
     
-    
-
-    mapping(uint256 => WalletBalance) public walletInfo;
 
     constructor() ERC1155("") {
         starttime = block.timestamp;
@@ -281,7 +275,7 @@ contract AlwriteGoerli is ERC1155, Ownable {
         
 
         if (newPost.isCoOwner) {
-            (bool success, ) = payable(posts[_id].coowner).call{value: walletInfo[_id].walletCoauthor + bonus[newPost.owner]}("");
+            (bool success, ) = payable(newPost.coowner).call{value: walletInfo[_id].walletCoauthor + bonus[newPost.owner]}("");
             require(success);
             bonus[newPost.owner] = 0;
         } else {
