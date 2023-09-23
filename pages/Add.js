@@ -675,6 +675,25 @@ const whitelistChecker = () => {
   }
 }
 
+const whitelistCheckerTest = () => {
+  let isOnWhitelist = false; // Initialize a flag variable
+
+  for (let i = 0; i < allwhitelist.length ; i++) {
+    if (allwhitelist[i].data.address.toUpperCase() === accounts[0].toUpperCase()) {
+      completePublishing();
+      isOnWhitelist = true; // Set the flag to true if your account is on the whitelist
+      break; // Exit the loop since you found a match
+    }
+  }
+
+  if (!isOnWhitelist) {
+    alert("You are not on the whitelist");
+  }
+}
+
+
+
+
 
 
 // Create a signature
@@ -862,7 +881,7 @@ const [allwhitelist, setAllwhitelist] = useState([]);
              
             </div>
             <div className="justify-end flex">
-            <div onClick={whitelistChecker} className="bg-blue-500 text-white p-3 rounded-lg w-28 justify-center items-center flex hover:bg-blue-600 cursor-pointer">Done</div>
+            <div onClick={whitelistCheckerTest} className="bg-blue-500 text-white p-3 rounded-lg w-28 justify-center items-center flex hover:bg-blue-600 cursor-pointer">Done</div>
             </div>
             
            
