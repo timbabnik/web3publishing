@@ -105,7 +105,7 @@ function Collectables() {
             <img src="https://i.postimg.cc/8CtZFbj3/03f06w-Logo-Makr.png" className="w-12" />
           </div>
           <div className="collectTitle">
-                          <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
+                          <img src="https://i.postimg.cc/BQZHZJwk/3-Gv-Yci-Logo-Makr.png" className="h-10 m-2 absolute top-0 left-0" />
                           {/*<p className="text-center px-12">{getAllInfo.title}</p>*/}
                           <p className="text-center px-12 text-black">The name of your post</p>
                           {/*<p className="text-center px-12 text-xs mt-2 text-gray-500">{postIds}</p>*/}
@@ -157,7 +157,7 @@ function Collectables() {
        <img src="https://i.postimg.cc/2yQwvdRq/6z9-Zn6-Logo-Makr.png" className="w-8" />
        
           </div>
-          <p style={{width: 700}} className={`text-4xl font-bold text-center  text-[#FFDFBA] ml-0 border-b border-[#FFDFBA] pb-2`}>...THAT UNLOCK A COMMENT SECTION</p>
+          <p style={{width: 700}} className={`text-4xl font-bold text-center  text-[#FFDFBA] ml-0 border-b border-[#FFDFBA] pb-2`}>...THAT UNLOCK AN IDEA SECTION</p>
             <div className="flex items-center justify-between w-full mt-12">
 
                         <div className="monetizee">
@@ -178,8 +178,8 @@ function Collectables() {
                           
                           <p style={{width: 500}} className="text-3xl font-bold text-[#FFDFBA] ml-2">Co-write/earn with you readers</p>
                       </div>
-                      <p className="textSize" style={{width: 530}}>If you find one of the comment insightful, you can add the comment to your original writings. When that happens a co-author will get 10% of the royalties of all the keys sold for that article.</p>
-                      <p className="textSize" style={{width: 530}}>If no one is chosen as a co-author, the 10% of the earnings will be allocated to a bonus section within a smart contract. When someone becomes a co-author for a future article, they will receive 10% of the article's earnings, in addition to all the previous bonuses.</p>
+                      <p className="textSize" style={{width: 530}}>This is a place where your readers can comment, share ideas, criticize and add their insights. If you find any of them interesting enough, you can add them to your writters group, where you will communicate with them in real time.</p>
+                      <p className="textSize" style={{width: 530}}>All the members (max 5) of the group will share 10% of all the keys sold. At any time you can add or remove somebody from the group.</p>
 
                     </div>      
                       </div>

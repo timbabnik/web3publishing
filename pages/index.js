@@ -38,7 +38,7 @@ const handleClick = () => {
 
   return (
     <div className="homepage">
-      <div className="bg-[#1B3950] pb-52 w-full">
+      <div className="bg-[#1B3950] pb-8 w-full">
         <div className="w-full h-20 justify-between flex p-6 items-center pt-12">
           <div className="flex items-center">
             <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-14 flex justify-center items-center text-2xl font-light p-3" />

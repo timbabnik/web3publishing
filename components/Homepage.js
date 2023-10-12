@@ -12,8 +12,8 @@ function Homepage({onClick}) {
             <div className="allUp">
                 <p className="text-white font-bold text-4xl md:text-7xl text-center lg:text-left">MONETIZE <br/>YOUR WRITINGS<br/>IN A WEB3 WAY<br/></p>
                 {/*<p className="undertitle">Create mintable writings. Let your readers comment. Add their insights to your blog so they can become co-authors verified by the blockchain.</p>*/}
-                <p className="undertitle">With only one click create "Keys" for your readers (One-of-One collectible post, unique quote NFTs with an AI generated background, …) that will unlock their chances to co-write and co-earn with you.</p>
-                <p className="undertitleTwo">Write great articles, get paid and reward your readers.</p>
+                <p className="undertitle">Publish your articles, create your own writers group and earn with your readers.</p>
+                <p className="undertitleTwo">Let your fans be a part of your creative process.</p>
                 <div onClick={onClick} className="mt-5 bg-[#FFDFBA] w-32 justify-center items-center flex p-3 rounded-lg hover:bg-[rgb(255,191,119)] hover:cursor-pointer">
                     <p className="text-black">Learn more</p>
                 </div>
@@ -26,7 +26,9 @@ function Homepage({onClick}) {
         
 
        <Collectables />
-
+       <Link href="/posts/f7bFdxHlwUqVNaysUiCL">
+<p className="text-xl text-blue-200 font-bold border-2 rounded-xl mt-24 border-blue-200 p-4 hover:bg-blue-200 cursor-pointer hover:text-black">Alwrite in 1 minute</p>
+</Link>
        {/* <div className="widthMain" style={{backgroundColor: "#06141f", position: "relative"}} >
           <div className="corner">
             <img src="https://i.postimg.cc/nzfH7QCr/Group-4-23.png" className="w-12" />

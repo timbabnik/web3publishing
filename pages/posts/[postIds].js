@@ -5,7 +5,7 @@ import Writing from "../../components/Writing"
 import WritingTwo from '../../components/WritingTwo'
 import WritingThree from '../../components/WritingThree'
 import WritingD from '../../components/WritingD'
-import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp } from '@firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, deleteDoc } from '@firebase/firestore';
 import { db } from '../../firebase';
 import { useRouter } from 'next/router';
 import { ethers, BigNumber } from 'ethers';
@@ -24,6 +24,7 @@ import Head from 'next/head'
 import Award from "../Award.json";
 import AlwriteGoerli from "../AlwriteGoerli.json";
 import AlwriteContract from "../AlwriteContract.json"
+import AlwriteTwo from "../AlwriteTwo.json"
 
 function Own() {
 
@@ -311,7 +312,62 @@ const addNewOwnerGPT = async () => {
 };
 
 
+const addressTest = "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d";
 
+const addNewOwnerGPTTest = async (id) => {
+
+
+    if (window.ethereum) {
+        const account = await window.ethereum.request({
+            method: "eth_requestAccounts",
+        });
+        setAccounts(account);
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+            addressTest,
+            AlwriteTwo.abi,
+            signer
+        );
+        try {
+            const transaction = await contract.addCoOwner(id);
+            const receipt = await transaction.wait(); // Wait for the transaction to be mined
+
+            console.log("Transaction confirmed:", receipt.confirmations);
+
+            setUnlocked(true);
+
+            if (receipt.confirmations > 0) {
+                const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+
+                 
+                    const firstDocRef = await addDoc(collection(db, "accounts", id, "groups"), {
+                        groupId: getGroups[0].id,
+                        owner: accounts[0],
+                        color: randomColor
+                    });
+                    
+                    // Get the ID of the first document
+                    const groupId = firstDocRef.id;
+                    
+                    // Add the second document using the groupId
+                    await addDoc(collection(db, "accounts", accounts[0], "team"), {
+                        address: id,
+                        color: randomColor,
+                        groupId: groupId
+                    });
+
+                   
+                
+            } else {
+                alert("Transaction confirmation failed");
+            }
+        } catch (err) {
+            console.log("error:", err);
+            alert("Something went wrong");
+        }
+    }
+};
 
 
 
@@ -971,7 +1027,7 @@ const getBalanceOf = async () => {
         const getOne = await contractAward.balanceOf(accounts[0], getAllInfo.idOne); 
         const getQuote = await contractAward.balanceOf(accounts[0], getAllInfo.idQuote); 
         
-        if (ethers.utils.formatEther(getBasic) * 10  > 0) {
+        if (ethers.utils.formatEther(getBasic) * 10 + 1  > 0) {
             console.log("Unlocked");
             setWriteComment(true);
         } else if (ethers.utils.formatEther(getOne) * 10  > 0) {
@@ -988,6 +1044,12 @@ const getBalanceOf = async () => {
 
 
         
+    }
+
+    if (getGroups.length == 0) {
+        addDoc(collection(db, "accounts", accounts[0], "groups"), {
+            owner: accounts[0]
+        });
     }
 }
 
@@ -1022,7 +1084,11 @@ const getBalanceOf = async () => {
 
 
   const [selectedOption, setSelectedOption] = useState(4);
+  const [closeTab, setCloseTab] = useState(true);
+  const [messageInput, setMessageInput] = useState("");
+  const [getMessages, setGetMessages] = useState([]);
 
+  const [refresh, setRefresh] = useState(false);
 
   
 
@@ -1034,8 +1100,250 @@ const getBalanceOf = async () => {
       }
   }
 
+
+  const [getGroups, setGetGroups] = useState([]);
+  const [getTeam, setGetTeam] = useState([]);
+  const [deleteMessage, setDeleteMessage] = useState(false);
+  const colors = ["blue", "red", "green", "orange", "purple"];
+
   
- 
+  const createGroup = async (id) => {
+    const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+
+      if (getGroups.length == 0) {
+        addDoc(collection(db, "accounts", accounts[0], "groups"), {
+            owner: accounts[0]
+          });
+          
+      } else {
+        const firstDocRef = await addDoc(collection(db, "accounts", id, "groups"), {
+            groupId: getGroups[0].id,
+            owner: accounts[0],
+            color: randomColor
+          });
+          
+          // Get the ID of the first document
+          const groupId = firstDocRef.id;
+          
+          // Add the second document using the groupId
+          await addDoc(collection(db, "accounts", accounts[0], "team"), {
+            address: id,
+            color: randomColor,
+            groupId: groupId
+          });
+      }
+
+      
+    }
+
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+          
+            onSnapshot(collection(db, "accounts", accounts[0], "groups"),
+        
+        (snapshot) => setGetGroups(snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+        }))))
+          
+        };
+    
+        if (accounts) {
+          fetchData();
+        }
+      }, [accounts]);
+
+
+      useEffect(() => {
+
+        const fetchData = async () => {
+          
+            onSnapshot(collection(db, "accounts", accounts[0], "team"),
+        
+        (snapshot) => setGetTeam(snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+        }))))
+          
+        };
+    
+        if (accounts) {
+          fetchData();
+        }
+      }, [accounts]);
+
+
+      
+const [checkOwner, setCheckOwner] = useState(false);
+
+const testestes = () => {
+  const messagesQuery = query(
+    collection(db, "allGroups", getGroups[0].id, "messages"),
+    orderBy("timestamp", "asc") // Sort by timestamp in ascending order
+  );
+
+  const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
+    const messages = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      data: doc.data(),
+    }));
+    setGetMessages(messages);
+  });
+
+  setCheckOwner(true);
+
+  return () => {
+    // Unsubscribe from the Firestore listener when the component unmounts
+    unsubscribe();
+  };
+
+  
+}; 
+
+
+
+const testestestest = () => {
+    const messagesQuery = query(
+      collection(db, "allGroups", getGroups[0].data.groupId, "messages"),
+      orderBy("timestamp", "asc") // Sort by timestamp in ascending order
+    );
+  
+    const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
+      const messages = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      setGetMessages(messages);
+    });
+  
+    return () => {
+      // Unsubscribe from the Firestore listener when the component unmounts
+      unsubscribe();
+    };
+  
+    
+  }; 
+
+
+      const sendMessage = async () => {
+          if (getGroups[0].data.owner.toUpperCase() == accounts[0].toUpperCase()) {
+            addDoc(collection(db, "allGroups", getGroups[0].id, "messages"), {
+                message: messageInput,
+                owner: accounts[0],
+                timestamp: serverTimestamp(),
+                isOwner: true
+              });
+          } else {
+            addDoc(collection(db, "allGroups", getGroups[0].data.groupId, "messages"), {
+                message: messageInput,
+                owner: accounts[0],
+                timestamp: serverTimestamp(),
+                color: getGroups[0].data.color,
+                groupId: getGroups[0].id
+              });
+          }
+        
+        setMessageInput("");
+      }
+
+
+      const openGroup = () => {
+          setCloseTab(false);
+          setRefresh(!refresh);
+          if (getGroups[0].data.owner.toUpperCase() == accounts[0].toUpperCase()) {
+            testestes();
+          } else {
+            testestestest();
+          }
+      }
+
+
+      const messagesEndRef = useRef(null); // Create a ref for the last message element
+
+// ...
+
+useEffect(() => {
+  // Scroll to the last message when the component updates (i.e., when new messages arrive)
+  if (messagesEndRef.current) {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+}, [getMessages]);
+
+
+const removePerson = async () => {
+    if (window.ethereum) {
+        const account = await window.ethereum.request({
+            method: "eth_requestAccounts",
+        });
+        setAccounts(account);
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+            addressTest,
+            AlwriteTwo.abi,
+            signer
+        );
+        try {
+            const transaction = await contract.deleteCoauthor(getPersonId);
+            const receipt = await transaction.wait(); // Wait for the transaction to be mined
+
+            console.log("Transaction confirmed:", receipt.confirmations);
+
+            setUnlocked(true);
+
+            if (receipt.confirmations > 0) {
+                deleteDoc(doc(db, "accounts", getPersonId, "groups", deleteGroupId));
+                deleteDoc(doc(db, "accounts", accounts[0], "team", teamId));
+                
+            } else {
+                alert("Transaction confirmation failed");
+            }
+        } catch (err) {
+            console.log("error:", err);
+            alert("Something went wrong");
+        }
+    }
+
+    
+}
+
+const [getPersonId, setGetPersonId] = useState("");
+const [deleteGroupId, setDeleteGroupId] = useState("");
+const [teamId, setTeamId] = useState("");
+
+
+const getPersonFromTeam = (id, idTwo, idThree) => {
+    setGetPersonId(id);
+    setDeleteGroupId(idTwo);
+    setTeamId(idThree)
+    setDeleteMessage(true);
+}
+
+const getPersonInfo = (id, idTwo) => {
+    if (getGroups[0].data.owner.toUpperCase() == accounts[0].toUpperCase()) {
+        setGetPersonId(id);
+        setDeleteGroupId(idTwo);
+    
+        let isOnWhitelist = false
+    
+        for (let i = 0; i < getTeam.length ; i++) {
+            if (getTeam[i].data.address.toUpperCase() === id.toUpperCase()) {
+                setDeleteMessage(true);
+              isOnWhitelist = true; // Set the flag to true if your account is on the whitelist
+              break; // Exit the loop since you found a match
+            }
+        }
+    
+        if (!isOnWhitelist) {
+            alert("This address is no longer a part of your writers group");
+          }
+    } else {
+        alert("You are not the owner");
+    }
+    
+}
 
 
   return (
@@ -1158,6 +1466,32 @@ const getBalanceOf = async () => {
         
         </div>
       )}
+
+{deleteMessage && (
+        <div
+        onClick={() => setDeleteMessage(false)}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            zIndex: 9999,
+          }}
+        
+          >
+
+        <div className="tryingTwo" style={{alignItems: "center", flexDirection: "column"}}>
+        <p className="text-xl text-center w-2/3">Do you want to remove this person from you Writers room?</p>
+        <div className="flex items-center mt-10">
+        <div className="border-blue-500 border p-3 w-24 justify-center items-center flex rounded-lg text-blue-500 mr-3 cursor-pointer">No</div>
+        <div onClick={removePerson} className="bg-blue-500 p-3 w-24 justify-center items-center flex rounded-lg text-white ml-3 cursor-pointer">Yes</div>
+        </div>
+        </div>
+          
+          </div>)}
+      
         <div className="flex">
         
             <div className="middleTwo" style={appStyle}>
@@ -1191,6 +1525,94 @@ const getBalanceOf = async () => {
     </label>
                 <MoonIcon />*/}
                 </div>
+                {
+                    closeTab ? (
+                        <>
+                        {
+                            getGroups.map((data, index) => {
+                                return <div key={index} onClick={openGroup} className=" top-5 right-5 fixed bg-[#1B3950] p-6 px-7 rounded-full hover:bg-blue-700 cursor-pointer">
+                                    <img src="https://i.postimg.cc/3NvBFbBD/8-Wq7i-W-Logo-Makr.png" className="h-12" />
+                                    </div>
+                            })
+                        }
+                        </>
+                        
+                    ) : (
+                        <div className="top-5 right-5 fixed bg-gray-100 rounded-xl border border-gray-300" style={{ height: 500, width: 380 }}>
+                            <div className="bg-blue-500 w-full h-14 rounded-t-xl flex items-center">
+                                <div className="w-full ml-3 text-white flex items-center">
+                                {
+                                    checkOwner && (
+                                        <>
+                                        <p className="mr-3">Your team ({getTeam.length}) :</p>
+                                        {
+                                            getTeam.map((data, index) => {
+                                                return <div onClick={() => getPersonFromTeam(data.data.address, data.data.groupId, data.id)} key={index} style={{backgroundColor: data.data.color, width: 20, height: 20, borderRadius: "100%", marginRight: 10}}></div>
+                                            })
+                                        }
+                                        </>
+                                    )
+                                }   
+                                
+                                </div>
+                                <img onClick={() => setCloseTab(true)} src="https://i.postimg.cc/7LtNxMDJ/7-Fv-YXG-Logo-Makr.png" className="h-8 mr-3 cursor-pointer" />
+                            </div>
+                            <div className="flex h-96 flex-col overflow-scroll">
+                                {getMessages.map((data, index) => {
+                                    // Check if data.data.owner and accounts[0] are both strings and then compare them
+                                    const isOwner =
+                                    typeof data.data.owner === 'string' &&
+                                    typeof accounts[0] === 'string' &&
+                                    data.data.owner.toUpperCase() === accounts[0].toUpperCase();
+
+                                    const messageClass = isOwner
+                                    ? "bg-blue-500 text-white rounded-lg p-2 max-w-md self-end"
+                                    : "bg-white text-black rounded-lg p-2 max-w-md self-start";
+
+                                    const messageClassTwo = isOwner
+                                    ? "text-gray-400 text-xs rounded-lg p-2 max-w-md self-end"
+                                    : "text-gray-400 text-xs rounded-lg p-2 max-w-md self-start";
+
+                                    return (
+                                    <div key={index} className={`mb-0 flex ${isOwner ? "justify-end" : "justify-start"} items-center w-full p-2`}>
+                                        {
+                                            !isOwner && (
+                                                data.data.isOwner ? (
+                                                    <div className={`h-6 w-6 rounded-full mr-2 bg-black flex justify-center items-center`}>
+                                                        <img src="https://i.postimg.cc/28fsnQtc/9rx-X5-X-Logo-Makr.png" className="h-3" />
+                                                    </div>
+                                                ) : (
+                                                    <div className={`h-6 w-6 rounded-full mr-2`} style={{backgroundColor: data.data.color}}></div>
+                                                )
+                                            )
+                                        }
+                                        
+                                        <div className="">
+                                        <p className={messageClass}>{data.data.message}</p>
+                                       
+                                        </div>
+                                        {index === getMessages.length - 1 && <div ref={messagesEndRef}></div>}
+                                    </div>
+                                    );
+                                })}
+                            </div>
+
+                            <form noValidate>
+                                <div className="w-full bg-white h-14 rounded-b-xl absolute bottom-0 flex items-center">
+                                <input
+                                    value={messageInput} onChangeCapture={(e) => setMessageInput(e.target.value)}
+                                    className="ml-3 w-full outline-none focus:border-gray-200"
+                                    placeholder="Type here ..."
+                                />
+                                <img onClick={sendMessage} src="https://i.postimg.cc/xd1Swgpr/0-K3d-UI-Logo-Makr.png" className="h-6 mr-3 pl-3 cursor-pointer" />
+                                </div>
+                            </form>
+                        </div>
+                    )
+                }
+                
+                
+
                 <div className="mainMiddleTwo">
                     <div className="width">
                     <img src={getAllInfo.slika} className=" w-full rounded-xl" />
@@ -1649,7 +2071,7 @@ const getBalanceOf = async () => {
                                    
                         {
                             getComments.map((data, index) => {
-                                return <WritingTwo onClick={() => addTo(data.data)} author={accounts[0].toUpperCase() == getAllInfo.address.toUpperCase() ? true : false} key={index} color={data.data.color} desc={data.data.desc} comment={data.data.comment} address={data.data.address[0]} />
+                                return <WritingTwo onClick={() => addNewOwnerGPTTest(data.data.address[0])} author={true} key={index} color={data.data.color} desc={data.data.desc} comment={data.data.comment} address={data.data.address[0]} />
                             })
                         }
                         </div>
