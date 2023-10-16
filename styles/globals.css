@@ -624,13 +624,14 @@
 
 .mainUp {
     width: 100%;
-    background-color: rgb(243, 243, 243);
-    height: 105px;
+    background-color: rgb(255, 255, 255);
+    height: 75px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    top: 0
+    top: 0;
+    border-bottom: 1px solid rgb(233, 233, 233);
 }
 
 .posts {

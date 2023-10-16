@@ -5,7 +5,9 @@ function Blog({title}) {
     <div className="flex flex-col items-center">
       <div className="accPost">
         <div>
-          <p className="font-bold text-2xl">{title}</p>
+          <p className="font-semibold text-xl">
+          {title && title.length > 20 ? `${title.slice(0, 20)}...` : title}
+          </p>
           <p className="text-gray-500 bg-gray-100 mt-2 rounded-full p-1 text-xs px-2"></p>
         </div>
         <div className="flex items-center">
