@@ -449,7 +449,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
         
         {
             posts.length == 0 ? (
-                <div className="posts">
+                <div className="postss">
                     <img src="https://i.postimg.cc/cHgkvZz1/undraw-writer-q06d-removebg-preview.png" className="h-64 mt-0" />
                     <p>You have no posts.</p>
                 </div>
@@ -480,7 +480,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
 
   // Render the owner group first if found
   ownerGroup && (
-    <div>
+    <div className="hover:bg-gray-100 rounded-lg py-2 cursor-pointer">
       <div className="flex items-center border-r border-gray-200">
         <p onClick={() => openGroup(ownerGroup.id)} className="text-blue-500 ml-4 pr-4">Your writers group ({getTeam.length}) :</p>
         {
@@ -506,7 +506,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
     return null;
   } else {
     return (
-      <div onClick={() => openGroup(ownerGroup.id, data.data.groupId)} key={index}>
+      <div onClick={() => openGroup(ownerGroup.id, data.data.groupId)} key={index} className="hover:bg-gray-100 rounded-lg py-2">
         <p className="font-light cursor-pointer border-r border-gray-200 ml-4 pr-4">Group {index + 1}</p>
       </div>
     );
@@ -521,8 +521,8 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
     <div className="flex h-96 flex-col flex-grow overflow-y-auto justify-center items-center" >
       <div className="flex flex-col items-center justify-center">
         <img src="https://i.postimg.cc/FF8qqMQm/8kiu1-X-Logo-Makr.png" className="h-36" />
-        <p className="mt-2">Check for messages</p>
-        <div onClick={openGroup} className="p-2 rounded-lg border-black border justify-center items-center mt-8 flex w-full cursor-pointer hover:bg-gray-200">Click</div>
+        <p className="mt-2">Click above on the group you want to chat</p>
+        {/*<div onClick={openGroup} className="p-2 rounded-lg border-black border justify-center items-center mt-8 flex w-full cursor-pointer hover:bg-gray-200">Click</div>*/}
       </div>
                                 {getMessages.map((data, index) => {
                                     // Check if data.data.owner and accounts[0] are both strings and then compare them

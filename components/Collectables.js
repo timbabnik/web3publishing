@@ -178,7 +178,7 @@ function Collectables() {
                           
                           <p style={{width: 500}} className="text-3xl font-bold text-[#FFDFBA] ml-2">Co-write/earn with you readers</p>
                       </div>
-                      <p className="textSize" style={{width: 530}}>This is a place where your readers can comment, share ideas, criticize and add their insights. If you find any of them interesting enough, you can add them to your writters group, where you will communicate with them in real time.</p>
+                      <p className="textSize" style={{width: 530}}>This is a place where your readers can comment, share ideas, criticize and add their insights. If you find any of them interesting enough, you can add them to your writers group, where you will communicate with them in real time.</p>
                       <p className="textSize" style={{width: 530}}>All the members (max 5) of the group will share 10% of all the keys sold. At any time you can add or remove somebody from the group.</p>
 
                     </div>      

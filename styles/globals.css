@@ -644,6 +644,17 @@
     justify-content: center;
 }   
 
+.postss {
+    background-color: rgb(243, 243, 243);
+    height: 100%;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding-top: 0px;
+    justify-content: center;
+    flex-direction: column;
+}   
+
 .postsTwo {
     background-color: rgb(243, 243, 243);
     height: 100%;

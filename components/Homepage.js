@@ -27,7 +27,8 @@ function Homepage({onClick}) {
 
        <Collectables />
        <Link href="/posts/f7bFdxHlwUqVNaysUiCL">
-<p className="text-xl text-blue-200 font-bold border-2 rounded-xl mt-24 border-blue-200 p-4 hover:bg-blue-200 cursor-pointer hover:text-black">Alwrite in 1 minute</p>
+         <div className="mb-20"></div>
+{/*<p className="text-xl text-blue-200 font-bold border-2 rounded-xl mt-24 border-blue-200 p-4 hover:bg-blue-200 cursor-pointer hover:text-black">Alwrite in 1 minute</p>*/}
 </Link>
        {/* <div className="widthMain" style={{backgroundColor: "#06141f", position: "relative"}} >
           <div className="corner">

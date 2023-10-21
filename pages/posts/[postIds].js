@@ -312,7 +312,7 @@ const addNewOwnerGPT = async () => {
 };
 
 
-const addressTest = "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d";
+const addressTest = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 const addNewOwnerGPTTest = async (id) => {
 
@@ -1027,7 +1027,7 @@ const getBalanceOf = async () => {
         const getOne = await contractAward.balanceOf(accounts[0], getAllInfo.idOne); 
         const getQuote = await contractAward.balanceOf(accounts[0], getAllInfo.idQuote); 
         
-        if (ethers.utils.formatEther(getBasic) * 10 + 1  > 0) {
+        if (ethers.utils.formatEther(getBasic) * 10  > 0) {
             console.log("Unlocked");
             setWriteComment(true);
         } else if (ethers.utils.formatEther(getOne) * 10  > 0) {
@@ -1178,35 +1178,9 @@ const getBalanceOf = async () => {
       
 const [checkOwner, setCheckOwner] = useState(false);
 
-const testestes = () => {
-  const messagesQuery = query(
-    collection(db, "allGroups", getGroups[0].id, "messages"),
-    orderBy("timestamp", "asc") // Sort by timestamp in ascending order
-  );
-
-  const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
-    const messages = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      data: doc.data(),
-    }));
-    setGetMessages(messages);
-  });
-
-  setCheckOwner(true);
-
-  return () => {
-    // Unsubscribe from the Firestore listener when the component unmounts
-    unsubscribe();
-  };
-
-  
-}; 
-
-
-
-const testestestest = () => {
+const testestes = (id) => {
     const messagesQuery = query(
-      collection(db, "allGroups", getGroups[0].data.groupId, "messages"),
+      collection(db, "allGroups", id, "messages"),
       orderBy("timestamp", "asc") // Sort by timestamp in ascending order
     );
   
@@ -1218,6 +1192,8 @@ const testestestest = () => {
       setGetMessages(messages);
     });
   
+    setCheckOwner(true);
+  
     return () => {
       // Unsubscribe from the Firestore listener when the component unmounts
       unsubscribe();
@@ -1225,6 +1201,30 @@ const testestestest = () => {
   
     
   }; 
+  
+  
+  
+  const testestestest = (idTwo) => {
+      const messagesQuery = query(
+        collection(db, "allGroups", idTwo, "messages"),
+        orderBy("timestamp", "asc") // Sort by timestamp in ascending order
+      );
+    
+      const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
+        const messages = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
+        setGetMessages(messages);
+      });
+    
+      return () => {
+        // Unsubscribe from the Firestore listener when the component unmounts
+        unsubscribe();
+      };
+    
+      
+    }; 
 
 
       const sendMessage = async () => {
@@ -1248,16 +1248,21 @@ const testestestest = () => {
         setMessageInput("");
       }
 
+      const [yourGroup, setYourgroup] = useState(true);
+      
 
-      const openGroup = () => {
-          setCloseTab(false);
-          setRefresh(!refresh);
-          if (getGroups[0].data.owner.toUpperCase() == accounts[0].toUpperCase()) {
-            testestes();
-          } else {
-            testestestest();
-          }
-      }
+      const openGroup = (id, idTwo) => {
+        
+        if (getGroups[0].data.owner.toUpperCase() == accounts[0].toUpperCase()) {
+          testestes(id);
+          setYourgroup(true);
+        } else {
+          testestestest(idTwo);
+          setYourgroup(false);
+        }
+
+        setCloseTab(false);
+    }
 
 
       const messagesEndRef = useRef(null); // Create a ref for the last message element
@@ -1309,6 +1314,63 @@ const removePerson = async () => {
     
 }
 
+async function collectTest() {
+    if (window.ethereum) {
+            const account = await window.ethereum.request({
+                method: "eth_requestAccounts",
+            })
+        setAccounts(account);
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+            addressTest,
+          AlwriteTwo.abi,
+            signer
+        );
+        try {
+            if (selectedOption == 4) {
+              const responseOne = await contract.basic(
+                  getAllInfo.address,
+                  getAllInfo.idPost,
+                  getAllInfo.urlOneofOne,
+                  getAllInfo.json,
+                  getAllInfo.urlQuote,
+                  getAllInfo.idBasic,
+                  {
+                      value: ethers.utils.parseEther((0.001).toString()),
+                  }
+                );
+              console.log(responseOne)
+            } else if (selectedOption == 1) {
+              const responseTwo = await contract.oneOfOneMint(getAllInfo.address, getAllInfo.idPost, getAllInfo.urlOneofOne, getAllInfo.json, getAllInfo.urlQuote, getAllInfo.idOne,
+                  {
+                      value: ethers.utils.parseEther((0.001).toString()),
+                  });
+              console.log(responseTwo)
+            } else if (selectedOption == 3) {
+              const responseThree = await contract.quoteMint(getAllInfo.address, getAllInfo.idPost, getAllInfo.urlOneofOne, getAllInfo.json, getAllInfo.urlQuote, getAllInfo.idQuote,
+                  {
+                      value: ethers.utils.parseEther((0.001).toString()),
+                  });
+              console.log(responseThree)
+            }
+            //console.log(getAllInfo.address, getAllInfo.id, getAllInfo.oneofone, getAllInfo.urlOneofOne, getAllInfo.idOne, getAllInfo.royalty, getAllInfo.royaltyNumber, getAllInfo.quote, getAllInfo.urlQuote, getAllInfo.idTwo, getAllInfo.signature);
+            //console.log(getAllInfo.address, getAllInfo.id, getAllInfo.urlOneofOne, getAllInfo.json, getAllInfo.urlQuote, getAllInfo.idTwo)
+            //const response = await contract.mintTwo("0x1b8163f3f7ae29af06c50df4ae5e0fe9375f8496", 9595, true, "https://timomarket.infura-ipfs.io/ipfs/QmSNrrge9Ut6M5U19tAkZUYgLMYv3bmqyNPHY1FciVPK9e", 7088, true, 5, true, "https://timomarket.infura-ipfs.io/ipfs/Qmbo9piTPyx4B9VWxdED2e5mawmNk6kHdgqcyzJGUm29gC", 8457, "0x388323e2011e601363ec071a8e5ff5f3bfa89b93466a25ba5cf34e29185c435e3efebb52020d5e181d9cfafa90729928c9feb03f6ab6420f43852f0322dbcf8c1c");
+            //const responseTwo = await contract.totalSupplyOf(9595);
+            //console.log(response);
+            //console.log(responseTwo);
+            
+        } catch (err) {
+            console.log("error: ", err);
+        }
+    }
+  
+    mintPhotoCHange();
+  }
+
+
+
 const [getPersonId, setGetPersonId] = useState("");
 const [deleteGroupId, setDeleteGroupId] = useState("");
 const [teamId, setTeamId] = useState("");
@@ -1344,6 +1406,9 @@ const getPersonInfo = (id, idTwo) => {
     }
     
 }
+
+
+const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === accounts[0].toUpperCase());
 
 
   return (
@@ -1516,7 +1581,24 @@ const getPersonInfo = (id, idTwo) => {
                     <img src="https://i.postimg.cc/KzSwXFDx/Logo-Makr-1xya-Fv.png" className="h-8" />
                     
                 </div>
+                
                 </Link>
+                {
+                    accounts ? (
+                        <Link href="/account">
+                        <div className="absolute right-3 top-3 border-gray-500 border rounded-lg justify-around flex items-center hover:cursor-pointer hover:bg-gray-200 px-4 p-4 mt-0">
+                                               
+                                                <p className="text-sm font-light ml-1">Check your groups</p>
+                        </div>
+                        </Link>
+                    ) : (
+                        <div onClick={connectMetamask} className="absolute right-3 top-3 border-gray-500 border rounded-lg justify-around flex p-2 items-center hover:cursor-pointer hover:bg-gray-200 px-4 w-36 mt-0">
+                                                <img className="w-8" src="https://i.postimg.cc/mrT1hFKC/Meta-Mask-Fox-svg-2.png" />
+                                                <p className="text-sm font-light ml-1">Connect</p>
+                        </div>
+                    )
+                }
+                
                 <div className="flex items-center right-5 top-5 absolute">
                 {/*<SunIcon />
       <label className="toggle-switch">
@@ -1527,18 +1609,36 @@ const getPersonInfo = (id, idTwo) => {
                 </div>
                 {
                     closeTab ? (
-                        <>
+                        <div className="bottom-16 right-5 fixed">
                         {
-                            getGroups.map((data, index) => {
-                                return <div key={index} onClick={openGroup} className=" top-5 right-5 fixed bg-[#1B3950] p-6 px-7 rounded-full hover:bg-blue-700 cursor-pointer">
-                                    <img src="https://i.postimg.cc/3NvBFbBD/8-Wq7i-W-Logo-Makr.png" className="h-12" />
-                                    </div>
-                            })
-                        }
-                        </>
+  // Find the item that matches the condition
+  
+
+  // Render the owner group first if found
+  ownerGroup && (
+    <div onClick={() => openGroup(ownerGroup.id)} className=" bg-[#0f91ff] p-6 px-6 rounded-full hover:bg-blue-700 cursor-pointer">
+    <img src="https://i.postimg.cc/NMHp0scc/9r-ANez-Logo-Makr.png" className="h-12" />
+    </div>
+  )
+}
+
+{/* Render the rest of the groups */}
+{getGroups.map((data, index) => {
+  if (data.data.owner.toUpperCase() === accounts[0].toUpperCase()) {
+    // Skip the owner group as it has already been displayed
+    return null;
+  } else {
+    return (
+        <div key={index} onClick={() => openGroup(ownerGroup.id, data.data.groupId)} className=" bg-[#06c6df] p-6 px-6 rounded-full hover:bg-blue-700 cursor-pointer mt-4">
+        <img src="https://i.postimg.cc/NMHp0scc/9r-ANez-Logo-Makr.png" className="h-12" />
+        </div>
+    );
+  }
+})}
+                        </div>
                         
                     ) : (
-                        <div className="top-5 right-5 fixed bg-gray-100 rounded-xl border border-gray-300" style={{ height: 500, width: 380 }}>
+                        <div className="bottom-10 right-5 fixed bg-gray-100 rounded-xl border border-gray-300" style={{ height: 500, width: 380 }}>
                             <div className="bg-blue-500 w-full h-14 rounded-t-xl flex items-center">
                                 <div className="w-full ml-3 text-white flex items-center">
                                 {
@@ -1547,7 +1647,7 @@ const getPersonInfo = (id, idTwo) => {
                                         <p className="mr-3">Your team ({getTeam.length}) :</p>
                                         {
                                             getTeam.map((data, index) => {
-                                                return <div onClick={() => getPersonFromTeam(data.data.address, data.data.groupId, data.id)} key={index} style={{backgroundColor: data.data.color, width: 20, height: 20, borderRadius: "100%", marginRight: 10}}></div>
+                                                return <div onClick={() => getPersonFromTeam(data.data.address, data.data.groupId, data.id)} key={index} style={{backgroundColor: data.data.color, width: 20, height: 20, borderRadius: "100%", marginRight: 10, cursor: "pointer"}}></div>
                                             })
                                         }
                                         </>
@@ -1819,7 +1919,7 @@ const getPersonInfo = (id, idTwo) => {
                         <div className="border-t border-gray-300 w-full mt-10"></div>
                         {
                                 addressChain ? (
-<button disabled={isWrongNetwork} onClick={collect} style={{backgroundColor: isWrongNetwork ? "gray" : "#33626d"}} className="mt-8 bg-[#33626d] text-white p-2 justify-center items-center flex px-10 py-3 rounded-xl cursor-pointer hover:bg-[#28555f]">{isWrongNetwork ? "Switch to Optimism Network" : "Collect"} </button>
+<button disabled={isWrongNetwork} onClick={collectTest} style={{backgroundColor: isWrongNetwork ? "gray" : "#33626d"}} className="mt-8 bg-[#33626d] text-white p-2 justify-center items-center flex px-10 py-3 rounded-xl cursor-pointer hover:bg-[#28555f]">{isWrongNetwork ? "Switch to Optimism Network" : "Collect"} </button>
                                 ) : (
                                     <ConnectWallet
                                     theme="dark"
@@ -2071,14 +2171,19 @@ const getPersonInfo = (id, idTwo) => {
                                    
                         {
                             getComments.map((data, index) => {
-                                return <WritingTwo onClick={() => addNewOwnerGPTTest(data.data.address[0])} author={true} key={index} color={data.data.color} desc={data.data.desc} comment={data.data.comment} address={data.data.address[0]} />
+                                return <WritingTwo onClick={() => addNewOwnerGPTTest(data.data.address[0])} author={accounts[0].toUpperCase() === getAllInfo.address.toUpperCase() ? true : false} key={index} color={data.data.color} desc={data.data.desc} comment={data.data.comment} address={data.data.address[0]} />
                             })
                         }
                         </div>
                                     </>) : (
                                     <>
                                      {/*<p>Write something insightful and author of this post can add your comment to the article, making you a co-author.</p>*/}
-                                     <p className="text-2xl">Write a comment to get a chance to become a co-author and share earnings with the author 😊</p>
+                                     <p className="uppercase text-blue-600 mt-6 font-semibold">Join author´s creative group</p>
+                                     <p className="text-4xl font-bold mt-2">Idea section</p>
+                                     <p className="text-xl font-light mt-4 text-gray-600 text-center" style={{width: 700}}>Write an insightful comment and get a chance to join the author's creative group, where you will help the author with ideas for the next article and share earnings.</p>
+                                     <div>
+                                     
+                                     </div>
                                      {
                                          accounts ? (
                                             <div onClick={getBalanceOf} className="border-gray-500 border rounded-lg justify-around flex p-2 items-center hover:cursor-pointer hover:bg-gray-200 px-4 w-36 mt-6">
