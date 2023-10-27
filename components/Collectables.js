@@ -43,7 +43,7 @@ function Collectables() {
                   <div className="flex justify-between w-80">
             {
               keys.map((data, index) => {
-                return <div className="keysInfo" onClick={() => setSelected(data.name)} className={`${selected == data.name ? "bg-[#103552]" : "bg-[#0d2c44]"} ${selected == data.name ? "text-blue-400" : "text-gray-400"}  p-4 w-24 justify-center items-center flex rounded-lg cursor-pointer`}>{data.name}</div>
+                return <div  onClick={() => setSelected(data.name)} className={`${selected == data.name ? "bg-[#103552]" : "bg-[#0d2c44]"} ${selected == data.name ? "text-blue-400" : "text-gray-400"}  p-4 w-24 justify-center items-center flex rounded-lg cursor-pointer`}>{data.name}</div>
               })
             }
             
