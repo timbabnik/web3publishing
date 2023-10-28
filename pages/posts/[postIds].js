@@ -1638,7 +1638,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
                         </div>
                         
                     ) : (
-                        <div className="bottom-10 right-5 fixed bg-gray-100 rounded-xl border border-gray-300" style={{ height: 500, width: 380 }}>
+                        <div className="chatInfo" >
                             <div className="bg-blue-500 w-full h-14 rounded-t-xl flex items-center">
                                 <div className="w-full ml-3 text-white flex items-center">
                                 {
@@ -2180,7 +2180,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
                                      {/*<p>Write something insightful and author of this post can add your comment to the article, making you a co-author.</p>*/}
                                      <p className="uppercase text-blue-600 mt-6 font-semibold">Join author´s creative group</p>
                                      <p className="text-4xl font-bold mt-2">Idea section</p>
-                                     <p className="text-xl font-light mt-4 text-gray-600 text-center" style={{width: 700}}>Write an insightful comment and get a chance to join the author's creative group, where you will help the author with ideas for the next article and share earnings.</p>
+                                     <p className="ideasectiondesc">Write an insightful comment and get a chance to join the author's creative group, where you will help the author with ideas for the next article and share earnings.</p>
                                      <div>
                                      
                                      </div>
