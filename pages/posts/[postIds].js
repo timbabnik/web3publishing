@@ -1919,7 +1919,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
                         <div className="border-t border-gray-300 w-full mt-10"></div>
                         {
                                 addressChain ? (
-<button disabled={isWrongNetwork} onClick={collectTest} style={{backgroundColor: isWrongNetwork ? "gray" : "#33626d"}} className="mt-8 bg-[#33626d] text-white p-2 justify-center items-center flex px-10 py-3 rounded-xl cursor-pointer hover:bg-[#28555f]">{isWrongNetwork ? "Switch to Optimism Network" : "Collect"} </button>
+<button disabled={isWrongNetwork} onClick={() => alert("Sold out")} style={{backgroundColor: isWrongNetwork ? "gray" : "#33626d"}} className="mt-8 bg-[#33626d] text-white p-2 justify-center items-center flex px-10 py-3 rounded-xl cursor-pointer hover:bg-[#28555f]">{isWrongNetwork ? "Switch to Optimism Network" : "Collect"} </button>
                                 ) : (
                                     <ConnectWallet
                                     theme="dark"
