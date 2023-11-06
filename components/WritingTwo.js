@@ -40,7 +40,7 @@ function Writing({color, comment, desc, onClick, address, author}) {
                 e.target.style.color = "";
               }}
             >
-              Add co-author
+              Add to writers´group
             </button>
           </div>
         </div>)

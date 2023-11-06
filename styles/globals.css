@@ -493,6 +493,10 @@
 
 .upper {
     display: flex;
+    flex-wrap: wrap; /* This allows items to wrap to the next row */
+    justify-content: center; /* Distributes items evenly in a row */
+    align-content: flex-start; /* Aligns items at the beginning of each column */
+    max-width: 100%; /* Ensures the container doesn't exceed its parent's width */
 }
 
 .article {
@@ -956,6 +960,7 @@
     margin-top: 10px;
     font-size: 20px;
     width: 550px;
+    text-align: center;
   }
 
 
@@ -1066,7 +1071,7 @@
 .createkeys {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     margin-top: 60px;
 }

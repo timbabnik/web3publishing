@@ -1,49 +1,50 @@
+import Link from 'next/link';
 import React, {useState} from 'react'
 
 function Collectables() {
 
 
-  const [selected, setSelected] = useState("Key 1");
+  const [selected, setSelected] = useState("1. Publish");
 
   const keys = [{
     id: 1,
-    name: "Key 1",
+    name: "1. Publish",
   }, {
     id: 2,
-    name: "Key 2",
+    name: "2. Comment",
   }, {
     id: 3,
-    name: "Key 3"
+    name: "3. Writers group"
   }];
 
   return (
     <>
     
+
+
+
+       
+
         <div className="widthMain" style={{backgroundColor: "#0a2336", position: "relative", marginTop: 120}} >
         <div className="monetize">
 
-<p style={{width: 300}} className={`text-4xl font-bold text-center ${selected == "Key 2" ? "text-[#FFDFBA]" : selected == "Key 3" ? "text-[#fcaa96]" : "text-blue-200"} ${selected == "Key 2" ? "border-[#ffd5a4]" : selected == "Key 3" ? "border-[#ffb09c]" : "border-blue-200"} ml-0 border-b border-blue-200 pb-2`}>CREATE KEYS ...</p>
+
 </div>
 
 
           
-        {  selected == "Key 1" ? <div className="createkeys">
+        {  selected == "1. Publish" ? (
+                          <div className="createkeys">
           <div className="cornerr" style={{padding: 20}}>
-            <img src="https://i.postimg.cc/8CtZFbj3/03f06w-Logo-Makr.png" className="w-12" />
+            <img src="https://i.postimg.cc/hvGD598d/1-LNBpz-Logo-Makr.png" className="w-12" />
           </div>
-          <div className="collectTitle">
-                        <img src="https://i.postimg.cc/02HwzXqj/bm-Ba6tj3-E7zj-ZKSJoq-F3-2-8fnt1.jpg" alt="Your Image" className="mintPhoto" />
-                        <div className="absolute text-white text-lg font-bold w-60 text-center">Go to the extreme - and stay there.</div>
-                        
-                        
-                        
-                    </div>
+          
                 <div className="monetizee">
-                  <div className="size">
-                  <div className="flex justify-between w-80">
+                  <div className="justify-center items-center flex flex-col" >
+                  <div className="flex justify-between w-full">
             {
               keys.map((data, index) => {
-                return <div  onClick={() => setSelected(data.name)} className={`${selected == data.name ? "bg-[#103552]" : "bg-[#0d2c44]"} ${selected == data.name ? "text-blue-400" : "text-gray-400"}  p-4 w-24 justify-center items-center flex rounded-lg cursor-pointer`}>{data.name}</div>
+                return <div onClick={() => setSelected(data.name)} className={`${selected == data.name ? "bg-[#103552]" : "bg-[#0d2c44]"} ${selected == data.name ? "text-blue-400" : "text-gray-400"}  p-4 w-1/3 mr-2 ml-2 h-16 justify-center items-center flex rounded-lg cursor-pointer`}>{data.name}</div>
               })
             }
             
@@ -51,71 +52,65 @@ function Collectables() {
                       <div className="marginKey"></div>
                       <div className="monetize">
                           <div className="mmarginleftt">
-                          <img src="https://i.postimg.cc/Z5sttdLM/Logo-Makr-1r-Rry-N.png" className="w-6" />
+                          <img src="https://i.postimg.cc/hjx0rkj0/Logo-Makr-3lno19.png" className="w-2" />
                           </div>
-                          <p  className="text-2xl font-medium text-blue-200 ml-2">Quote, thoughts, ideas</p>
+                          <p className="text-2xl font-medium text-blue-200 ml-2">Publish your articles.</p>
                       </div>
-                      <p className="textSize">Create unique NFTs with your writings on a AI generated background. People that like your writings want to read more from you - quotes, thoughts, ideas, ...
-
-</p>
+                      <p className="textSize">Use our platform and editor to publish your articles/posts for free.</p>
+                      <p className="textSize">Every article is also a collectible post that can be minted, providing your fans with access to a comment section where they have the chance to be invited to the writers' group.</p>
                       <p className="textSize"></p>
+                      <img src="https://i.postimg.cc/440dD2L3/Screenshot-2023-11-06-at-18-09-15.png" style={{width: 800, borderRadius: 10, marginTop: 50}} />
                     </div>
                     <div className="mt-10"></div>
                     
                 </div>  
-                        </div> : selected == "Key 2" ? (
-                          <div className="createkeys" >
+                        </div>) : selected == "2. Comment" ? (
+                          <div className="createkeys">
           <div className="cornerr" style={{padding: 20, backgroundColor: "#e7bb88"}}>
-            <img src="https://i.postimg.cc/8CtZFbj3/03f06w-Logo-Makr.png" className="w-12" />
+            <img src="https://i.postimg.cc/hvGD598d/1-LNBpz-Logo-Makr.png" className="w-12" />
           </div>
-          <div className="collectTitle">
-                          <img src="https://i.postimg.cc/TPJrPHJH/Logo-Makr-10.png" className="h-10 m-2 absolute top-0 left-0" />
-                          {/*<p className="text-center px-12">{getAllInfo.title}</p>*/}
-                          <p className="text-center px-12 text-yellow-500">The name of your post</p>
-                          {/*<p className="text-center px-12 text-xs mt-2 text-gray-500">{postIds}</p>*/}
-                        </div>
+          
                 <div className="monetizee">
-                  <div className="size">
-                  <div className="flex justify-between w-80">
+                  <div className="justify-center items-center flex flex-col" >
+                  <div className="flex justify-between w-full">
             {
               keys.map((data, index) => {
-                return <div onClick={() => setSelected(data.name)} className={`${selected == data.name ? "bg-[#103552]" : "bg-[#0d2c44]"} ${selected == data.name ? "text-blue-400" : "text-gray-400"}  p-4 w-24 justify-center items-center flex rounded-lg cursor-pointer`}>{data.name}</div>
+                return <div onClick={() => setSelected(data.name)} className={`${selected == data.name ? "bg-[#103552]" : "bg-[#0d2c44]"} ${selected == data.name ? "text-blue-400" : "text-gray-400"}  p-4 w-1/3 mr-2 ml-2 h-16 justify-center items-center flex rounded-lg cursor-pointer`}>{data.name}</div>
               })
             }
             
           </div>
-                    
                       <div className="marginKey"></div>
                       <div className="monetize">
                           <div className="mmarginleftt" style={{backgroundColor: "#FFDFBA"}}>
-                          <img src="https://i.postimg.cc/hjx0rkj0/Logo-Makr-3lno19.png" className="w-2" />
+                          <img src="https://i.postimg.cc/Z5sttdLM/Logo-Makr-1r-Rry-N.png" className="w-8" />
                           </div>
-                          <p className="text-xl font-medium text-[#FFDFBA] ml-2">One of One Collectible Post</p>
+                          <p className="text-2xl font-medium text-[#FFDFBA] ml-2">Comment your thoughts, ideas, ...</p>
                       </div>
-                      <p className="textSize">Create a One-of-One collectible NFT of your post for one of your fan that likes your writing/blog/post.</p>
+                      <p className="textSize">This is more than a comment section, it is an idea section.
+
+</p>
+                      <p className="textSize">It´s a place where holders of collectible posts can add their insights, criticize and share ideas for this or the next article. If you as an author of the article find any of them interesting enough, you can add them to your writers group, where you will communicate with them in real time.
+
+</p>
                       <p className="textSize"></p>
+                      <img src="https://i.postimg.cc/vZZLbBML/Screenshot-2023-11-06-at-23-21-25.png" style={{width: 800, borderRadius: 10, marginTop: 50}} />
                     </div>
                     <div className="mt-10"></div>
                     
                 </div>  
-                        </div>
-                        ) : selected == "Key 3" ? (
+                        </div>) : selected == "3. Writers group" ? (
                           <div className="createkeys">
           <div className="cornerr" style={{padding: 20, backgroundColor: "#fcaa96"}}>
-            <img src="https://i.postimg.cc/8CtZFbj3/03f06w-Logo-Makr.png" className="w-12" />
+            <img src="https://i.postimg.cc/hvGD598d/1-LNBpz-Logo-Makr.png" className="w-12" />
           </div>
-          <div className="collectTitle">
-                          <img src="https://i.postimg.cc/BQZHZJwk/3-Gv-Yci-Logo-Makr.png" className="h-10 m-2 absolute top-0 left-0" />
-                          {/*<p className="text-center px-12">{getAllInfo.title}</p>*/}
-                          <p className="text-center px-12 text-black">The name of your post</p>
-                          {/*<p className="text-center px-12 text-xs mt-2 text-gray-500">{postIds}</p>*/}
-                        </div>
+          
                 <div className="monetizee">
-                  <div className="size">
-                  <div className="flex justify-between w-80">
+                  <div className="justify-center items-center flex flex-col" >
+                  <div className="flex justify-between w-full">
             {
               keys.map((data, index) => {
-                return <div onClick={() => setSelected(data.name)} className={`${selected == data.name ? "bg-[#103552]" : "bg-[#0d2c44]"} ${selected == data.name ? "text-blue-400" : "text-gray-400"}  p-4 w-24 justify-center items-center flex rounded-lg cursor-pointer`}>{data.name}</div>
+                return <div onClick={() => setSelected(data.name)} className={`${selected == data.name ? "bg-[#103552]" : "bg-[#0d2c44]"} ${selected == data.name ? "text-blue-400" : "text-gray-400"}  p-4 w-1/3 mr-2 ml-2 h-16 justify-center items-center flex rounded-lg cursor-pointer`}>{data.name}</div>
               })
             }
             
@@ -125,10 +120,14 @@ function Collectables() {
                           <div className="mmarginleftt" style={{backgroundColor: "#fcaa96"}}>
                           <img src="https://i.postimg.cc/FKJjmjpk/3-Dwk-Qm-Logo-Makr.png" className="w-8" />
                           </div>
-                          <p className="text-2xl font-medium text-[#fcaa96] ml-2">Basic Collectible Post</p>
+                          <p className="text-2xl font-medium text-[#fcaa96] ml-2">Get help from your readers and earn with them.</p>
                       </div>
-                      <p className="textSize">Create collectible posts for your articles so that your fans who mint them will have proof that they were among the first. Imagine having proof that you were the 6th person to read the Bitcoin whitepaper 😮.</p>
+                      <p className="textSize">Writers group is a group chat where the author can seek new ideas, receive assistance for upcoming articles, gather opinions on their current work, or engage in any other discussions with group members.</p>
+                     
+                      <p className="textSize">All the members (max 5) of the group will share 10% of all the collectible posts sold. At any time an author can add or remove somebody from the group.</p>
+                    
                       <p className="textSize"></p>
+                      <img src="https://i.postimg.cc/0jY8rPG9/Screenshot-2023-11-07-at-00-06-57.png" style={{width: 800, borderRadius: 10, marginTop: 50}} />
                     </div>
                     <div className="mt-10"></div>
                     
@@ -141,84 +140,15 @@ function Collectables() {
                         
         </div>
 
-
-
-
-
-
-
-
-
-
-        <div className="widthMainTwo" style={{position: "relative", backgroundColor: "#06141f"}} >
-          
-       <div className="cornerTwo" style={{padding:25, backgroundColor: "#FFDFBA"}}>
-         
-       <img src="https://i.postimg.cc/2yQwvdRq/6z9-Zn6-Logo-Makr.png" className="w-8" />
-       
+        <img src="https://i.postimg.cc/Dz5cThkb/25-Ld-SO-Logo-Makr.png" className="h-40 mt-16" />
+        <div className="flex items-center mt-10">
+                      <Link href="/account">
+                        <div  className="rounded-full">
+                                
+                                <p className="text-md font-bold ml-0 bg-blue-500 uppercase  text-white rounded-full p-6">Write your first post</p>
+                            </div>
+                        </Link>          
           </div>
-          <p  className={`text-4xl font-bold text-center  text-[#FFDFBA] ml-0 border-b border-[#FFDFBA] pb-2`}>...THAT UNLOCK AN IDEA SECTION</p>
-            <div className="ideasection">
-
-                        <div className="monetizee">
-                          
-                        <div className="sizee">
-                      <div className="monetizey">
-
-
-                      </div>
-                      
-                    </div>
-                    <div className="marginKey"></div>
-                    <div className="sizee">
-                      <div className="monetize">
-                      <div className="mmarginleftt" style={{backgroundColor: "#FFDFBA"}}>
-                          <img src="https://i.postimg.cc/G2V6Mwz8/Logo-Makr-2-RJFSC.png" className="w-6" />
-                          </div>
-                          
-                          <p  className="text-3xl font-bold text-[#FFDFBA] ml-2">Co-write/earn with you readers</p>
-                      </div>
-                      <p className="textSize" >This is a place where your readers can comment, share ideas, criticize and add their insights. If you find any of them interesting enough, you can add them to your writers group, where you will communicate with them in real time.</p>
-                      <p className="textSize">All the members (max 5) of the group will share 10% of all the keys sold. At any time you can add or remove somebody from the group.</p>
-
-                    </div>      
-                      </div>
-                       
-                        
-
-
-
-                        
-                        <div>
-                        <div  className="writingThree" style={{borderWidth: 1, borderColor: "lightgray"}} >
-
-<div className="mainnn" >
-  <div className="flex items-center pl-3  border-b border-gray-100 rounded-t-xl py-2 w-full">
-    <div className="flex items-center">
-      <div className="h-5 w-5 rounded-full bg-gray-800"></div>
-      <p className="ml-1 text-xs text-gray-500">{"0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C".slice(0,4)}...{"0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C".slice("0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C".length - 4, "0xF17C0dCf959B6988E6D8F9010ee954e18Ad8b97C".length)}</p>
-    </div>
-    <div className="px-3 ml-4 text-xs py-1 rounded-full" style={{background: "#FFDFBA", color: "black"}}>Comment</div>
-  </div>
-  <p className="daoinfo">DAOs should prioritize inclusivity and diversity. Ensuring that various perspectives and voices are represented in the decision-making process is essential to prevent concentration of power and promote fairness. DAOs should prioritize inclusivity and diversity. Ensuring that various perspectives and voices are represented in the decision-making process is essential to prevent concentration of power and promote fairness. </p>
-</div>
-
-
-</div>
-                        </div>
-                        
-                        
-       
-
-
-        </div>
-
-       
-       
-
-       
-                        
-        </div>
     </>
   )
 }
