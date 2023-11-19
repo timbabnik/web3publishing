@@ -10,6 +10,7 @@ import imagee from "../public/ai2.jpg";
 import { ethers, BigNumber } from 'ethers';
 import Award from "./Award.json";
 import AlwriteTwo from "./AlwriteTwo.json"
+import AlwriteG from "./AlwriteG.json"
 
 function account() {
 
@@ -311,6 +312,11 @@ const getPersonFromTeam = (id, idTwo, idThree) => {
     setDeleteMessage(true);
 }
 
+
+
+
+const addressGoerli = "0x32a954C0D8DBf5AE0beC0E3481A3aBb47D467838";
+
 const removePerson = async () => {
   if (window.ethereum) {
       const account = await window.ethereum.request({
@@ -320,8 +326,8 @@ const removePerson = async () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
-          addressTest,
-          AlwriteTwo.abi,
+          addressGoerli,
+          AlwriteG.abi,
           signer
       );
       try {
@@ -330,7 +336,7 @@ const removePerson = async () => {
 
           console.log("Transaction confirmed:", receipt.confirmations);
 
-          setUnlocked(true);
+   
 
           if (receipt.confirmations > 0) {
               deleteDoc(doc(db, "accounts", getPersonId, "groups", deleteGroupId));
