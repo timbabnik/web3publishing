@@ -16,7 +16,7 @@ module.exports = {
       accounts: ["750340a0434805be897250489e813fa4ada53c2eff8b13f0a9f6888a5c4cfc41"],
     },
     goerli: {
-      url: "https://eth-goerli.g.alchemy.com/v2/2lsEqXNJ2e7Jldpx6pQVg1F6kKiBL6w1",
+      url: "https://eth-goerli.g.alchemy.com/v2/D3T9eCfz5PmDgS4R7kOvsmzxRVfY8SqD",
       accounts: [process.env.PRIVKEY],
     },
     optimismgoerli: {
@@ -29,7 +29,7 @@ module.exports = {
     }
   },
   etherscan: { 
-    apiKey: "ZCWUBFIE118AHY1Z43NVN4YGDGBGJ8UJPK"
+    apiKey: "UZX3CSSN33RII6SYDMMA3QYDI1VEMAM1RY"
   },
   solidity: "0.8.12",
   gas: 2100000,

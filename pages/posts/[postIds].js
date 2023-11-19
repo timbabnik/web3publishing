@@ -25,6 +25,7 @@ import Award from "../Award.json";
 import AlwriteGoerli from "../AlwriteGoerli.json";
 import AlwriteContract from "../AlwriteContract.json"
 import AlwriteTwo from "../AlwriteTwo.json"
+import AlwriteG from "../AlwriteG.json"
 
 function Own() {
 
@@ -313,6 +314,7 @@ const addNewOwnerGPT = async () => {
 
 
 const addressTest = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const addressGoerli = "0x32a954C0D8DBf5AE0beC0E3481A3aBb47D467838";
 
 const addNewOwnerGPTTest = async (id) => {
 
@@ -325,8 +327,8 @@ const addNewOwnerGPTTest = async (id) => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(
-            addressTest,
-            AlwriteTwo.abi,
+            addressGoerli,
+            AlwriteG.abi,
             signer
         );
         try {
@@ -342,7 +344,7 @@ const addNewOwnerGPTTest = async (id) => {
 
                  
                     const firstDocRef = await addDoc(collection(db, "accounts", id, "groups"), {
-                        groupId: getGroups[0].id,
+                        groupId: ownerGroup.id,
                         owner: accounts[0],
                         color: randomColor
                     });
@@ -815,7 +817,7 @@ const fetchCategories = async () => {
 
     useEffect(() => {
         if (isWrongNetwork && switchChain) {
-            switchChain(Optimism.chainId)
+            switchChain(Goerli.chainId)
         }
     }, [addressChain, switchChain, isWrongNetwork])
 
@@ -918,8 +920,8 @@ const appStyleTen = {
   
   // Interact with smart contract
 
-  const addressss = "0x3009CA11F3365AAE441e44A9c9D10e894843b041";
-  const providerrr = new ethers.providers.JsonRpcProvider("https://opt-mainnet.g.alchemy.com/v2/bUbciamyFoaNmUlZh5Ubm8t4e-6xVl4H");
+  const addressss = "0x32a954C0D8DBf5AE0beC0E3481A3aBb47D467838";
+  const providerrr = new ethers.providers.JsonRpcProvider("https://eth-goerli.g.alchemy.com/v2/D3T9eCfz5PmDgS4R7kOvsmzxRVfY8SqD");
 
   const contractAward = new ethers.Contract(addressss, AlwriteContract.abi, providerrr); 
 
@@ -1046,7 +1048,7 @@ const getBalanceOf = async () => {
         
     }
 
-    if (getGroups.length == 0) {
+    if (!ownerGroup && (getAllInfo.address.toUpperCase() == accounts[0].toUpperCase())) {
         addDoc(collection(db, "accounts", accounts[0], "groups"), {
             owner: accounts[0]
         });
@@ -1179,6 +1181,7 @@ const getBalanceOf = async () => {
 const [checkOwner, setCheckOwner] = useState(false);
 
 const testestes = (id) => {
+    console.log(id)
     const messagesQuery = query(
       collection(db, "allGroups", id, "messages"),
       orderBy("timestamp", "asc") // Sort by timestamp in ascending order
@@ -1217,6 +1220,8 @@ const testestes = (id) => {
         }));
         setGetMessages(messages);
       });
+
+      setCheckOwner(false);
     
       return () => {
         // Unsubscribe from the Firestore listener when the component unmounts
@@ -1228,6 +1233,7 @@ const testestes = (id) => {
 
 
       const sendMessage = async () => {
+          
           if (getGroups[0].data.owner.toUpperCase() == accounts[0].toUpperCase()) {
             addDoc(collection(db, "allGroups", getGroups[0].id, "messages"), {
                 message: messageInput,
@@ -1236,30 +1242,46 @@ const testestes = (id) => {
                 isOwner: true
               });
           } else {
-            addDoc(collection(db, "allGroups", getGroups[0].data.groupId, "messages"), {
-                message: messageInput,
-                owner: accounts[0],
-                timestamp: serverTimestamp(),
-                color: getGroups[0].data.color,
-                groupId: getGroups[0].id
-              });
+            if (getGroups && getGroups.length > 0 && getGroups[0].data && getGroups[0].data.groupId) {
+                addDoc(collection(db, "allGroups", getGroups[0].data.groupId, "messages"), {
+                  message: messageInput,
+                  owner: accounts[0],
+                  timestamp: serverTimestamp(),
+                  color: getGroups[0].data.color,
+                  groupId: getGroups[0].id
+                });
+              } else {
+                console.error("Error: Unable to access required properties in getGroups.");
+              }
+              
           }
         
         setMessageInput("");
       }
 
-      const [yourGroup, setYourgroup] = useState(true);
+
       
 
-      const openGroup = (id, idTwo) => {
+      const [yourGroup, setYourgroup] = useState(true);
+      const [getGroupId, setGetGroupId] = useState("");
+      const [getColorId, setGetColorId] = useState("");
+      
+
+      const openGroup = (idTwo, idThree) => {
+        setGetGroupId(idTwo);
+        setGetColorId(idThree);
+        testestestest(idTwo);
+          setYourgroup(false);
+          setCheckOwner(false);
+
+        setCloseTab(false);
+    }
+
+    const openMyGroup = (id) => {
         
-        if (getGroups[0].data.owner.toUpperCase() == accounts[0].toUpperCase()) {
           testestes(id);
           setYourgroup(true);
-        } else {
-          testestestest(idTwo);
-          setYourgroup(false);
-        }
+        
 
         setCloseTab(false);
     }
@@ -1286,8 +1308,8 @@ const removePerson = async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(
-            addressTest,
-            AlwriteTwo.abi,
+            addressGoerli,
+            AlwriteG.abi,
             signer
         );
         try {
@@ -1371,6 +1393,57 @@ async function collectTest() {
 
 
 
+  async function collectGoerli() {
+    if (window.ethereum) {
+            const account = await window.ethereum.request({
+                method: "eth_requestAccounts",
+            })
+        setAccounts(account);
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(
+            addressGoerli,
+            AlwriteG.abi,
+            signer
+        );
+        try {
+            if (selectedOption == 4) {
+              const responseOne = await contract.basic(
+                  getAllInfo.address,
+                  getAllInfo.idPost,
+                  getAllInfo.urlOneofOne,
+                  getAllInfo.json,
+                  getAllInfo.urlQuote,
+                  getAllInfo.idBasic,
+                  
+                );
+              console.log(responseOne)
+            } else if (selectedOption == 1) {
+              const responseTwo = await contract.oneOfOneMint(getAllInfo.address, getAllInfo.idPost, getAllInfo.urlOneofOne, getAllInfo.json, getAllInfo.urlQuote, getAllInfo.idOne,
+                  );
+              console.log(responseTwo)
+            } else if (selectedOption == 3) {
+              const responseThree = await contract.quoteMint(getAllInfo.address, getAllInfo.idPost, getAllInfo.urlOneofOne, getAllInfo.json, getAllInfo.urlQuote, getAllInfo.idQuote,
+                  );
+              console.log(responseThree)
+            }
+            //console.log(getAllInfo.address, getAllInfo.id, getAllInfo.oneofone, getAllInfo.urlOneofOne, getAllInfo.idOne, getAllInfo.royalty, getAllInfo.royaltyNumber, getAllInfo.quote, getAllInfo.urlQuote, getAllInfo.idTwo, getAllInfo.signature);
+            //console.log(getAllInfo.address, getAllInfo.id, getAllInfo.urlOneofOne, getAllInfo.json, getAllInfo.urlQuote, getAllInfo.idTwo)
+            //const response = await contract.mintTwo("0x1b8163f3f7ae29af06c50df4ae5e0fe9375f8496", 9595, true, "https://timomarket.infura-ipfs.io/ipfs/QmSNrrge9Ut6M5U19tAkZUYgLMYv3bmqyNPHY1FciVPK9e", 7088, true, 5, true, "https://timomarket.infura-ipfs.io/ipfs/Qmbo9piTPyx4B9VWxdED2e5mawmNk6kHdgqcyzJGUm29gC", 8457, "0x388323e2011e601363ec071a8e5ff5f3bfa89b93466a25ba5cf34e29185c435e3efebb52020d5e181d9cfafa90729928c9feb03f6ab6420f43852f0322dbcf8c1c");
+            //const responseTwo = await contract.totalSupplyOf(9595);
+            //console.log(response);
+            //console.log(responseTwo);
+            
+        } catch (err) {
+            console.log("error: ", err);
+        }
+    }
+  
+    mintPhotoCHange();
+  }
+
+
+
 const [getPersonId, setGetPersonId] = useState("");
 const [deleteGroupId, setDeleteGroupId] = useState("");
 const [teamId, setTeamId] = useState("");
@@ -1409,6 +1482,28 @@ const getPersonInfo = (id, idTwo) => {
 
 
 const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === accounts[0].toUpperCase());
+
+const sendMessagee = async () => {
+    if (checkOwner) {
+        addDoc(collection(db, "allGroups", ownerGroup.id, "messages"), {
+            message: messageInput,
+            owner: accounts[0],
+            timestamp: serverTimestamp(),
+            isOwner: true
+          });
+    } else {
+        addDoc(collection(db, "allGroups", getGroupId, "messages"), {
+            message: messageInput,
+            owner: accounts[0],
+            timestamp: serverTimestamp(),
+            color: getColorId,
+          });
+    
+        
+    }
+  
+  setMessageInput("");
+}
 
 
   return (
@@ -1616,7 +1711,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
 
   // Render the owner group first if found
   ownerGroup && (
-    <div onClick={() => openGroup(ownerGroup.id)} className=" bg-[#0f91ff] p-6 px-6 rounded-full hover:bg-blue-700 cursor-pointer">
+    <div onClick={() => openMyGroup(ownerGroup.id)} className=" bg-[#0f91ff] p-6 px-6 rounded-full hover:bg-blue-700 cursor-pointer">
     <img src="https://i.postimg.cc/NMHp0scc/9r-ANez-Logo-Makr.png" className="h-12" />
     </div>
   )
@@ -1629,7 +1724,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
     return null;
   } else {
     return (
-        <div key={index} onClick={() => openGroup(ownerGroup.id, data.data.groupId)} className=" bg-[#06c6df] p-6 px-6 rounded-full hover:bg-blue-700 cursor-pointer mt-4">
+        <div key={index} onClick={() => openGroup(data.data.groupId, data.data.color)} className=" bg-[#06c6df] p-6 px-6 rounded-full hover:bg-blue-700 cursor-pointer mt-4">
         <img src="https://i.postimg.cc/NMHp0scc/9r-ANez-Logo-Makr.png" className="h-12" />
         </div>
     );
@@ -1666,23 +1761,23 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
                                     data.data.owner.toUpperCase() === accounts[0].toUpperCase();
 
                                     const messageClass = isOwner
-                                    ? "bg-blue-500 text-white rounded-lg p-2 max-w-md self-end"
-                                    : "bg-white text-black rounded-lg p-2 max-w-md self-start";
+                                    ? "bg-blue-500 text-white rounded-lg p-2 max-w-xs self-end"
+                                    : "bg-white text-black rounded-lg p-2 max-w-xs self-start";
 
                                     const messageClassTwo = isOwner
                                     ? "text-gray-400 text-xs rounded-lg p-2 max-w-md self-end"
                                     : "text-gray-400 text-xs rounded-lg p-2 max-w-md self-start";
 
                                     return (
-                                    <div key={index} className={`mb-0 flex ${isOwner ? "justify-end" : "justify-start"} items-center w-full p-2`}>
+                                    <div key={index} className={`mb-0 flex ${isOwner ? "justify-end" : "justify-start"} items-top w-full p-2`}>
                                         {
                                             !isOwner && (
                                                 data.data.isOwner ? (
-                                                    <div className={`h-6 w-6 rounded-full mr-2 bg-black flex justify-center items-center`}>
+                                                    <div className={`h-6 w-6 rounded-full mr-2 bg-black flex justify-center items-center mt-2`}>
                                                         <img src="https://i.postimg.cc/28fsnQtc/9rx-X5-X-Logo-Makr.png" className="h-3" />
                                                     </div>
                                                 ) : (
-                                                    <div className={`h-6 w-6 rounded-full mr-2`} style={{backgroundColor: data.data.color}}></div>
+                                                    <div className={`h-6 w-6 rounded-full mr-2 mt-2`} style={{backgroundColor: data.data.color}}></div>
                                                 )
                                             )
                                         }
@@ -1704,7 +1799,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
                                     className="ml-3 w-full outline-none focus:border-gray-200"
                                     placeholder="Type here ..."
                                 />
-                                <img onClick={sendMessage} src="https://i.postimg.cc/xd1Swgpr/0-K3d-UI-Logo-Makr.png" className="h-6 mr-3 pl-3 cursor-pointer" />
+                                <img onClick={sendMessagee} src="https://i.postimg.cc/xd1Swgpr/0-K3d-UI-Logo-Makr.png" className="h-6 mr-3 pl-3 cursor-pointer" />
                                 </div>
                             </form>
                         </div>
@@ -1919,7 +2014,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
                         <div className="border-t border-gray-300 w-full mt-10"></div>
                         {
                                 addressChain ? (
-<button disabled={isWrongNetwork} onClick={() => alert("Sold out")} style={{backgroundColor: isWrongNetwork ? "gray" : "#33626d"}} className="mt-8 bg-[#33626d] text-white p-2 justify-center items-center flex px-10 py-3 rounded-xl cursor-pointer hover:bg-[#28555f]">{isWrongNetwork ? "Switch to Optimism Network" : "Collect"} </button>
+<button disabled={isWrongNetwork} onClick={collectGoerli} style={{backgroundColor: isWrongNetwork ? "gray" : "#33626d"}} className="mt-8 bg-[#33626d] text-white p-2 justify-center items-center flex px-10 py-3 rounded-xl cursor-pointer hover:bg-[#28555f]">{isWrongNetwork ? "Switch to Goerli Network" : "Collect"} </button>
                                 ) : (
                                     <ConnectWallet
                                     theme="dark"

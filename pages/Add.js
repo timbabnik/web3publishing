@@ -881,7 +881,7 @@ const [allwhitelist, setAllwhitelist] = useState([]);
              
             </div>
             <div className="justify-end flex">
-            <div onClick={whitelistCheckerTest} className="bg-blue-500 text-white p-3 rounded-lg w-28 justify-center items-center flex hover:bg-blue-600 cursor-pointer">Done</div>
+            <div onClick={completePublishing} className="bg-blue-500 text-white p-3 rounded-lg w-28 justify-center items-center flex hover:bg-blue-600 cursor-pointer">Done</div>
             </div>
             
            

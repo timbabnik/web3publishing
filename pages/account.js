@@ -212,6 +212,31 @@ function account() {
         }
     }
 
+    const [getGroupId, setGetGroupId] = useState("");
+    const [getColorId, setGetColorId] = useState("");
+    const [chooseGroup, setChooseGroup] = useState(false);
+
+    const openGroupp = (id, idTwo, idThree) => {
+      setGetGroupId(idTwo);
+      setGetColorId(idThree);
+      testestestest(idTwo);
+        setYourgroup(false);
+        setCheckOwner(false);
+        setChooseGroup(true);
+
+      
+  }
+
+  const openMyGroup = (id) => {
+      
+        testestes(id);
+        setYourgroup(true);
+        setChooseGroup(true);
+      
+
+      
+  }
+
     const connectAndOpenGroup = async () => {
       await connectMetamask(); // First, connectMetamask is called to get the account information.
       openGroup(); // Then, openGroup is called with the updated account information.
@@ -343,6 +368,28 @@ const deleteGroupDocument = async () => {
 
 const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === accounts[0].toUpperCase());
 
+
+const sendMessagee = async () => {
+  if (checkOwner) {
+      addDoc(collection(db, "allGroups", ownerGroup.id, "messages"), {
+          message: messageInput,
+          owner: accounts[0],
+          timestamp: serverTimestamp(),
+          isOwner: true
+        });
+  } else {
+      addDoc(collection(db, "allGroups", getGroupId, "messages"), {
+          message: messageInput,
+          owner: accounts[0],
+          timestamp: serverTimestamp(),
+          color: getColorId,
+        });
+  
+      
+  }
+
+setMessageInput("");
+}
 
   return (
     <div className="acc">
@@ -482,7 +529,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
   ownerGroup && (
     <div className="hover:bg-gray-100 rounded-lg py-2 cursor-pointer">
       <div className="flex items-center border-r border-gray-200">
-        <p onClick={() => openGroup(ownerGroup.id)} className="text-blue-500 ml-4 pr-4">Your writers group ({getTeam.length}) :</p>
+        <p onClick={() => openMyGroup(ownerGroup.id)} className="text-blue-500 ml-4 pr-4">Your writers group ({getTeam.length}) :</p>
         {
           checkOwner && (
             <>
@@ -506,7 +553,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
     return null;
   } else {
     return (
-      <div onClick={() => openGroup(ownerGroup.id, data.data.groupId)} key={index} className="hover:bg-gray-100 rounded-lg py-2">
+      <div onClick={() => openGroupp(ownerGroup.id, data.data.groupId, data.data.color)} key={index} className="hover:bg-gray-100 rounded-lg py-2">
         <p className="font-light cursor-pointer border-r border-gray-200 ml-4 pr-4">Group {index + 1}</p>
       </div>
     );
@@ -518,12 +565,13 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
     
     </div>
     
+  
+
+
     <div className="flex h-96 flex-col flex-grow overflow-y-auto justify-center items-center" >
-      <div className="flex flex-col items-center justify-center">
-        <img src="https://i.postimg.cc/FF8qqMQm/8kiu1-X-Logo-Makr.png" className="h-36" />
-        <p className="mt-2">Click above on the group you want to chat</p>
-        {/*<div onClick={openGroup} className="p-2 rounded-lg border-black border justify-center items-center mt-8 flex w-full cursor-pointer hover:bg-gray-200">Click</div>*/}
-      </div>
+      {
+        chooseGroup ? (
+          <div className="h-full w-full">
                                 {getMessages.map((data, index) => {
                                     // Check if data.data.owner and accounts[0] are both strings and then compare them
                                     const isOwner =
@@ -561,6 +609,17 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
                                     </div>
                                     );
                                 })}
+                                </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center">
+          <img src="https://i.postimg.cc/FF8qqMQm/8kiu1-X-Logo-Makr.png" className="h-36" />
+          <p className="mt-2">Click above on the group you want to chat</p>
+          {/*<div onClick={openGroup} className="p-2 rounded-lg border-black border justify-center items-center mt-8 flex w-full cursor-pointer hover:bg-gray-200">Click</div>*/}
+        </div>
+        )
+      }
+     
+      
                             </div>
   </div>
   <input
@@ -569,7 +628,7 @@ const ownerGroup = getGroups.find(data => data.data.owner.toUpperCase() === acco
     placeholder="Aa ..."
     onKeyPress={(e) => {
       if (e.key === "Enter") {
-        sendMessage()
+        sendMessagee()
           
       }
   }}
