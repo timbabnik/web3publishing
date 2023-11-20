@@ -240,6 +240,10 @@ async function completePublishing() {
     signature: signature
   });
 
+  const goerliRef = await addDoc(collection(db, "goerli"), {
+    owner: accounts[0]
+  });
+
   
   const docId = docRef.id;
   console.log('Document ID:', docId);
@@ -881,7 +885,7 @@ const [allwhitelist, setAllwhitelist] = useState([]);
              
             </div>
             <div className="justify-end flex">
-            <div onClick={completePublishing} className="bg-blue-500 text-white p-3 rounded-lg w-28 justify-center items-center flex hover:bg-blue-600 cursor-pointer">Done</div>
+            <button disabled={!accounts} onClick={completePublishing} className={`${accounts ? "bg-blue-500" : "bg-gray-400"} ${accounts ? "hover:bg-blue-600" : "hover:bg-gray-400"} text-white p-3 rounded-lg w-28 justify-center items-center flex  cursor-pointer`}>Done</button>
             </div>
             
            
