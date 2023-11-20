@@ -317,8 +317,6 @@ const addressTest = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const addressGoerli = "0x32a954C0D8DBf5AE0beC0E3481A3aBb47D467838";
 
 const addNewOwnerGPTTest = async (id) => {
-
-
     if (window.ethereum) {
         const account = await window.ethereum.request({
             method: "eth_requestAccounts",
@@ -331,38 +329,41 @@ const addNewOwnerGPTTest = async (id) => {
             AlwriteG.abi,
             signer
         );
+
         try {
-            const transaction = await contract.addCoOwner(id);
-            const receipt = await transaction.wait(); // Wait for the transaction to be mined
+            // Check if the selected address is already in setGetTeam
+            const isAddressInTeam = getTeam.some(teamMember => teamMember.data.address === id);
 
-            console.log("Transaction confirmed:", receipt.confirmations);
+            if (!isAddressInTeam) {
+                const transaction = await contract.addCoOwner(id);
+                const receipt = await transaction.wait();
 
-            setUnlocked(true);
+                console.log("Transaction confirmed:", receipt.confirmations);
 
-            if (receipt.confirmations > 0) {
-                const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+                setUnlocked(true);
 
-                 
+                if (receipt.confirmations > 0) {
+                    const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+
                     const firstDocRef = await addDoc(collection(db, "accounts", id, "groups"), {
                         groupId: ownerGroup.id,
                         owner: accounts[0],
                         color: randomColor
                     });
-                    
-                    // Get the ID of the first document
+
                     const groupId = firstDocRef.id;
-                    
-                    // Add the second document using the groupId
+
                     await addDoc(collection(db, "accounts", accounts[0], "team"), {
                         address: id,
                         color: randomColor,
                         groupId: groupId
                     });
-
-                   
-                
+                } else {
+                    alert("Transaction confirmation failed");
+                }
             } else {
-                alert("Transaction confirmation failed");
+                // The address is already in the team
+                alert("Selected address is already in the team");
             }
         } catch (err) {
             console.log("error:", err);
@@ -370,6 +371,7 @@ const addNewOwnerGPTTest = async (id) => {
         }
     }
 };
+
 
 
 
@@ -1798,8 +1800,13 @@ const sendMessagee = async () => {
                                     value={messageInput} onChangeCapture={(e) => setMessageInput(e.target.value)}
                                     className="ml-3 w-full outline-none focus:border-gray-200"
                                     placeholder="Type here ..."
+                                    onKeyPress={(e) => {
+                                        if (e.key === "Enter") {
+                                          sendMessagee()
+                                            
+                                        }}}
                                 />
-                                <img onClick={sendMessagee} src="https://i.postimg.cc/xd1Swgpr/0-K3d-UI-Logo-Makr.png" className="h-6 mr-3 pl-3 cursor-pointer" />
+                                <img  onClick={sendMessagee}  src="https://i.postimg.cc/xd1Swgpr/0-K3d-UI-Logo-Makr.png" className="h-6 mr-3 pl-3 cursor-pointer" />
                                 </div>
                             </form>
                         </div>
