@@ -331,6 +331,11 @@ const addNewOwnerGPTTest = async (id) => {
         );
 
         try {
+            const networkId = await window.ethereum.request({ method: "net_version" });
+            console.log(networkId);
+            // Check if the connected network is Optimism
+            if (networkId == 5) {
+
             // Check if the selected address is already in setGetTeam
             const isAddressInTeam = getTeam.some(teamMember => teamMember.data.address === id);
 
@@ -365,6 +370,10 @@ const addNewOwnerGPTTest = async (id) => {
                 // The address is already in the team
                 alert("Selected address is already in the team");
             }
+        } else {
+            // Alert the user to switch to the Optimism network
+            alert("Switch to Goerli network in MetaMask to use this feature.");
+        }
         } catch (err) {
             console.log("error:", err);
             alert("Something went wrong");
@@ -1315,6 +1324,10 @@ const removePerson = async () => {
             signer
         );
         try {
+            const networkId = await window.ethereum.request({ method: "net_version" });
+            console.log(networkId);
+            // Check if the connected network is Optimism
+            if (networkId == 5) {
             const transaction = await contract.deleteCoauthor(getPersonId);
             const receipt = await transaction.wait(); // Wait for the transaction to be mined
 
@@ -1329,6 +1342,10 @@ const removePerson = async () => {
             } else {
                 alert("Transaction confirmation failed");
             }
+        } else {
+            // Alert the user to switch to the Optimism network
+            alert("Switch to Goerli network in MetaMask to use this feature.");
+        }
         } catch (err) {
             console.log("error:", err);
             alert("Something went wrong");
