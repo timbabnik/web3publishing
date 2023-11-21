@@ -240,10 +240,7 @@ async function completePublishing() {
     signature: signature
   });
 
-  const goerliRef = await addDoc(collection(db, "goerli"), {
-    owner: accounts[0]
-  });
-
+  
   
   const docId = docRef.id;
   console.log('Document ID:', docId);
@@ -252,6 +249,11 @@ async function completePublishing() {
   addDoc(collection(db, "accounts", accounts[0], "posts"), {
     id: docId,
     title: title,
+  });
+
+  addDoc(collection(db, "goerli"), {
+    id: docId,
+    owner: accounts[0]
   });
 
   setIsLoading(false);
